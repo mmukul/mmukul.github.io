@@ -131,8 +131,7 @@ Build and secure AI-powered applications.
 - Vector Databases  
 - AI Security Risks  
 - Prompt Injection  
-- Model Security  
-- AI Governance  
+- Model Security
 
 ### Projects
 
@@ -158,8 +157,7 @@ Build and secure AI-powered applications.
 
 - Onsite Workshops  
 - Virtual Training  
-- Hybrid Training  
-- Executive Programs  
+- Customised Training
 
 ---
 
@@ -191,7 +189,6 @@ Build and secure AI-powered applications.
 ---
 
 # 🎥 Learning Resources
-
 - YouTube Tutorials  
 - Live Demos  
 - Whiteboard Sessions  
@@ -226,17 +223,15 @@ DevOps, DevSecOps, AppSec, Kubernetes Security, GitHub Actions, AI Agents, GenAI
 
 ---
 
+### 📺 YouTube Channel
+
+🔗 YouTube: https://www.youtube.com/@DevSecOps-Experts
+
 # 📞 Contact
 
 Email: mukuldevsec17@gmail.com  
-Phone: +91 7769929666
+[💬 Chat on WhatsApp](https://wa.me/919049572629)
+📺 YouTube Channel: https://www.youtube.com/@DevSecOps-Experts
+🌐 Website: https://mmukul.github.io
 
 ---
-
-# ⭐ Support
-
-If you find this useful:
-- ⭐ Star this repository  
-- Share with others  
-- Follow updates  
-- Connect on LinkedIn  
