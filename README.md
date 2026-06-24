@@ -1,5 +1,5 @@
 
-Welcome to the official training portal of **Mukul Malhotra** – Corporate Trainer, DevSecOps Consultant, Startup Advisor, and Content Creator.
+Welcome to the official training portal of **Mukkul Malhotra** – Corporate Trainer, DevSecOps Consultant, Startup Advisor, and Content Creator.
 
 This website focused on **DevOps**, **DevSecOps**, **Application Security (AppSec)**, and **Generative AI (GenAI)** training program.
 
@@ -11,7 +11,7 @@ Empowering students, professionals, and organizations with practical, hands-on s
 
 ---
 
-# 👨‍🏫 About Mukul Malhotra
+# 👨‍🏫 About Mukkul Malhotra
 
 - Corporate Trainer  
 - DevSecOps Consultant  
