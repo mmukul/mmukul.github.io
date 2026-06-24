@@ -224,12 +224,12 @@ DevOps, DevSecOps, AppSec, Kubernetes Security, GitHub Actions, AI Agents, GenAI
 
 # 📞 Contact
 
-Email: mukuldevsec17@gmail.com
+Email: [Email](mukuldevsec17@gmail.com)
 
 WhatsApp: [💬 Chat on WhatsApp](https://wa.me/7769929666)
 
-📺 YouTube Channel: https://www.youtube.com/@DevSecOps-Experts
+📺 YouTube Channel: [Mukul Malhotra YouTube Channel](https://www.youtube.com/@DevSecOps-Experts)
 
-🌐 Website: https://mmukul.github.io
+🌐 Website: [Website](https://mmukul.github.io)
 
 ---
