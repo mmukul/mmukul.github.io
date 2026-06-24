@@ -223,15 +223,14 @@ DevOps, DevSecOps, AppSec, Kubernetes Security, GitHub Actions, AI Agents, GenAI
 
 ---
 
-### 📺 YouTube Channel
-
-🔗 YouTube: https://www.youtube.com/@DevSecOps-Experts
-
 # 📞 Contact
 
-Email: mukuldevsec17@gmail.com  
+Email: mukuldevsec17@gmail.com
+
 [💬 Chat on WhatsApp](https://wa.me/919049572629)
+
 📺 YouTube Channel: https://www.youtube.com/@DevSecOps-Experts
+
 🌐 Website: https://mmukul.github.io
 
 ---
