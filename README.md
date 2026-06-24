@@ -1,4 +1,3 @@
-# 🚀 NextGen DevSecOps & GenAI Training
 
 Welcome to the official training portal of **Mukul Malhotra** – Corporate Trainer, DevSecOps Consultant, Startup Advisor, and Content Creator.
 
@@ -227,7 +226,7 @@ DevOps, DevSecOps, AppSec, Kubernetes Security, GitHub Actions, AI Agents, GenAI
 
 Email: mukuldevsec17@gmail.com
 
-[💬 Chat on WhatsApp](https://wa.me/919049572629)
+WhatsApp: [💬 Chat on WhatsApp](https://wa.me/7769929666)
 
 📺 YouTube Channel: https://www.youtube.com/@DevSecOps-Experts
 
