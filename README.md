@@ -228,8 +228,8 @@ Email: mukuldevsec17@gmail.com
 
 WhatsApp: [💬 Chat on WhatsApp](https://wa.me/7769929666)
 
-📺 YouTube Channel: https://www.youtube.com/@DevSecOps-Experts
+YouTube Channel: https://www.youtube.com/@DevSecOps-Experts
 
-🌐 Website: https://mmukul.github.io
+Website: https://mmukul.github.io
 
 ---
