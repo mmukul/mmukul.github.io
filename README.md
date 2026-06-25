@@ -5,13 +5,7 @@ This website focused on **DevOps**, **DevSecOps**, **Application Security (AppSe
 
 ---
 
-# 🎯 Mission
-
-Empowering students, professionals, and organizations with practical, hands-on skills in DevOps, DevSecOpS, Application Security, and GenAI.
-
----
-
-# 👨‍🏫 About Mukkul Malhotra
+# 👨‍🏫 About Me
 
 - Corporate Trainer  
 - DevSecOps Consultant  
