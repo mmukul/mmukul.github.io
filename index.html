@@ -1,0 +1,1223 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description"
+content="Mukul Malhotra — DevSecOps, AppSec, Cloud Security and AI Security Architect, Trainer and Consultant.">
+
+<meta name="keywords"
+content="DevSecOps, AppSec, AI Security, LLM Security, RAG Security, DevOps Training, DevSecOps Training, AI Security Training">
+
+<title>Mukul Malhotra | DevSecOps × AI Security</title>
+
+<style>
+
+:root{
+    --bg:#070914;
+    --panel:#0e1321;
+    --panel2:#11172a;
+    --line:#252c40;
+    --text:#f5f7ff;
+    --muted:#9aa3b7;
+    --violet:#786cff;
+    --cyan:#36d7d0;
+    --white:#ffffff;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    background:
+        radial-gradient(circle at 80% 0%,#191642 0,transparent 30%),
+        var(--bg);
+    color:var(--text);
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    line-height:1.6;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+.container{
+    max-width:1180px;
+    margin:auto;
+    padding:0 28px;
+}
+
+/* NAVIGATION */
+
+nav{
+    height:76px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid var(--line);
+}
+
+.logo{
+    font-size:21px;
+    font-weight:800;
+}
+
+.logo span{
+    color:var(--violet);
+}
+
+.nav-links{
+    display:flex;
+    gap:25px;
+    color:#aeb5c5;
+    font-size:14px;
+}
+
+.nav-links a:hover{
+    color:white;
+}
+
+.nav-button{
+    border:1px solid #414960;
+    border-radius:9px;
+    padding:9px 15px;
+    font-size:13px;
+    font-weight:700;
+}
+
+/* HERO */
+
+.hero{
+    min-height:680px;
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    align-items:center;
+    gap:70px;
+}
+
+.badge{
+    display:inline-block;
+    border:1px solid #3a4059;
+    color:#aaa4ff;
+    border-radius:30px;
+    padding:7px 13px;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1.6px;
+}
+
+.hero h1{
+    font-size:clamp(52px,7vw,86px);
+    line-height:.98;
+    letter-spacing:-4px;
+    margin:24px 0;
+}
+
+.hero h1 span{
+    color:var(--violet);
+}
+
+.hero-text{
+    max-width:700px;
+    font-size:18px;
+    color:var(--muted);
+}
+
+.actions{
+    display:flex;
+    gap:12px;
+    margin:30px 0;
+}
+
+.btn{
+    display:inline-block;
+    padding:13px 19px;
+    border-radius:9px;
+    font-size:13px;
+    font-weight:800;
+}
+
+.primary{
+    background:var(--violet);
+    color:white;
+}
+
+.outline{
+    border:1px solid #363d53;
+}
+
+.hero-card{
+    height:430px;
+    border:1px solid #2a3047;
+    border-radius:25px;
+    background:linear-gradient(145deg,#12172b,#090c16);
+    position:relative;
+    overflow:hidden;
+    padding:35px;
+}
+
+.glow{
+    position:absolute;
+    width:280px;
+    height:280px;
+    border-radius:50%;
+    background:radial-gradient(circle,#776cff,transparent 68%);
+    right:-90px;
+    top:-90px;
+    opacity:.65;
+}
+
+.terminal{
+    position:absolute;
+    left:35px;
+    right:35px;
+    bottom:35px;
+    border:1px solid #2b3145;
+    background:#090c14;
+    border-radius:14px;
+    padding:20px;
+    font:12px/1.9 ui-monospace,SFMono-Regular,Menlo,monospace;
+    color:#adb6ca;
+}
+
+.terminal strong{
+    color:#7dffda;
+}
+
+.metrics{
+    display:flex;
+    gap:42px;
+    margin-top:40px;
+}
+
+.metrics strong{
+    display:block;
+    font-size:23px;
+}
+
+.metrics small{
+    color:#7f8799;
+    font-size:11px;
+}
+
+/* SECTIONS */
+
+section{
+    padding:90px 0;
+}
+
+.kicker{
+    color:#8176ff;
+    font-size:10px;
+    letter-spacing:2px;
+    font-weight:800;
+}
+
+.title{
+    font-size:42px;
+    letter-spacing:-2px;
+    line-height:1.05;
+    margin:9px 0 12px;
+}
+
+.intro{
+    color:var(--muted);
+    max-width:700px;
+}
+
+/* SERVICES */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin-top:32px;
+}
+
+.card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:15px;
+    padding:28px;
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    border-color:#554bb0;
+}
+
+.card-number{
+    color:#7e73ff;
+    font-size:11px;
+    font-weight:800;
+}
+
+.card h3{
+    font-size:20px;
+    margin:17px 0 7px;
+}
+
+.card p{
+    color:#929bad;
+    font-size:14px;
+}
+
+.card-link{
+    color:#aaa4ff;
+    font-size:13px;
+    font-weight:800;
+}
+
+/* TRAINING */
+
+.training{
+    background:#0a0d18;
+}
+
+.training-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:13px;
+    margin-top:32px;
+}
+
+.course{
+    border:1px solid var(--line);
+    background:#0e1321;
+    border-radius:13px;
+    padding:23px;
+    min-height:170px;
+    transition:.2s;
+}
+
+.course:hover{
+    transform:translateY(-3px);
+    border-color:#5148a5;
+}
+
+.course-number{
+    color:#8176ff;
+    font-size:11px;
+    font-weight:800;
+}
+
+.course h3{
+    font-size:17px;
+    margin:10px 0 6px;
+}
+
+.course p{
+    font-size:12px;
+    color:#858e9f;
+}
+
+.course a{
+    font-size:12px;
+    color:#8d83ff;
+    font-weight:800;
+}
+
+/* AI SECURITY */
+
+.ai-box{
+    border:1px solid #2a3047;
+    border-radius:22px;
+    padding:42px;
+    background:linear-gradient(120deg,#11142a,#0a0d17);
+}
+
+.pills{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+    margin-top:25px;
+}
+
+.pill{
+    border:1px solid #343a51;
+    padding:8px 13px;
+    border-radius:30px;
+    color:#cbd1dd;
+    font-size:12px;
+}
+
+/* TESTIMONIALS */
+
+.testimonials{
+    background:#0a0d18;
+}
+
+.testimonial-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-top:35px;
+}
+
+.testimonial{
+    background:#101522;
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+    transition:.2s;
+}
+
+.testimonial:hover{
+    transform:translateY(-4px);
+    border-color:#554bb0;
+}
+
+.testimonial-image{
+    height:210px;
+    background:
+        linear-gradient(135deg,#151a2c,#0b0f1a);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+}
+
+.testimonial-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.image-placeholder{
+    text-align:center;
+    color:#697286;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1.5px;
+}
+
+.testimonial-content{
+    padding:25px;
+}
+
+.quote{
+    color:var(--violet);
+    font-family:Georgia,serif;
+    font-size:42px;
+    line-height:.6;
+}
+
+.testimonial-content p{
+    color:#a4abbb;
+    font-size:14px;
+    min-height:65px;
+}
+
+.testimonial-content strong{
+    display:block;
+    font-size:14px;
+}
+
+.testimonial-content small{
+    color:#737c8e;
+    font-size:11px;
+}
+
+/* ABOUT */
+
+.about{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+    align-items:center;
+}
+
+.about p{
+    color:var(--muted);
+}
+
+.highlight-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:30px;
+}
+
+.highlight-box h3{
+    margin-top:0;
+}
+
+.highlight-box p{
+    font-size:14px;
+}
+
+/* CONTACT */
+
+.contact{
+    margin:30px 0 80px;
+    border-radius:22px;
+    background:#eeeefe;
+    color:#101426;
+    padding:50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:30px;
+}
+
+.contact h2{
+    font-size:40px;
+    line-height:1;
+    margin:0 0 10px;
+    letter-spacing:-2px;
+}
+
+.contact p{
+    color:#555c70;
+}
+
+.contact .btn{
+    white-space:nowrap;
+}
+
+/* FOOTER */
+
+footer{
+    border-top:1px solid var(--line);
+    padding:27px 0;
+    color:#737b8d;
+    font-size:12px;
+    display:flex;
+    justify-content:space-between;
+}
+
+/* MOBILE */
+
+@media(max-width:850px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero{
+        grid-template-columns:1fr;
+        padding:65px 0;
+        min-height:auto;
+    }
+
+    .hero-card{
+        height:350px;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .training-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .testimonial-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .about{
+        grid-template-columns:1fr;
+    }
+
+    .contact{
+        display:block;
+    }
+
+    .contact .btn{
+        display:inline-block;
+        margin-top:15px;
+    }
+}
+
+@media(max-width:520px){
+
+    .hero h1{
+        font-size:52px;
+        letter-spacing:-2px;
+    }
+
+    .metrics{
+        gap:20px;
+        flex-wrap:wrap;
+    }
+
+    .training-grid,
+    .testimonial-grid{
+        grid-template-columns:1fr;
+    }
+
+    .title{
+        font-size:35px;
+    }
+
+    .contact{
+        padding:32px;
+    }
+
+    .contact h2{
+        font-size:32px;
+    }
+
+    footer{
+        display:block;
+    }
+
+    footer div{
+        margin:5px 0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- NAVIGATION -->
+
+<nav>
+
+<a class="logo" href="#">
+Mukul<span>Malhotra</span>
+</a>
+
+<div class="nav-links">
+<a href="#services">Services</a>
+<a href="#training">Training</a>
+<a href="#ai-security">AI Security</a>
+<a href="#testimonials">Testimonials</a>
+<a href="#about">About</a>
+</div>
+
+<a class="nav-button" href="#contact">
+Let's Talk
+</a>
+
+</nav>
+
+
+<!-- HERO -->
+
+<header class="hero">
+
+<div>
+
+<span class="badge">
+DEVSECOPS • APPSEC • AI SECURITY
+</span>
+
+<h1>
+Secure engineering.<br>
+<span>AI-ready future.</span>
+</h1>
+
+<p class="hero-text">
+DevSecOps & AI Security Architect, Corporate Trainer and Consultant helping organizations modernize delivery, strengthen security and adopt GenAI responsibly.
+</p>
+
+<div class="actions">
+
+<a class="btn primary" href="#contact">
+Work With Me →
+</a>
+
+<a class="btn outline" href="#training">
+View Training
+</a>
+
+</div>
+
+<div class="metrics">
+
+<div>
+<strong>20+</strong>
+<small>Years Experience</small>
+</div>
+
+<div>
+<strong>DevSecOps</strong>
+<small>Architecture</small>
+</div>
+
+<div>
+<strong>AI Security</strong>
+<small>LLM • RAG • Agents</small>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="hero-card">
+
+<span class="badge">
+NEXTGEN SECURITY
+</span>
+
+<div class="glow"></div>
+
+<div class="terminal">
+
+<div><strong>$</strong> secure --everything</div>
+
+<div>→ DevSecOps pipeline</div>
+
+<div>→ AppSec controls</div>
+
+<div>→ AI threat modeling</div>
+
+<div>→ <strong>AI-ready architecture ✓</strong></div>
+
+</div>
+
+</div>
+
+</header>
+
+
+<!-- SERVICES -->
+
+<section id="services">
+
+<span class="kicker">
+SERVICES
+</span>
+
+<h2 class="title">
+Security that enables delivery.
+</h2>
+
+<p class="intro">
+Architecture and consulting across the software lifecycle — from secure pipelines to modern AI applications.
+</p>
+
+
+<div class="cards">
+
+<article class="card">
+
+<span class="card-number">
+01 / DEVSECOPS
+</span>
+
+<h3>
+DevSecOps Transformation
+</h3>
+
+<p>
+Secure CI/CD, automation, Kubernetes, cloud and shift-left security.
+</p>
+
+<a class="card-link" href="#contact">
+Discuss a project →
+</a>
+
+</article>
+
+
+<article class="card">
+
+<span class="card-number">
+02 / APPSEC
+</span>
+
+<h3>
+Application Security
+</h3>
+
+<p>
+Secure SDLC, SAST, SCA, DAST, OWASP and application security architecture.
+</p>
+
+<a class="card-link" href="#contact">
+Request consultation →
+</a>
+
+</article>
+
+
+<article class="card">
+
+<span class="card-number">
+03 / AI SECURITY
+</span>
+
+<h3>
+AI Security Consulting
+</h3>
+
+<p>
+LLM, RAG and agent security, threat modeling, guardrails and secure AI architecture.
+</p>
+
+<a class="card-link" href="#contact">
+Discuss AI Security →
+</a>
+
+</article>
+
+</div>
+
+</section>
+
+
+<!-- TRAINING -->
+
+<section id="training" class="training">
+
+<span class="kicker">
+TRAINING
+</span>
+
+<h2 class="title">
+Practical training.<br>
+Real-world skills.
+</h2>
+
+<p class="intro">
+Instructor-led and corporate programs designed for engineers, security professionals and teams.
+</p>
+
+
+<div class="training-grid">
+
+
+<div class="course">
+
+<span class="course-number">01</span>
+
+<h3>DevOps Training</h3>
+
+<p>
+Git, Jenkins, Docker, Kubernetes and CI/CD.
+</p>
+
+<a href="#contact">
+Training Enquiry →
+</a>
+
+</div>
+
+
+<div class="course">
+
+<span class="course-number">02</span>
+
+<h3>DevSecOps Training</h3>
+
+<p>
+Secure pipelines, SAST, SCA, DAST and automation.
+</p>
+
+<a href="#contact">
+Training Enquiry →
+</a>
+
+</div>
+
+
+<div class="course">
+
+<span class="course-number">03</span>
+
+<h3>AppSec Training</h3>
+
+<p>
+OWASP, secure SDLC and application security.
+</p>
+
+<a href="#contact">
+Training Enquiry →
+</a>
+
+</div>
+
+
+<div class="course">
+
+<span class="course-number">04</span>
+
+<h3>Kubernetes Security</h3>
+
+<p>
+Container and Kubernetes security practices.
+</p>
+
+<a href="#contact">
+Training Enquiry →
+</a>
+
+</div>
+
+
+<div class="course">
+
+<span class="course-number">05</span>
+
+<h3>Terraform Training</h3>
+
+<p>
+Infrastructure as Code and secure automation.
+</p>
+
+<a href="#contact">
+Training Enquiry →
+</a>
+
+</div>
+
+
+<div class="course">
+
+<span class="course-number">06</span>
+
+<h3>AI Security Training</h3>
+
+<p>
+AI threats, security controls and threat modeling.
+</p>
+
+<a href="#contact">
+Training Enquiry →
+</a>
+
+</div>
+
+
+<div class="course">
+
+<span class="course-number">07</span>
+
+<h3>LLM & RAG Security</h3>
+
+<p>
+Secure GenAI and retrieval applications.
+</p>
+
+<a href="#contact">
+Training Enquiry →
+</a>
+
+</div>
+
+
+<div class="course">
+
+<span class="course-number">08</span>
+
+<h3>Corporate Workshops</h3>
+
+<p>
+Customized programs aligned to your team.
+</p>
+
+<a href="#contact">
+Enquire →
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- AI SECURITY -->
+
+<section id="ai-security">
+
+<div class="ai-box">
+
+<span class="kicker">
+NEXTGEN AI SECURITY
+</span>
+
+<h2 class="title">
+Secure the AI you build.
+</h2>
+
+<p class="intro">
+Practical security for modern GenAI and agentic applications.
+</p>
+
+<div class="pills">
+
+<span class="pill">LLM Security</span>
+<span class="pill">RAG Security</span>
+<span class="pill">AI Agents</span>
+<span class="pill">Prompt Injection</span>
+<span class="pill">Guardrails</span>
+<span class="pill">AI Threat Modeling</span>
+<span class="pill">OWASP LLM Top 10</span>
+<span class="pill">MAESTRO</span>
+<span class="pill">AI Governance</span>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- TESTIMONIALS -->
+
+<section id="testimonials" class="testimonials">
+
+<span class="kicker">
+TESTIMONIALS
+</span>
+
+<h2 class="title">
+What people say.
+</h2>
+
+<p class="intro">
+Real feedback from training participants, clients and professionals.
+</p>
+
+
+<div class="testimonial-grid">
+
+
+<!-- TESTIMONIAL 1 -->
+
+<article class="testimonial">
+
+<div class="testimonial-image">
+
+<img
+src="testimonials/testimonial-1.jpg"
+alt="DevSecOps training testimonial"
+onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+>
+
+<div class="image-placeholder" style="display:none;">
+UPLOAD<br>
+TESTIMONIAL-1.JPG
+</div>
+
+</div>
+
+<div class="testimonial-content">
+
+<div class="quote">“</div>
+
+<p>
+Add your participant or client testimonial here.
+</p>
+
+<strong>
+Participant Name
+</strong>
+
+<small>
+Role • Organization
+</small>
+
+</div>
+
+</article>
+
+
+<!-- TESTIMONIAL 2 -->
+
+<article class="testimonial">
+
+<div class="testimonial-image">
+
+<img
+src="testimonials/testimonial-2.jpg"
+alt="Corporate training testimonial"
+onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+>
+
+<div class="image-placeholder" style="display:none;">
+UPLOAD<br>
+TESTIMONIAL-2.JPG
+</div>
+
+</div>
+
+<div class="testimonial-content">
+
+<div class="quote">“</div>
+
+<p>
+Add your corporate training or consulting testimonial here.
+</p>
+
+<strong>
+Client Name
+</strong>
+
+<small>
+Role • Organization
+</small>
+
+</div>
+
+</article>
+
+
+<!-- TESTIMONIAL 3 -->
+
+<article class="testimonial">
+
+<div class="testimonial-image">
+
+<img
+src="testimonials/testimonial-3.jpg"
+alt="AI Security training testimonial"
+onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+>
+
+<div class="image-placeholder" style="display:none;">
+UPLOAD<br>
+TESTIMONIAL-3.JPG
+</div>
+
+</div>
+
+<div class="testimonial-content">
+
+<div class="quote">“</div>
+
+<p>
+Add your AI Security, DevSecOps or AppSec testimonial here.
+</p>
+
+<strong>
+Participant Name
+</strong>
+
+<small>
+Role • Organization
+</small>
+
+</div>
+
+</article>
+
+</div>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section id="about" class="about">
+
+<div>
+
+<span class="kicker">
+ABOUT
+</span>
+
+<h2 class="title">
+20+ years of engineering & security experience.
+</h2>
+
+<p>
+I work at the intersection of DevOps, DevSecOps, AppSec, cloud security and emerging AI Security.
+</p>
+
+<p>
+My focus is practical architecture, automation, secure engineering and knowledge sharing.
+</p>
+
+</div>
+
+
+<div class="highlight-box">
+
+<span class="kicker">
+LEARN WITH ME
+</span>
+
+<h3>
+NextGen DevSecOps AI
+</h3>
+
+<p>
+Practical videos, demonstrations and learning resources covering DevOps, DevSecOps, GenAI and AI Security.
+</p>
+
+<a
+class="btn primary"
+href="https://www.youtube.com/@DevSecOps-Experts"
+target="_blank"
+rel="noopener"
+>
+YouTube Channel ↗
+</a>
+
+</div>
+
+</section>
+
+
+<!-- CONTACT -->
+
+<div id="contact" class="contact">
+
+<div>
+
+<h2>
+Let's build something<br>
+secure and scalable.
+</h2>
+
+<p>
+Corporate training, consulting or AI Security discussions.
+</p>
+
+</div>
+
+<a
+class="btn primary"
+href="mailto:YOUR_EMAIL@example.com"
+>
+Contact Me →
+</a>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+<div>
+© 2026 Mukul Malhotra
+</div>
+
+<div>
+NextGen DevSecOps AI
+</div>
+
+</footer>
+
+</div>
+
+</body>
+</html>
+```
