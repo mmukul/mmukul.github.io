@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mukul Malhotra — DevSecOps, AppSec, Cloud Security and AI Security Architect, Trainer and Consultant.">
+<title>Mukul Malhotra | DevSecOps × AI Security</title>
+
+<style>
+:root{--bg:#070914;--panel:#0d1120;--line:#252c40;--text:#f5f7ff;--muted:#9aa3b7;--violet:#786cff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 80% 0%,#18143c 0,transparent 28%),var(--bg);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;line-height:1.6}
+a{text-decoration:none;color:inherit}.wrap{max-width:1180px;margin:auto;padding:0 28px}
+nav{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.logo{font-size:20px;font-weight:800}.logo span{color:var(--violet)}
+.links{display:flex;gap:25px;color:#aab1c1;font-size:14px}.links a:hover{color:#fff}
+.navbtn{border:1px solid #414860;border-radius:9px;padding:9px 14px;font-size:13px;font-weight:700}
+.hero{min-height:680px;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:60px}
+.tag,.badge{display:inline-block;border:1px solid #393f58;color:#aaa4ff;border-radius:30px;padding:7px 12px;font-size:10px;font-weight:800;letter-spacing:1.7px}
+.hero h1{font-size:clamp(52px,7vw,84px);line-height:.98;letter-spacing:-4px;margin:23px 0}.hero h1 em{font-style:normal;color:var(--violet)}
+.hero p{font-size:18px;color:var(--muted);max-width:700px}.actions{display:flex;gap:12px;margin:30px 0}
+.btn{display:inline-block;padding:13px 19px;border-radius:9px;font-size:13px;font-weight:800}.primary{background:var(--violet);color:#fff}.outline{border:1px solid #353c51}
+.hero-art{height:430px;border:1px solid #292f47;border-radius:25px;background:linear-gradient(145deg,#11152a,#090c16);position:relative;overflow:hidden;padding:35px}
+.glow{position:absolute;width:270px;height:270px;border-radius:50%;background:radial-gradient(circle,#776cff,transparent 68%);right:-80px;top:-80px;opacity:.65}
+.terminal{position:absolute;left:35px;right:35px;bottom:35px;border:1px solid #2a3045;background:#090c14;border-radius:14px;padding:20px;font:12px/1.8 ui-monospace,monospace;color:#aeb6c9}.terminal b{color:#7dffda}
+.metrics{display:flex;gap:42px;margin-top:40px}.metrics strong{font-size:23px;display:block}.metrics small{color:#7f8799;font-size:11px}
+section{padding:88px 0}.kicker{color:#8176ff;font-size:10px;letter-spacing:2px;font-weight:800}.title{font-size:42px;letter-spacing:-2px;line-height:1.05;margin:9px 0 12px}.intro{color:var(--muted);max-width:680px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:28px;transition:.2s}.card:hover{transform:translateY(-4px);border-color:#5148a5}.card .n{color:#7e73ff;font-size:11px}.card h3{font-size:20px;margin:17px 0 7px}.card p{color:#929bad;font-size:14px;margin-bottom:20px}.link{color:#aaa4ff;font-size:13px;font-weight:800}
+.training{background:#0a0d18}.training-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:32px}.course{border:1px solid var(--line);background:#0e1321;border-radius:13px;padding:23px;min-height:160px}.course h3{font-size:17px;margin:10px 0 6px}.course p{font-size:12px;color:#858e9f}.course a{font-size:12px;color:#8d83ff;font-weight:800}
+.ai{border:1px solid #2a2f47;border-radius:22px;padding:42px;background:linear-gradient(120deg,#11142a,#0a0d17)}.pillbox{display:flex;flex-wrap:wrap;gap:9px;margin-top:25px}.pill{border:1px solid #343a51;padding:8px 13px;border-radius:30px;color:#cbd1dd;font-size:12px}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}.about p{color:var(--muted)}
+.testimonials{background:#0a0d18}
+.testimonial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:35px}
+.testimonial{background:#101522;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.image-placeholder{text-align:center;color:#697286;font-size:10px;font-weight:800;letter-spacing:1.5px;line-height:1.8}
+.testimonial-content{padding:24px}.quote{font-family:Georgia,serif;font-size:42px;color:var(--violet);line-height:.6}.testimonial-content p{color:#a4abbb;font-size:14px;min-height:65px}.testimonial-content strong{display:block;font-size:14px}.testimonial-content small{color:#737c8e;font-size:11px}
+.contact{margin:25px 0 80px;border:1px solid #3b3977;border-radius:22px;background:linear-gradient(110deg,#141938,#0e1221);color:#fff;padding:45px;display:flex;justify-content:space-between;align-items:center;gap:30px}.contact h2{font-size:39px;line-height:1;margin:0 0 10px;letter-spacing:-2px}.contact p{color:#aeb6c8}.contact .btn{white-space:nowrap}
+.contact-modal{position:fixed;inset:0;background:rgba(3,5,12,.84);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:22px;z-index:9999}.contact-modal.active{display:flex}
+.contact-panel{width:min(520px,100%);background:#101522;border:1px solid #30374e;border-radius:22px;padding:34px;box-shadow:0 30px 90px rgba(0,0,0,.45);position:relative}.contact-close{position:absolute;top:10px;right:16px;border:0;background:transparent;color:#9ca5b8;font-size:28px;cursor:pointer}.contact-panel h2{margin:6px 0 8px;font-size:38px;letter-spacing:-1.5px}.contact-panel>p{color:#9aa3b7;margin-bottom:25px}.contact-options{display:grid;gap:10px}.contact-option{display:flex;align-items:center;justify-content:space-between;padding:17px 18px;border:1px solid #282f43;border-radius:12px;background:#0b0f19}.contact-option:hover{border-color:#675ce0}.contact-option span{color:#818a9e;font-size:10px;text-transform:uppercase;letter-spacing:1px}.contact-option strong{display:block;font-size:14px;margin-top:2px}.contact-arrow{color:#8b82ff;font-weight:800}.contact-note{font-size:11px;color:#727b8d;margin-top:18px}
+footer{border-top:1px solid var(--line);padding:26px 0;color:#737b8d;font-size:12px;display:flex;justify-content:space-between}
+@media(max-width:1100px){.testimonial-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:850px){.links{display:none}.hero,.about{grid-template-columns:1fr}.hero{padding:65px 0;min-height:auto}.hero-art{height:350px}.cards{grid-template-columns:1fr}.training-grid{grid-template-columns:1fr 1fr}.testimonial-grid{grid-template-columns:1fr 1fr}.contact{display:block}.contact .btn{display:inline-block;margin-top:15px}}
+@media(max-width:520px){.training-grid,.testimonial-grid{grid-template-columns:1fr}.metrics{gap:20px;flex-wrap:wrap}.hero h1{letter-spacing:-2px}.title{font-size:35px}.contact{padding:32px}.contact h2{font-size:31px}footer{display:block}}
+
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;padding:30px;z-index:10000}
+.lightbox.active{display:flex}
+.lightbox img{max-width:96vw;max-height:92vh;width:auto;height:auto;object-fit:contain;background:#fff;border-radius:8px}
+.lightbox-close{position:fixed;top:18px;right:25px;border:0;background:transparent;color:#fff;font-size:38px;cursor:pointer}
+.coming{display:inline-block;margin-top:10px;padding:5px 10px;border:1px solid rgba(255,255,255,.2);border-radius:999px;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+
+.learn-strip,.journey,.hands-on,.audience{padding:55px 0;border-top:1px solid rgba(255,255,255,.08)}
+.learn-flow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:18px;font-size:18px;font-weight:700}
+.learn-flow span,.hands-grid span,.audience-pills span{padding:10px 15px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(255,255,255,.03)}
+.learn-flow b{opacity:.45}
+.journey-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:30px}
+.journey-grid>div{padding:24px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:rgba(255,255,255,.025)}
+.journey-grid span{font-size:12px;opacity:.6}.journey-grid h3{margin:12px 0 8px}.journey-grid p{margin:0;opacity:.75}.journey-grid small{display:inline-block;margin-top:15px;font-weight:800;letter-spacing:.08em}
+.hands-on{display:grid;grid-template-columns:1fr 1.5fr;gap:40px;align-items:center}.hands-grid{display:flex;flex-wrap:wrap;gap:12px}
+.audience-pills{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
+@media(max-width:800px){.journey-grid{grid-template-columns:1fr 1fr}.hands-on{grid-template-columns:1fr}}
+@media(max-width:520px){.journey-grid{grid-template-columns:1fr}.learn-flow{font-size:15px}.learn-flow b{display:none}}
+.journey-flow{display:flex;align-items:stretch;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:30px}.journey-step{flex:1 1 190px;max-width:250px;padding:24px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.04);position:relative}.journey-step>span{display:inline-flex;width:34px;height:34px;align-items:center;justify-content:center;border-radius:50%;background:rgba(124,92,255,.18);font-weight:700}.journey-step h3{margin:14px 0 8px}.journey-step p{margin:0}.journey-step small{display:inline-block;margin-top:12px;font-weight:700;letter-spacing:.08em}.journey-arrow{align-self:center;font-size:28px;opacity:.7}@media(max-width:800px){.journey-arrow{transform:rotate(90deg);width:100%;line-height:1}.journey-step{max-width:none}}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<nav>
+<a class="logo" href="#">NEXTGEN <span>AI SECURITY</span></a>
+<div class="links">
+<a href="#services">Services</a>
+<a href="#training">Training</a>
+
+<a href="#testimonials">Testimonials</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+</div>
+<a class="navbtn" href="#contact" onclick="openContact(event)">Let's Talk</a>
+</nav>
+
+<header class="hero">
+<div>
+<span class="tag">DEVSECOPS • APPSEC • AI SECURITY</span>
+<h1>Engineer the Future.<br><em>Secure the AI Era.</em></h1>
+<p>DevSecOps & AI Security Architect, Corporate Trainer and Consultant helping organizations modernize delivery, strengthen security and adopt GenAI responsibly.</p>
+<div class="actions">
+<a class="btn primary" href="#contact" onclick="openContact(event)">Work With Me →</a>
+<a class="btn outline" href="#training">View Training</a>
+</div>
+<div class="metrics">
+<div><strong>20+</strong><small>Years Experience</small></div>
+<div><strong>DevSecOps</strong><small>Architecture</small></div>
+<div><strong>AI Security</strong><small>LLM • RAG • Agents</small></div>
+</div>
+</div>
+<div class="hero-art">
+<span class="tag">NEXTGEN SECURITY</span>
+<div class="glow"></div>
+<div class="terminal">
+<div><b>$</b> secure --everything</div>
+<div>→ DevSecOps pipeline</div>
+<div>→ AppSec controls</div>
+<div>→ AI threat modeling</div>
+<div>→ <b>AI-ready architecture ✓</b></div>
+</div>
+</div>
+</header>
+
+
+
+<section id="services">
+<span class="kicker">SERVICES</span>
+<h2 class="title">Security that enables delivery.</h2>
+<p class="intro">Architecture and consulting across the software lifecycle — from secure pipelines to modern AI applications.</p>
+<div class="cards">
+<article class="card"><span class="n">01 / DEVSECOPS</span><h3>DevSecOps Transformation</h3><p>Secure CI/CD, automation, Kubernetes, cloud and shift-left security.</p><a class="link" href="#contact">Discuss a project →</a></article>
+<article class="card"><span class="n">02 / APPSEC</span><h3>Application Security</h3><p>Secure SDLC, SAST, SCA, DAST, OWASP and application security architecture.</p><a class="link" href="#contact">Request consultation →</a></article>
+<article class="card"><span class="n">03 / AI SECURITY</span><h3>AI Security Consulting</h3><p>LLM, RAG and agent security, threat modeling, guardrails and secure AI architecture.</p><a class="link" href="#contact">Discuss AI Security →</a></article>
+</div>
+</section>
+
+<section id="training" class="training">
+<span class="kicker">TRAINING</span>
+<h2 class="title">Practical training. Real-world skills.</h2>
+<p class="intro">Instructor-led and corporate programs designed for engineers, security professionals and teams.</p>
+<div class="training-grid">
+<div class="course"><span class="n">01</span><h3>DevOps</h3><p>CI/CD, Git, Jenkins, Docker & Kubernetes.</p><a href="curriculum/DevOps-Course-Curriculum.pdf" target="_blank" rel="noopener">View Course Curriculum →</a></div>
+<div class="course"><span class="n">02</span><h3>DevSecOps & AppSec</h3><p><strong>Foundational & Advanced</strong><br>Secure SDLC, SAST, DAST, SCA, Threat Modeling, Container & CI/CD Security.</p><a href="curriculum/DevSecOps-AppSec-Foundational-Advanced-Curriculum.pdf" target="_blank" rel="noopener">View Course Curriculum →</a></div>
+<div class="course"><span class="n">03</span><h3>GenAI and AI Security</h3><p>LLMs, Prompt Engineering, Ollama, LangChain, RAG, ChromaDB, LangGraph, AI Agents & AI Security.</p><a href="curriculum/GenAI-AI-Security-Curriculum.pdf" target="_blank" rel="noopener">View Course Curriculum →</a></div>
+<div class="course"><span class="n">04</span><h3>Agentic AI</h3><p>AI agents, agentic workflows and secure agent architecture.</p><span class="coming">Coming Soon</span></div>
+<div class="course"><span class="n">05</span><h3>Corporate Workshops</h3><p>Customized programs aligned to your team.</p><a href="#contact">Enquire →</a></div>
+</div>
+</section>
+
+<section class="journey">
+<span class="kicker">LEARNING JOURNEY</span>
+<h2 class="title">From DevOps to AI Security.</h2>
+<p class="intro">A practical progression from engineering foundations to secure GenAI and the next generation of AI systems.</p>
+<div class="journey-flow">
+<div class="journey-step"><span>01</span><h3>DevOps</h3><p>Build engineering and delivery foundations.</p></div>
+<b class="journey-arrow">→</b>
+<div class="journey-step"><span>02</span><h3>DevSecOps & AppSec</h3><p>Integrate security into development and delivery.</p></div>
+<b class="journey-arrow">→</b>
+<div class="journey-step"><span>03</span><h3>GenAI & AI Security</h3><p>Build practical LLM, RAG and secure AI applications.</p></div>
+<b class="journey-arrow">→</b>
+<div class="journey-step"><span>04</span><h3>Agentic AI</h3><p>Explore secure agentic workflows and architectures.</p><small>COMING SOON</small></div>
+</div>
+</section>
+
+<section class="hands-on">
+<div>
+<span class="kicker">PRACTICAL LEARNING</span>
+<h2 class="title">Learn by Building.<br>Secure by Practicing.</h2>
+</div>
+<div class="hands-grid"><span>Live Demos</span><span>Hands-on Labs</span><span>Real-World Projects</span><span>Assignments</span><span>Capstone Projects</span><span>Security Scenarios</span></div>
+</section>
+
+<section class="audience">
+<span class="kicker">WHO IS THIS FOR?</span>
+<h2 class="title">Skills for professionals at every stage.</h2>
+<div class="audience-pills"><span>Students</span><span>Freshers</span><span>Career Switchers</span><span>Developers</span><span>DevOps Engineers</span><span>Security Professionals</span><span>Architects</span><span>Organizations</span></div>
+</section>
+
+<section id="ai-security">
+<div class="ai">
+<span class="kicker">NEXTGEN AI SECURITY</span>
+<h2 class="title">Secure the AI you build.</h2>
+<p class="intro">Practical security for modern GenAI and agentic applications.</p>
+<div class="pillbox">
+<span class="pill">LLM Security</span><span class="pill">RAG Security</span><span class="pill">AI Agents</span><span class="pill">Prompt Injection</span><span class="pill">Guardrails</span><span class="pill">AI Threat Modeling</span><span class="pill">OWASP LLM Top 10</span><span class="pill">MAESTRO</span><span class="pill">AI Governance</span>
+</div>
+</div>
+</section>
+
+<section id="testimonials" class="testimonials">
+<span class="kicker">TESTIMONIALS</span>
+<h2 class="title">What people say.</h2>
+<p class="intro">Real feedback from training participants, clients and professionals.</p>
+
+<div class="testimonial-grid">
+
+<article class="testimonial">
+<div class="testimonial-content">
+<div class="quote">“</div>
+<p>Training material is good. Trainer is also experienced. Recommended for those who want to learn DevSecOps from scratch.</p>
+<strong>Rohan</strong>
+<small>DevOps / DevSecOps Training</small>
+</div>
+</article>
+
+<article class="testimonial">
+<div class="testimonial-content">
+<div class="quote">“</div>
+<p>Great training! Excellent materials and presentations. I can take what I learned and start practicing for my future perspective. Mukul provided great depth on the topics that were covered and was able to discuss off-topic areas as well.</p>
+<strong>Manish Suryawanshi</strong>
+<small>DevOps / DevSecOps Training</small>
+</div>
+</article>
+
+<article class="testimonial">
+<div class="testimonial-content">
+<div class="quote">“</div>
+<p>With the ever increasing tools in DevOps field I was a bit confused where to start with. Came across this course and all my questions were answered. All the parts were explained with examples and practical code runs.</p>
+<strong>Dashrath</strong>
+<small>DevOps Training</small>
+</div>
+</article>
+
+<article class="testimonial">
+<div class="testimonial-content">
+<div class="quote">“</div>
+<p>Would definitely recommend. Mukul is professional, patient and methodical, with an organized approach including classes, quizzes and doubt sessions.</p>
+<strong>Pinaakee Bhardwaj</strong>
+<small>Delhi University</small>
+</div>
+</article>
+
+<article class="testimonial">
+<div class="testimonial-content">
+<div class="quote">“</div>
+<p>Mukul has been very helpful in guiding me with his Devops and DevSecOps training. It was very beginning when I started looking to learn Devops Concepts. It was like starting from What, Why to How ? I found it insightful and he also mentored me later.</p>
+<strong>Bhaskar Taneja</strong>
+<small>Software Development Engineer (SDE II)</small>
+</div>
+</article>
+
+<article class="testimonial">
+<div class="testimonial-content">
+<div class="quote">“</div>
+<p>Mukul has been very helpful in guiding me with DevOps training. I would definitely recommend my DevOps Program to others.</p>
+<strong>Nagasri</strong>
+<small>DevOps Training — International</small>
+</div>
+</article>
+
+</div>
+</section>
+
+<section id="about" class="about">
+<div>
+<span class="kicker">ABOUT</span>
+<h2 class="title">20+ years of engineering & security experience.</h2>
+<p>I bring together DevOps, DevSecOps, AppSec, Cloud Security, and emerging AI Security to deliver practical, industry-oriented training. My focus is on secure engineering, automation, real-world projects, and knowledge sharing that helps professionals build future-ready skills.</p>
+</div>
+<div class="ai">
+<span class="kicker">LEARN WITH ME</span>
+<h3>Learn. Build. Secure. Innovate.</h3>
+<p>Practical training, videos, demos and learning resources across DevOps, DevSecOps, GenAI and AI Security.</p>
+<a class="btn primary" href="https://www.youtube.com/@DevSecOps-Experts" target="_blank" rel="noopener">YouTube Channel ↗</a>
+</div>
+</section>
+
+<div id="contact" class="contact">
+<div>
+<h2>Ready to Engineer<br>the Future?</h2>
+<p>Build your skills. Secure your applications. Explore AI.</p>
+</div>
+<a class="btn primary" href="#contact" onclick="openContact(event)">Contact Me →</a>
+</div>
+
+
+<div id="imageLightbox" class="lightbox" onclick="closeImage()">
+<button class="lightbox-close" onclick="closeImage(event)" aria-label="Close image">×</button>
+<img id="lightboxImage" src="" alt="" onclick="event.stopPropagation()">
+</div>
+
+<div id="contactModal" class="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+<div class="contact-panel">
+<button class="contact-close" onclick="closeContact()" aria-label="Close">×</button>
+<span class="kicker">LET'S CONNECT</span>
+<h2 id="contactTitle">Connect with Mukul</h2>
+<p>Training • Consulting • AI Security</p>
+<div class="contact-options">
+<a class="contact-option" href="https://www.youtube.com/@DevSecOps-Experts" target="_blank" rel="noopener">
+<div><span>YouTube</span><strong>@DevSecOps-Experts</strong></div><div class="contact-arrow">↗</div>
+</a>
+<a class="contact-option" href="https://wa.me/917769929666?text=Hello%20Mukul%2C%20I%20am%20interested%20in%20your%20training%20or%20consulting%20services." target="_blank" rel="noopener">
+<div><span>WhatsApp</span><strong>Chat for Training / Consulting</strong></div><div class="contact-arrow">↗</div>
+</a>
+</div>
+<div class="contact-note">Click WhatsApp to start a training or consulting enquiry.</div>
+</div>
+</div>
+
+<footer>
+<span>© 2026 Mukul Malhotra</span>
+<span>NextGen DevSecOps AI</span>
+</footer>
+
+</div>
+
+
+</body>
+</html>
