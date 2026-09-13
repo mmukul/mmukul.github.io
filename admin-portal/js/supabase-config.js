@@ -1,38 +1,19 @@
-/**
- * NextGen DevSecOps AI
- * Supabase Configuration
- *
- * IMPORTANT:
- * - Use only the Supabase Publishable/Anon key here.
- * - NEVER put the service_role/secret key in this file.
- */
+// NextGen DevSecOps AI — Supabase configuration
+// Frontend-safe Publishable/Anon key only.
+// NEVER put the Supabase service_role/secret key in this file.
 
-(function () {
-  "use strict";
+window.NEXTGEN_SUPABASE_URL =
+  "https://hkpvigvtdckxhmnsvdrh.supabase.co";
 
-  const SUPABASE_URL =
-    "https://hkpvigvtdckxhmnsvdrh.supabase.co";
+window.NEXTGEN_SUPABASE_ANON_KEY =
+  "sb_publishable_JlIrNdsEXgjikrh9F_YxYg_DBrgimoQ";
 
-  const SUPABASE_ANON_KEY =
-    "sb_publishable_JlIrNdsEXgjikrh9F_YxYg_DBrgimoQ";
+window.NEXTGEN_SUPABASE_CONFIGURED = Boolean(
+  window.NEXTGEN_SUPABASE_URL &&
+  window.NEXTGEN_SUPABASE_ANON_KEY
+);
 
-  // Expose configuration globally
-  window.SUPABASE_URL = SUPABASE_URL;
-  window.SUPABASE_ANON_KEY = SUPABASE_ANON_KEY;
-
-  // Backward-compatible aliases
-  window.supabaseUrl = SUPABASE_URL;
-  window.supabaseAnonKey = SUPABASE_ANON_KEY;
-
-  // Configuration validation
-  window.SUPABASE_CONFIGURED =
-    Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
-
-  if (!window.SUPABASE_CONFIGURED) {
-    console.error(
-      "Supabase configuration is missing. Please update admin-portal/js/supabase-config.js"
-    );
-  } else {
-    console.log("✓ Supabase configuration loaded");
-  }
-})();
+// Compatibility aliases
+window.SUPABASE_URL = window.NEXTGEN_SUPABASE_URL;
+window.SUPABASE_ANON_KEY = window.NEXTGEN_SUPABASE_ANON_KEY;
+window.SUPABASE_CONFIGURED = window.NEXTGEN_SUPABASE_CONFIGURED;
