@@ -6,487 +6,88 @@
 <title>Student Portal | NextGen DevSecOps AI</title>
 
 <style>
-:root{
-  --bg:#070a12;
-  --panel:#0e1321;
-  --panel2:#11182a;
-  --line:#252d43;
-  --text:#f8fafc;
-  --muted:#9aa5b8;
-  --violet:#8b5cf6;
-  --cyan:#22d3ee;
-  --green:#34d399
-}
-
+:root{--bg:#070a12;--panel:#0e1321;--panel2:#11182a;--line:#252d43;--text:#f8fafc;--muted:#9aa5b8;--violet:#8b5cf6;--cyan:#22d3ee;--green:#34d399}
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  background:
-    radial-gradient(circle at 85% 0%,rgba(99,102,241,.16),transparent 32%),
-    var(--bg);
-  color:var(--text);
-  font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif
-}
-
+body{margin:0;background:radial-gradient(circle at 85% 0%,rgba(99,102,241,.16),transparent 32%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
 a{text-decoration:none;color:inherit}
-
-.shell{
-  max-width:1180px;
-  margin:auto;
-  padding:0 22px
-}
-
-.top{
-  height:74px;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  justify-content:space-between
-}
-
-.logo{
-  font-weight:900;
-  letter-spacing:-.5px
-}
-
-.logo span{
-  color:#a78bfa
-}
-
-.top-actions{
-  display:flex;
-  gap:10px;
-  align-items:center
-}
-
-.btn{
-  border:1px solid #39435e;
-  background:#12192a;
-  color:#fff;
-  border-radius:10px;
-  padding:10px 15px;
-  font-weight:800;
-  font-size:12px
-}
-
-.btn.primary{
-  background:linear-gradient(135deg,#7c3aed,#06b6d4);
-  border:0
-}
-
-.layout{
-  display:grid;
-  grid-template-columns:220px 1fr;
-  gap:22px;
-  padding:26px 0 50px
-}
-
-.side{
-  background:rgba(14,19,33,.85);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:14px;
-  height:max-content;
-  position:sticky;
-  top:18px
-}
-
-.side a{
-  display:block;
-  padding:12px 13px;
-  color:#aeb8ca;
-  border-radius:9px;
-  font-size:13px;
-  margin:3px 0
-}
-
-.side a.active,
-.side a:hover{
-  background:rgba(139,92,246,.12);
-  color:#fff
-}
-
-.side small{
-  display:block;
-  color:#657086;
-  font-size:9px;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-  padding:12px 13px 5px
-}
-
-.hero{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  align-items:flex-end;
-  margin-bottom:20px
-}
-
-.eyebrow{
-  font-size:10px;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  color:#67e8f9;
-  font-weight:900
-}
-
-.hero h1{
-  font-size:40px;
-  letter-spacing:-2px;
-  margin:8px 0
-}
-
-.hero p{
-  color:var(--muted);
-  margin:0;
-  max-width:700px
-}
-
-.status{
-  padding:9px 12px;
-  border:1px solid rgba(52,211,153,.25);
-  background:rgba(52,211,153,.07);
-  border-radius:999px;
-  color:#6ee7b7;
-  font-size:11px;
-  font-weight:800;
-  white-space:nowrap
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px
-}
-
-.card{
-  background:linear-gradient(145deg,var(--panel),#0b1020);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:20px
-}
-
-.card h3{
-  margin:0 0 7px;
-  font-size:18px
-}
-
-.card p{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.55;
-  margin:0
-}
-
-.progress{
-  height:7px;
-  background:#20283b;
-  border-radius:99px;
-  overflow:hidden;
-  margin:14px 0 8px
-}
-
-.progress i{
-  display:block;
-  height:100%;
-  width:68%;
-  background:linear-gradient(90deg,var(--violet),var(--cyan));
-  border-radius:99px
-}
-
-.stat{
-  font-size:24px;
-  font-weight:900
-}
-
-.label{
-  font-size:10px;
-  color:#7d879a
-}
-
-.section{
-  margin-top:24px
-}
-
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:12px
-}
-
-.section-head h2{
-  font-size:19px;
-  margin:0;
-  letter-spacing:-.5px
-}
-
-.section-head a{
-  font-size:11px;
-  color:#a78bfa;
-  font-weight:800
-}
-
-.courses{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px
-}
-
-.course{
-  background:linear-gradient(145deg,#101629,#0c1220);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:18px
-}
-
-.course .tag{
-  display:inline-block;
-  font-size:9px;
-  color:#67e8f9;
-  border:1px solid rgba(34,211,238,.25);
-  padding:5px 7px;
-  border-radius:999px;
-  margin-bottom:10px
-}
-
-.course h3{
-  margin:0 0 6px;
-  font-size:16px
-}
-
-.course p{
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.5;
-  min-height:34px
-}
-
-.course .btn{
-  display:inline-block;
-  margin-top:8px
-}
-
-.list{
-  display:grid;
-  gap:9px
-}
-
-.row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  background:#0d1321;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:13px 15px
-}
-
-.row strong{
-  font-size:12px
-}
-
-.row small{
-  display:block;
-  color:#737f93;
-  font-size:10px;
-  margin-top:3px
-}
-
-.pill{
-  font-size:9px;
-  padding:5px 8px;
-  border-radius:999px;
-  background:rgba(52,211,153,.08);
-  color:#6ee7b7;
-  border:1px solid rgba(52,211,153,.18)
-}
-
-.lab{
-  display:grid;
-  grid-template-columns:1.5fr 1fr;
-  gap:14px
-}
-
-.lab-main{
-  background:linear-gradient(135deg,#11182b,#15132a);
-  border:1px solid rgba(139,92,246,.35);
-  border-radius:16px;
-  padding:22px
-}
-
-.lab-main h3{
-  font-size:22px;
-  margin:0 0 7px
-}
-
-.lab-main p{
-  color:var(--muted);
-  font-size:12px
-}
-
-.lab-options{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin:14px 0
-}
-
-.duration{
-  border:1px solid var(--line);
-  border-radius:9px;
-  padding:9px;
-  text-align:center;
-  color:#aeb8ca;
-  font-size:11px
-}
-
-.duration b{
-  display:block;
-  color:#fff;
-  font-size:14px
-}
-
-.note{
-  font-size:10px;
-  color:#69758a;
-  line-height:1.5
-}
-
-.recording{
-  background:linear-gradient(145deg,#101629,#0c1220);
-  border:1px solid rgba(34,211,238,.18);
-  border-radius:14px;
-  padding:16px
-}
-
-.recording-top{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  align-items:flex-start
-}
-
-.recording h3{
-  margin:0 0 5px;
-  font-size:15px
-}
-
-.recording p{
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.5;
-  margin:5px 0
-}
-
-.recording .meta{
-  font-size:10px;
-  color:#7d879a
-}
-
-.recording-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px
-}
-
-.empty-state{
-  color:var(--muted);
-  border:1px dashed var(--line);
-  border-radius:12px;
-  padding:20px;
-  text-align:center;
-  font-size:12px
-}
-
-.footer{
-  border-top:1px solid var(--line);
-  padding:20px 0;
-  color:#667185;
-  font-size:10px;
-  margin-top:25px
-}
+.shell{max-width:1180px;margin:auto;padding:0 22px}
+.top{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:900;letter-spacing:-.5px}
+.logo span{color:#a78bfa}
+.top-actions{display:flex;gap:10px;align-items:center}
+.btn{border:1px solid #39435e;background:#12192a;color:#fff;border-radius:10px;padding:10px 15px;font-weight:800;font-size:12px}
+.btn.primary{background:linear-gradient(135deg,#7c3aed,#06b6d4);border:0}
+.layout{display:grid;grid-template-columns:220px 1fr;gap:22px;padding:26px 0 50px}
+.side{background:rgba(14,19,33,.85);border:1px solid var(--line);border-radius:18px;padding:14px;height:max-content;position:sticky;top:18px}
+.side a{display:block;padding:12px 13px;color:#aeb8ca;border-radius:9px;font-size:13px;margin:3px 0}
+.side a.active,.side a:hover{background:rgba(139,92,246,.12);color:#fff}
+.side small{display:block;color:#657086;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:12px 13px 5px}
+.hero{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:20px}
+.eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#67e8f9;font-weight:900}
+.hero h1{font-size:40px;letter-spacing:-2px;margin:8px 0}
+.hero p{color:var(--muted);margin:0;max-width:700px}
+.status{padding:9px 12px;border:1px solid rgba(52,211,153,.25);background:rgba(52,211,153,.07);border-radius:999px;color:#6ee7b7;font-size:11px;font-weight:800;white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:linear-gradient(145deg,var(--panel),#0b1020);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card h3{margin:0 0 7px;font-size:18px}
+.card p{color:var(--muted);font-size:12px;line-height:1.55;margin:0}
+.progress{height:7px;background:#20283b;border-radius:99px;overflow:hidden;margin:14px 0 8px}
+.progress i{display:block;height:100%;width:68%;background:linear-gradient(90deg,var(--violet),var(--cyan));border-radius:99px}
+.stat{font-size:24px;font-weight:900}
+.label{font-size:10px;color:#7d879a}
+.section{margin-top:24px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.section-head h2{font-size:19px;margin:0;letter-spacing:-.5px}
+.section-head a{font-size:11px;color:#a78bfa;font-weight:800}
+.courses{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.course{background:linear-gradient(145deg,#101629,#0c1220);border:1px solid var(--line);border-radius:16px;padding:18px}
+.course .tag{display:inline-block;font-size:9px;color:#67e8f9;border:1px solid rgba(34,211,238,.25);padding:5px 7px;border-radius:999px;margin-bottom:10px}
+.course h3{margin:0 0 6px;font-size:16px}
+.course p{color:var(--muted);font-size:11px;line-height:1.5;min-height:34px}
+.course .btn{display:inline-block;margin-top:8px}
+.list{display:grid;gap:9px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:15px;background:#0d1321;border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+.row strong{font-size:12px}
+.row small{display:block;color:#737f93;font-size:10px;margin-top:3px}
+.pill{font-size:9px;padding:5px 8px;border-radius:999px;background:rgba(52,211,153,.08);color:#6ee7b7;border:1px solid rgba(52,211,153,.18)}
+.lab{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}
+.lab-main{background:linear-gradient(135deg,#11182b,#15132a);border:1px solid rgba(139,92,246,.35);border-radius:16px;padding:22px}
+.lab-main h3{font-size:22px;margin:0 0 7px}
+.lab-main p{color:var(--muted);font-size:12px}
+.lab-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.duration{border:1px solid var(--line);border-radius:9px;padding:9px;text-align:center;color:#aeb8ca;font-size:11px}
+.duration b{display:block;color:#fff;font-size:14px}
+.note{font-size:10px;color:#69758a;line-height:1.5}
+.recording{background:linear-gradient(145deg,#101629,#0c1220);border:1px solid rgba(34,211,238,.18);border-radius:14px;padding:16px}
+.recording-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.recording h3{margin:0 0 5px;font-size:15px}
+.recording p{color:var(--muted);font-size:11px;line-height:1.5;margin:5px 0}
+.recording .meta{font-size:10px;color:#7d879a}
+.recording-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.empty-state{color:var(--muted);border:1px dashed var(--line);border-radius:12px;padding:20px;text-align:center;font-size:12px}
+.footer{border-top:1px solid var(--line);padding:20px 0;color:#667185;font-size:10px;margin-top:25px}
 
 @media(max-width:900px){
-  .layout{
-    grid-template-columns:1fr
-  }
-
-  .side{
-    position:static;
-    display:flex;
-    gap:5px;
-    overflow:auto
-  }
-
-  .side small{
-    display:none
-  }
-
-  .side a{
-    white-space:nowrap
-  }
-
-  .grid,
-  .courses{
-    grid-template-columns:1fr 1fr
-  }
-
-  .lab{
-    grid-template-columns:1fr
-  }
+.layout{grid-template-columns:1fr}
+.side{position:static;display:flex;gap:5px;overflow:auto}
+.side small{display:none}
+.side a{white-space:nowrap}
+.grid,.courses{grid-template-columns:1fr 1fr}
+.lab{grid-template-columns:1fr}
 }
 
 @media(max-width:600px){
-  .shell{
-    padding:0 14px
-  }
-
-  .top{
-    height:66px
-  }
-
-  .top-actions .btn:first-child{
-    display:none
-  }
-
-  .layout{
-    padding-top:16px
-  }
-
-  .hero{
-    display:block
-  }
-
-  .hero h1{
-    font-size:32px
-  }
-
-  .status{
-    display:inline-block;
-    margin-top:14px
-  }
-
-  .grid,
-  .courses{
-    grid-template-columns:1fr
-  }
-
-  .lab-options{
-    grid-template-columns:1fr 1fr
-  }
-
-  .row{
-    align-items:flex-start
-  }
-
-  .row .btn{
-    font-size:10px;
-    padding:8px
-  }
+.shell{padding:0 14px}
+.top{height:66px}
+.top-actions .btn:first-child{display:none}
+.layout{padding-top:16px}
+.hero{display:block}
+.hero h1{font-size:32px}
+.status{display:inline-block;margin-top:14px}
+.grid,.courses{grid-template-columns:1fr}
+.lab-options{grid-template-columns:1fr 1fr}
+.row{align-items:flex-start}
+.row .btn{font-size:10px;padding:8px}
 }
 </style>
 </head>
@@ -499,9 +100,7 @@ Checking secure login…
 </div>
 
 <header class="top">
-
-<div class="shell"
-style="width:100%;display:flex;justify-content:space-between;align-items:center">
+<div class="shell" style="width:100%;display:flex;justify-content:space-between;align-items:center">
 
 <a class="logo" href="../">
 NextGen <span>DevSecOps AI</span>
@@ -509,13 +108,9 @@ NextGen <span>DevSecOps AI</span>
 
 <div class="top-actions">
 
-<a class="btn" href="../">
-← Website
-</a>
+<a class="btn" href="../">← Website</a>
 
-<a class="btn"
-href="#"
-onclick="logout(event)">
+<a class="btn" href="#" onclick="logout(event)">
 Logout
 </a>
 
@@ -529,47 +124,22 @@ Support
 </div>
 </header>
 
-
 <main class="shell">
 
 <div class="layout">
-
 
 <aside class="side">
 
 <small>Student Portal</small>
 
-<a class="active" href="#dashboard">
-Dashboard
-</a>
-
-<a href="#courses">
-My Courses
-</a>
-
-<a href="#materials">
-Course Material
-</a>
-
-<a href="#recordings">
-🎥 Class Recordings
-</a>
-
-<a href="#labs">
-Cloud Lab
-</a>
-
-<a href="#assignments">
-Assignments
-</a>
-
-<a href="#progress">
-My Progress
-</a>
-
-<a href="#certificate">
-Certificate
-</a>
+<a class="active" href="#dashboard">Dashboard</a>
+<a href="#courses">My Courses</a>
+<a href="#materials">Course Material</a>
+<a href="#recordings">🎥 Class Recordings</a>
+<a href="#labs">Cloud Lab</a>
+<a href="#assignments">Assignments</a>
+<a href="#progress">My Progress</a>
+<a href="#certificate">Certificate</a>
 
 <small>Help</small>
 
@@ -580,9 +150,7 @@ target="_blank">
 
 </aside>
 
-
 <section id="dashboard">
-
 
 <div class="hero">
 
@@ -593,7 +161,7 @@ Student Dashboard
 </div>
 
 <h1 id="welcomeTitle">
-Welcome…
+Welcome, Student.
 </h1>
 
 <p>
@@ -608,160 +176,84 @@ style="margin-top:8px">
 
 </div>
 
-
-<div class="status"
-id="accountStatus">
+<div class="status" id="accountStatus">
 ● Checking account
 </div>
 
 </div>
 
-
 <div class="grid">
 
 <div class="card">
-
-<div class="stat"
-id="activeCoursesCount">
-—
+<div class="stat" id="activeCoursesCount">—</div>
+<div class="label">Active Courses</div>
 </div>
-
-<div class="label">
-Active Courses
-</div>
-
-</div>
-
 
 <div class="card">
-
-<div class="stat"
-id="recordingsCount">
-—
+<div class="stat" id="recordingsCount">—</div>
+<div class="label">Class Recordings</div>
 </div>
-
-<div class="label">
-Class Recordings
-</div>
-
-</div>
-
 
 <div class="card">
-
-<div class="stat"
-id="progressCount">
-—
-</div>
-
-<div class="label">
-Lessons Completed
+<div class="stat" id="progressCount">—</div>
+<div class="label">Lessons Completed</div>
 </div>
 
 </div>
 
-</div>
-
-
-<div class="section"
-id="courses">
+<div class="section" id="courses">
 
 <div class="section-head">
-
-<h2>
-My Courses
-</h2>
-
-<a href="#materials">
-Course material →
-</a>
-
+<h2>My Courses</h2>
+<a href="#materials">Course material →</a>
 </div>
 
-
-<div id="coursesList"
-class="courses">
-
-<div class="empty-state">
-Loading your courses…
+<div id="coursesList" class="courses">
+<div class="empty-state">Loading your courses…</div>
 </div>
 
 </div>
 
-</div>
-
-
-<div class="section"
-id="materials">
+<div class="section" id="materials">
 
 <div class="section-head">
-
-<h2>
-Course Material
-</h2>
-
-<a href="#courses">
-My courses →
-</a>
-
+<h2>Course Material</h2>
+<a href="#courses">My courses →</a>
 </div>
 
-
-<div id="materialsList"
-class="list">
-
-<div class="empty-state">
-Loading course material…
+<div id="materialsList" class="list">
+<div class="empty-state">Loading course material…</div>
 </div>
 
 </div>
 
-</div>
-
-
-<div class="section"
-id="recordings">
+<div class="section" id="recordings">
 
 <div class="section-head">
 
 <div>
 
-<h2>
-🎥 Class Recordings
-</h2>
+<h2>🎥 Class Recordings</h2>
 
-<div class="label"
-style="margin-top:4px">
-
+<div class="label" style="margin-top:4px">
 Watch recordings from your live training sessions.
-
 </div>
 
 </div>
 
 </div>
 
-
-<div id="recordingsList"
-class="recording-grid">
-
-<div class="empty-state">
-Loading recordings…
+<div id="recordingsList" class="recording-grid">
+<div class="empty-state">Loading recordings…</div>
 </div>
 
 </div>
 
-</div>
-
-
-<div class="section"
-id="labs">
+<div class="section" id="labs">
 
 <div class="section-head">
 
-<h2>
-Cloud Lab
-</h2>
+<h2>Cloud Lab</h2>
 
 <a href="https://killercoda.com/playgrounds"
 target="_blank">
@@ -770,9 +262,7 @@ Open playgrounds →
 
 </div>
 
-
 <div class="lab">
-
 
 <div class="lab-main">
 
@@ -800,12 +290,9 @@ Powered by Killercoda • Free browser-based labs with limited session time.
 
 </div>
 
-
 <div class="card">
 
-<h3>
-AWS Cloud Lab
-</h3>
+<h3>AWS Cloud Lab</h3>
 
 <p>
 Dedicated environment for advanced training and longer practice sessions.
@@ -834,79 +321,47 @@ Extended
 Coming Soon
 </span>
 
-<p class="note"
-style="margin-top:12px">
-
+<p class="note" style="margin-top:12px">
 Planned: AWS Mumbai • SSM browser terminal • auto-stop at expiry.
-
 </p>
 
 </div>
 
 </div>
-
 </div>
 
-
-<div class="section"
-id="assignments">
+<div class="section" id="assignments">
 
 <div class="section-head">
-
-<h2>
-Assignments
-</h2>
-
+<h2>Assignments</h2>
 </div>
-
 
 <div class="row">
 
 <div>
-
-<strong>
-Assignment and submission workflow
-</strong>
-
-<small>
-Upload work • Trainer review • Feedback
-</small>
-
+<strong>Assignment and submission workflow</strong>
+<small>Upload work • Trainer review • Feedback</small>
 </div>
 
-<span class="pill">
-Coming Soon
-</span>
+<span class="pill">Coming Soon</span>
 
 </div>
 
 </div>
 
-
-<div class="section"
-id="progress">
+<div class="section" id="progress">
 
 <div class="section-head">
-
-<h2>
-My Progress
-</h2>
-
+<h2>My Progress</h2>
 </div>
-
 
 <div class="card">
 
 <div class="progress">
-
-<i id="overallProgressBar"
-style="width:0%">
-</i>
-
+<i id="overallProgressBar" style="width:0%"></i>
 </div>
 
-<div class="label"
-id="overallProgressText">
+<div class="label" id="overallProgressText">
 Loading progress…
 </div>
 
@@ -914,32 +369,23 @@ Loading progress…
 
 </div>
 
-
-<div class="section"
-id="certificate">
+<div class="section" id="certificate">
 
 <div class="section-head">
 
 <div>
 
-<h2>
-Certificate
-</h2>
+<h2>Certificate</h2>
 
-<div class="label"
-style="margin-top:4px">
-
+<div class="label" style="margin-top:4px">
 Your course completion certificates.
-
 </div>
 
 </div>
 
 </div>
 
-
-<div id="certificatesList"
-class="list">
+<div id="certificatesList" class="list">
 
 <div class="empty-state">
 Loading certificates…
@@ -948,7 +394,6 @@ Loading certificates…
 </div>
 
 </div>
-
 
 <div class="footer">
 
@@ -961,24 +406,17 @@ active student status and course enrollment.
 </section>
 
 </div>
-
 </main>
-
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-
 if(!window.supabase){
-
 document.write(
 '<script src="https://unpkg.com/@supabase/supabase-js@2"><\/script>'
 )
-
 }
-
 </script>
-
 
 <script>
 
@@ -998,18 +436,14 @@ window.NEXTGEN_SUPABASE_ANON_KEY
 
 </script>
 
-
 <script src="js/supabase-config.js?v=17"></script>
-
 
 <script>
 
 let client=null;
 let currentUser=null;
 
-
 function esc(v){
-
 return String(v??'').replace(
 /[&<>"']/g,
 c=>({
@@ -1020,17 +454,13 @@ c=>({
 "'":'&#039;'
 }[c])
 );
-
 }
-
 
 function formatDate(v){
 
-if(!v)
-return 'Date not specified';
+if(!v)return 'Date not specified';
 
 try{
-
 return new Date(
 v+'T00:00:00'
 ).toLocaleDateString(
@@ -1041,155 +471,92 @@ month:'short',
 year:'numeric'
 }
 );
-
 }catch{
-
 return v;
-
 }
 
 }
-
 
 function showDenied(msg){
 
-const g=
-document.getElementById(
-'authGuard'
-);
+const g=document.getElementById('authGuard');
 
 g.innerHTML=`
 
-<div style="
-text-align:center;
-max-width:440px;
-padding:24px
-">
+<div style="text-align:center;max-width:440px;padding:24px">
 
 <div style="
 font-size:22px;
 color:#fff;
 font-weight:900;
-margin-bottom:8px
-">
+margin-bottom:8px">
 LMS Access Denied
 </div>
 
-<div>
-${esc(msg)}
-</div>
+<div>${esc(msg)}</div>
 
 <div style="margin-top:18px">
 
-<a class="btn primary"
-href="login.html">
+<a class="btn primary" href="login.html">
 Back to Login
 </a>
 
 </div>
 
 </div>
-
 `;
 
 g.style.display='grid';
-
 }
-
 
 async function boot(){
 
-const guard=
-document.getElementById(
-'authGuard'
-);
+const guard=document.getElementById('authGuard');
 
 try{
 
 if(!window.NEXTGEN_SUPABASE_CONFIGURED)
-
-throw new Error(
-'Supabase is not configured.'
-);
-
+throw new Error('Supabase is not configured.');
 
 if(!window.supabase?.createClient)
+throw new Error('Supabase library failed to load.');
 
-throw new Error(
-'Supabase library failed to load.'
-);
-
-
-client=
-window.supabase.createClient(
+client=window.supabase.createClient(
 window.NEXTGEN_SUPABASE_URL,
 window.NEXTGEN_SUPABASE_ANON_KEY
 );
 
-
 const {
 data:{session},
 error:sessionError
-}=
-await client.auth.getSession();
+}=await client.auth.getSession();
 
-
-if(sessionError)
-throw sessionError;
-
+if(sessionError)throw sessionError;
 
 if(!session){
-
-location.replace(
-'login.html'
-);
-
+location.replace('login.html');
 return;
-
 }
-
 
 const {
 data:userData,
 error:userError
-}=
-await client.auth.getUser();
+}=await client.auth.getUser();
 
-
-if(
-userError ||
-!userData.user
-){
+if(userError||!userData.user){
 
 await client.auth.signOut();
-
-location.replace(
-'login.html'
-);
-
+location.replace('login.html');
 return;
 
 }
 
-
-currentUser=
-userData.user;
-
-
-/*
- * IMPORTANT:
- *
- * The profile is selected using
- * the authenticated user's UUID.
- *
- * profiles.id = auth.uid()
- */
+currentUser=userData.user;
 
 const {
 data:profile,
 error:profileError
-}=
-await client
+}=await client
 
 .from('profiles')
 
@@ -1204,16 +571,12 @@ currentUser.id
 
 .maybeSingle();
 
-
-if(profileError){
+if(profileError)
 
 throw new Error(
 'Unable to load your student profile: '+
 profileError.message
 );
-
-}
-
 
 if(
 !profile ||
@@ -1228,58 +591,24 @@ showDenied(
 );
 
 return;
-
 }
-
 
 /*
- * DYNAMIC STUDENT NAME
- *
- * Read from:
- * public.profiles.full_name
+ * Generic welcome message.
+ * Specific student name is NOT displayed.
  */
 
-const studentName=
-String(
-profile.full_name||''
-).trim();
-
-
-if(!studentName){
-
-throw new Error(
-'Your student profile does not have a full name. Please contact the trainer.'
-);
-
-}
-
-
 const welcome=
-document.getElementById(
-'welcomeTitle'
-);
-
+document.getElementById('welcomeTitle');
 
 welcome.textContent=
-'Welcome, '+
-studentName+
-'.';
-
+'Welcome, Student.';
 
 document.title=
-studentName+
-' | Student Dashboard | NextGen DevSecOps AI';
-
-
-welcome.dataset.studentName=
-studentName;
-
+'Student Dashboard | NextGen DevSecOps AI';
 
 const identity=
-document.getElementById(
-'studentIdentity'
-);
-
+document.getElementById('studentIdentity');
 
 if(identity)
 
@@ -1290,18 +619,14 @@ profile.student_id||
 'Not assigned'
 );
 
-
 document.getElementById(
 'accountStatus'
 ).textContent=
 '● Active Student';
 
-
 guard.remove();
 
-
 await loadLMS();
-
 
 }catch(e){
 
@@ -1316,18 +641,14 @@ e.message||
 
 }
 
-
 async function loadLMS(){
 
-const uid=
-currentUser.id;
-
+const uid=currentUser.id;
 
 const {
 data:enrollments,
 error:enrollError
-}=
-await client
+}=await client
 
 .from('enrollments')
 
@@ -1342,16 +663,11 @@ uid
 
 .in(
 'status',
-[
-'active',
-'completed'
-]
+['active','completed']
 );
-
 
 if(enrollError)
 throw enrollError;
-
 
 const active=
 (enrollments||[])
@@ -1359,12 +675,10 @@ const active=
 e=>e.status==='active'
 );
 
-
 document.getElementById(
 'activeCoursesCount'
 ).textContent=
 active.length;
-
 
 const courseIds=[
 ...new Set(
@@ -1374,41 +688,18 @@ const courseIds=[
 )
 ];
 
+renderCourses(enrollments||[]);
+renderMaterials(enrollments||[]);
 
-renderCourses(
-enrollments||[]
-);
-
-
-renderMaterials(
-enrollments||[]
-);
-
-
-await loadRecordings(
-courseIds
-);
-
-
-await loadProgress(
-uid
-);
-
-
-await loadCertificates(
-uid
-);
+await loadRecordings(courseIds);
+await loadProgress(uid);
+await loadCertificates(uid);
 
 }
 
-
 function renderCourses(rows){
 
-const el=
-document.getElementById(
-'coursesList'
-);
-
+const el=document.getElementById('coursesList');
 
 if(!rows.length){
 
@@ -1418,36 +709,22 @@ el.innerHTML=
 '</div>';
 
 return;
-
 }
 
-
 el.innerHTML=
-rows.map(
-e=>{
+rows.map(e=>{
 
-const c=
-e.courses||{};
-
+const c=e.courses||{};
 
 return `
 
 <article class="course">
 
 <span class="tag">
-
-${esc(
-(c.slug||'COURSE')
-.toUpperCase()
-)}
-
+${esc((c.slug||'COURSE').toUpperCase())}
 </span>
 
-<h3>
-${esc(
-c.name||'Course'
-)}
-</h3>
+<h3>${esc(c.name||'Course')}</h3>
 
 <p>
 ${esc(
@@ -1464,19 +741,13 @@ ${esc(e.status)}
 
 `;
 
-}
-).join('');
+}).join('');
 
 }
-
 
 function renderMaterials(rows){
 
-const el=
-document.getElementById(
-'materialsList'
-);
-
+const el=document.getElementById('materialsList');
 
 if(!rows.length){
 
@@ -1486,9 +757,7 @@ el.innerHTML=
 '</div>';
 
 return;
-
 }
-
 
 const docs={
 
@@ -1503,17 +772,11 @@ const docs={
 
 };
 
-
 el.innerHTML=
-rows.map(
-e=>{
+rows.map(e=>{
 
-const c=
-e.courses||{};
-
-const href=
-docs[c.slug];
-
+const c=e.courses||{};
+const href=docs[c.slug];
 
 return `
 
@@ -1522,9 +785,7 @@ return `
 <div>
 
 <strong>
-${esc(
-c.name||'Course'
-)}
+${esc(c.name||'Course')}
 </strong>
 
 <small>
@@ -1558,21 +819,13 @@ Material coming soon
 
 `;
 
-}
-).join('');
+}).join('');
 
 }
 
+async function loadRecordings(courseIds){
 
-async function loadRecordings(
-courseIds
-){
-
-const el=
-document.getElementById(
-'recordingsList'
-);
-
+const el=document.getElementById('recordingsList');
 
 if(!courseIds.length){
 
@@ -1586,15 +839,12 @@ document.getElementById(
 ).textContent='0';
 
 return;
-
 }
-
 
 const {
 data,
 error
-}=
-await client
+}=await client
 
 .from('recordings')
 
@@ -1609,25 +859,18 @@ courseIds
 
 .order(
 'session_date',
-{
-ascending:false
-}
+{ascending:false}
 );
-
 
 if(error)
 throw error;
 
-
-const rows=
-data||[];
-
+const rows=data||[];
 
 document.getElementById(
 'recordingsCount'
 ).textContent=
 rows.length;
-
 
 if(!rows.length){
 
@@ -1637,13 +880,10 @@ el.innerHTML=
 '</div>';
 
 return;
-
 }
 
-
 el.innerHTML=
-rows.map(
-r=>`
+rows.map(r=>`
 
 <article class="recording">
 
@@ -1652,33 +892,21 @@ r=>`
 <div>
 
 <h3>
-${esc(
-r.title||
-'Class Recording'
-)}
+${esc(r.title||'Class Recording')}
 </h3>
 
 <div class="meta">
 
-${esc(
-r.courses?.name||
-'Course'
-)}
+${esc(r.courses?.name||'Course')}
 
 •
 
-${formatDate(
-r.session_date
-)}
+${formatDate(r.session_date)}
 
 ${
 r.duration_minutes
 ?
-' • '+
-esc(
-r.duration_minutes
-)+
-' min'
+' • '+esc(r.duration_minutes)+' min'
 :
 ''
 }
@@ -1687,45 +915,30 @@ r.duration_minutes
 
 </div>
 
-<span class="pill">
-CLASS
-</span>
+<span class="pill">CLASS</span>
 
 </div>
-
 
 ${
 r.description
 ?
-`
-<p>
-${esc(r.description)}
-</p>
-`
+`<p>${esc(r.description)}</p>`
 :
 ''
 }
-
 
 ${
 r.passcode
 ?
 `
 <p>
-<strong>
-Passcode:
-</strong>
-
-<code>
-${esc(r.passcode)}
-</code>
-
+<strong>Passcode:</strong>
+<code>${esc(r.passcode)}</code>
 </p>
 `
 :
 ''
 }
-
 
 <a class="btn primary"
 href="${esc(r.recording_url)}"
@@ -1738,31 +951,22 @@ rel="noopener noreferrer">
 
 </article>
 
-`
-).join('');
+`).join('');
 
 }
 
+async function loadCertificates(uid){
 
-async function loadCertificates(
-uid
-){
-
-const el=
-document.getElementById(
+const el=document.getElementById(
 'certificatesList'
 );
 
-
-if(!el)
-return;
-
+if(!el)return;
 
 const {
 data,
 error
-}=
-await client
+}=await client
 
 .from('certificates')
 
@@ -1777,11 +981,8 @@ uid
 
 .order(
 'issued_at',
-{
-ascending:false
-}
+{ascending:false}
 );
-
 
 if(error){
 
@@ -1793,13 +994,9 @@ el.innerHTML=
 '</div>';
 
 return;
-
 }
 
-
-const rows=
-data||[];
-
+const rows=data||[];
 
 if(!rows.length){
 
@@ -1809,13 +1006,10 @@ el.innerHTML=
 '</div>';
 
 return;
-
 }
 
-
 el.innerHTML=
-rows.map(
-c=>`
+rows.map(c=>`
 
 <div class="row">
 
@@ -1834,9 +1028,7 @@ ${
 c.certificate_number
 ?
 'Certificate ID: '+
-esc(
-c.certificate_number
-)+
+esc(c.certificate_number)+
 ' • '
 :
 ''
@@ -1846,9 +1038,8 @@ ${
 c.issued_at
 ?
 'Issued: '+
-new Date(
-c.issued_at
-).toLocaleDateString(
+new Date(c.issued_at)
+.toLocaleDateString(
 'en-IN',
 {
 day:'2-digit',
@@ -1864,7 +1055,6 @@ year:'numeric'
 
 </div>
 
-
 <a class="btn primary"
 href="certificate.html?id=${
 encodeURIComponent(c.id)
@@ -1876,21 +1066,16 @@ View / Print Certificate
 
 </div>
 
-`
-).join('');
+`).join('');
 
 }
 
-
-async function loadProgress(
-uid
-){
+async function loadProgress(uid){
 
 const {
 data,
 error
-}=
-await client
+}=await client
 
 .from('progress')
 
@@ -1903,44 +1088,32 @@ await client
 uid
 );
 
-
 if(error)
 throw error;
 
-
-const rows=
-data||[];
-
+const rows=data||[];
 
 const done=
 rows.filter(
 x=>x.completed
 ).length;
 
-
 const pct=
 rows.length
 ?
-Math.round(
-done/
-rows.length*
-100
-)
+Math.round(done/rows.length*100)
 :
 0;
-
 
 document.getElementById(
 'progressCount'
 ).textContent=
 done;
 
-
 document.getElementById(
 'overallProgressBar'
 ).style.width=
 pct+'%';
-
 
 document.getElementById(
 'overallProgressText'
@@ -1953,7 +1126,6 @@ rows.length
 
 }
 
-
 async function logout(e){
 
 e.preventDefault();
@@ -1961,11 +1133,9 @@ e.preventDefault();
 if(client)
 await client.auth.signOut();
 
-location.href=
-'login.html';
+location.href='login.html';
 
 }
-
 
 boot();
 
