@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "NextGen DevSecOps AI",
+    "slug": "nextgen-devsecops-ai-android",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "scheme": "nextgen-devsecops-ai",
+    "android": {
+      "package": "ai.nextgen.devsecops.student",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#080B14",
+        "foregroundImage": "./assets/adaptive-icon.png"
+      }
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "icon": "./assets/icon.png"
+  }
+}
