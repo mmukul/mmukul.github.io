@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Login | NextGen DevSecOps AI</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#080d1c;color:#f8fafc;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:grid;place-items:center;padding:24px}
+.card{width:min(520px,100%);background:rgba(15,23,42,.95);border:1px solid rgba(148,163,184,.18);border-radius:24px;padding:34px;box-shadow:0 30px 90px rgba(0,0,0,.45)}
+.brand{font-size:14px;font-weight:800;color:#c4b5fd;margin-bottom:28px}.brand span{color:#22d3ee}
+h1{font-size:32px;margin:0 0 8px}.sub{color:#94a3b8;font-size:14px;margin:0 0 28px}
+label{display:block;font-size:12px;font-weight:800;color:#cbd5e1;margin:16px 0 7px}
+input{width:100%;padding:14px 15px;border-radius:11px;border:1px solid #334155;background:#0b1220;color:#fff;outline:none;font-size:14px}
+button{width:100%;margin-top:22px;padding:15px;border:0;border-radius:12px;color:#fff;font-size:15px;font-weight:900;cursor:pointer;background:linear-gradient(100deg,#7c3aed,#06b6d4)}
+button:disabled{opacity:.65;cursor:wait}.status{display:none;margin-top:18px;padding:15px;border-radius:12px;background:rgba(127,29,29,.28);border:1px solid rgba(248,113,113,.2);color:#fecaca;font-size:13px;line-height:1.55;white-space:pre-wrap}.status.show{display:block}.status.success{background:rgba(6,78,59,.28);border-color:rgba(45,212,191,.2);color:#99f6e4}.small{margin-top:22px;color:#64748b;font-size:11px;line-height:1.5}
+</style>
+</head>
+<body><div class="card">
+<div class="brand">NextGen <span>DevSecOps AI</span></div>
+<h1>Login to Student Portal →</h1>
+<p class="sub">Access your enrolled courses, materials, recordings, labs and progress.</p>
+<form id="loginForm">
+<label>Email</label><input id="email" type="email" autocomplete="username" required placeholder="student@example.com">
+<label>Password</label><input id="password" type="password" autocomplete="current-password" required placeholder="••••••••">
+<button id="loginBtn" type="submit">Login to Student Portal →</button>
+</form>
+<div id="status" class="status"></div>
+<div class="small">LMS access requires role = student and status = active.</div>
+</div>
+<script>
+(()=>{const client=window.supabase.createClient('https://hkpvigvtdckxhmnsvdrh.supabase.co','sb_publishable_JlIrNdsEXgjikrh9F_YxYg_DBrgimoQ');const s=document.getElementById('status'),b=document.getElementById('loginBtn');
+const show=(m,t='')=>{s.textContent=m;s.className='status show '+t};
+document.getElementById('loginForm').addEventListener('submit',async e=>{e.preventDefault();b.disabled=true;b.textContent='Verifying student…';s.className='status';
+try{await client.auth.signOut().catch(()=>{});const email=document.getElementById('email').value.trim().toLowerCase(),password=document.getElementById('password').value;
+const {data,error}=await client.auth.signInWithPassword({email,password});if(error)throw new Error('Login failed: '+error.message);if(!data.user)throw new Error('Authentication succeeded but no user was returned.');
+const {data:p,error:pe}=await client.from('profiles').select('id,full_name,student_id,role,status').eq('id',data.user.id).maybeSingle();if(pe)throw new Error('Unable to load your student profile: '+pe.message);
+const role=String(p?.role||'').trim().toLowerCase(),st=String(p?.status||'').trim().toLowerCase();
+if(!p)throw new Error('No student profile is linked to this Auth account.\n\nAuth User ID: '+data.user.id);
+if(role!=='student'||st!=='active')throw new Error('Student LMS access denied.\n\nEmail: '+(data.user.email||email)+'\nAuth User ID: '+data.user.id+'\nProfile ID: '+p.id+'\nRole: '+(p.role||'NULL')+'\nStatus: '+(p.status||'NULL')+'\n\nRequired: role = student and status = active.');
+show('Student verified. Opening LMS…','success');setTimeout(()=>location.replace('./index.html?v='+Date.now()),300);
+}catch(err){console.error(err);await client.auth.signOut().catch(()=>{});show(err.message||'Unable to verify student access.')}finally{b.disabled=false;b.textContent='Login to Student Portal →'}});
+})();
+</script></body></html>
