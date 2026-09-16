@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NextGen DevSecOps AI — Admin Portal</title>
+<style>
+:root{
+  --bg:#070b16;--panel:#0d1324;--panel2:#111a2e;--line:#24304a;
+  --text:#f5f7ff;--muted:#9ba8c2;--accent:#8b5cf6;--accent2:#22d3ee;
+  --good:#34d399;--warn:#fbbf24;--bad:#fb7185;
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(135deg,#070b16,#0b1020 55%,#10132a);
+color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+.topbar{height:72px;border-bottom:1px solid var(--line);background:rgba(7,11,22,.9);
+display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20;backdrop-filter:blur(12px)}
+.logo{font-size:20px;font-weight:800;letter-spacing:-.4px}.logo span{color:var(--accent2)}
+.top-actions{display:flex;gap:10px;align-items:center}.user{color:var(--muted);font-size:13px}
+.btn{border:1px solid var(--line);background:#121b30;color:var(--text);padding:9px 14px;border-radius:9px;cursor:pointer}
+.btn:hover{border-color:#53627f}.btn.primary{background:linear-gradient(135deg,#7c3aed,#2563eb);border:0}
+.btn.danger{color:#fecdd3;border-color:#5b2632;background:#26121a}
+.layout{display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 72px)}
+aside{border-right:1px solid var(--line);padding:22px 14px;background:rgba(10,15,28,.55)}
+.nav-title{font-size:11px;color:#64728d;text-transform:uppercase;letter-spacing:1.2px;padding:8px 12px}
+.nav button{display:block;width:100%;text-align:left;background:transparent;border:0;color:#aeb9cf;
+padding:11px 12px;border-radius:9px;cursor:pointer;margin:2px 0}.nav button:hover,.nav button.active{background:#151f35;color:#fff}
+main{padding:28px;max-width:1500px;width:100%;margin:auto}
+h1{margin:0 0 4px;font-size:28px}.subtitle{color:var(--muted);margin-bottom:24px}
+.status{display:none;padding:12px 14px;border:1px solid #30405e;border-radius:10px;background:#101a2d;margin-bottom:18px}
+.status.show{display:block}.status.error{border-color:#6b2938;color:#fecdd3}.status.success{border-color:#1d5a48;color:#a7f3d0}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:linear-gradient(180deg,#10182b,#0c1323);
+border:1px solid var(--line);border-radius:14px;padding:18px}.stat-label{color:var(--muted);font-size:13px}.stat{font-size:29px;font-weight:800;margin-top:5px}
+.section{margin-top:22px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.section h2{font-size:18px;margin:0}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:760px;background:#0c1323}th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #1d2740}
+th{color:#8492ad;font-size:12px;text-transform:uppercase;letter-spacing:.6px}td{color:#dbe2f0}tr:last-child td{border-bottom:0}
+.badge{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:11px;border:1px solid #31405d}
+.badge.good{color:#a7f3d0;border-color:#245c4d;background:#0d261f}.badge.warn{color:#fde68a;border-color:#66501c;background:#261f0c}
+.badge.bad{color:#fecdd3;border-color:#652b38;background:#281219}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.lab{display:grid;grid-template-columns:1fr 1fr;gap:16px}.lab h3{margin:0 0 6px}.lab p{color:var(--muted);margin:0}
+code{background:#070c17;padding:2px 5px;border-radius:5px;color:#b7c5df}
+.hidden{display:none!important}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.modal.show{display:flex}.modal-box{width:min(620px,100%);background:#0d1527;border:1px solid var(--line);border-radius:15px;padding:22px}
+.modal-box h3{margin:0 0 18px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}
+label{font-size:12px;color:#95a2ba}input,select{background:#080e1c;color:#fff;border:1px solid #2a3752;border-radius:8px;padding:10px}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}aside{display:none}.grid{grid-template-columns:repeat(2,1fr)}.lab{grid-template-columns:1fr}}
+@media(max-width:560px){main{padding:18px}.grid{grid-template-columns:1fr}.topbar{padding:0 15px}.user{display:none}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+
+.account-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.quick{cursor:pointer;text-align:left;color:var(--text);appearance:none;-webkit-appearance:none}.quick:hover{border-color:#53627f;background:linear-gradient(180deg,#121d33,#0e1729)}.quick:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}.quick strong{display:block;margin-bottom:4px;color:var(--text)}.quick span{display:block;font-size:12px;color:var(--muted)}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.toolbar input,.toolbar select{min-width:160px}.kpi{font-size:12px;color:var(--muted)}.kpi strong{color:var(--text);font-size:18px;margin-right:4px}.split{display:grid;grid-template-columns:1.4fr .8fr;gap:16px}.notice{padding:14px;border:1px solid #30405e;border-radius:12px;background:#0d172a}.notice strong{display:block;margin-bottom:4px}.recording-actions{display:flex;gap:8px;flex-wrap:wrap}.pill{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:10px;border:1px solid #33425f;color:#b9c5db}.pill.free{color:#a7f3d0;border-color:#245c4d;background:#0d261f}.pill.paid{color:#fde68a;border-color:#66501c;background:#261f0c}.small{font-size:12px;color:var(--muted)}
+@media(max-width:900px){.account-grid,.quick-grid,.split{grid-template-columns:1fr}.toolbar input,.toolbar select{min-width:0;flex:1}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">NextGen <span>DevSecOps AI</span></div>
+  <div class="top-actions">
+    <span class="user" id="userEmail">Checking admin access…</span>
+    <button class="btn" id="siteBtn">Website</button>
+    <button class="btn danger" id="logoutBtn">Logout</button>
+  </div>
+</header>
+
+<div class="layout">
+<aside>
+  <div class="nav-title">Administration</div>
+  <nav class="nav">
+    <button class="active" data-section="overview">▦ Overview</button>
+    <button data-section="students">👥 Students</button>
+    <button data-section="courses">📚 Courses</button>
+    <button data-section="batches">🗓 Batches</button>
+    <button data-section="assignments">✓ Assignments</button>
+    <button data-section="recordings">🎥 Session Recordings</button>
+    <button data-section="certificates">🏆 Certificates</button>
+    <button data-section="cloud">☁ NEXTGEN Cloud Lab</button>
+    <button data-section="settings">⚙ My Account</button>
+  </nav>
+</aside>
+
+<main>
+  <div id="status" class="status"></div>
+
+  <section id="overview" class="page">
+    <div class="section-head"><div><h1>Admin Dashboard</h1><div class="subtitle">Training operations at a glance.</div></div><button class="btn primary" id="refreshAll">↻ Refresh</button></div>
+    <div class="grid">
+      <div class="card"><div class="stat-label">Students</div><div class="stat" id="statStudents">—</div><div class="kpi" id="activeStudentsKpi">Active: —</div></div>
+      <div class="card"><div class="stat-label">Courses</div><div class="stat" id="statCourses">—</div></div>
+      <div class="card"><div class="stat-label">Batches</div><div class="stat" id="statBatches">—</div></div>
+      <div class="card"><div class="stat-label">Assignments</div><div class="stat" id="statAssignments">—</div></div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h2>Quick Actions</h2></div>
+      <div class="quick-grid">
+        <button class="card quick" data-go="students"><strong>👥 Manage Students</strong><span>Search accounts, activate/deactivate access and review student details.</span></button>
+        <button class="card quick" data-go="recordings"><strong>🎥 Publish Session Recording</strong><span>Add a class recording and control its published state.</span></button>
+        <button class="card quick" data-go="certificates"><strong>🏆 Issue Certificate</strong><span>Generate a certificate number and issue course completion credentials.</span></button>
+      </div>
+    </div>
+    <div class="section split">
+      <div class="notice"><strong>🔐 Admin Security</strong><span class="small">Your portal access requires Supabase Authentication plus <code>role = admin</code> and <code>status = active</code>. RLS remains the database security boundary.</span></div>
+      <div class="notice"><strong>☁ Cloud Lab</strong><span class="small">Free browser practice and paid AWS training environments are kept clearly separate.</span></div>
+    </div>
+  </section>
+
+  <section id="students" class="page hidden">
+    <div class="section-head"><div><h1>Students</h1><div class="subtitle">Manage LMS access and student accounts.</div></div><div class="toolbar"><button class="btn" id="inviteStudentBtn">+ Invite Student</button><button class="btn primary" id="refreshStudents">↻ Refresh</button></div></div>
+    <div class="card" style="margin-bottom:14px"><div class="toolbar"><input id="studentSearch" placeholder="Search name, email, phone or ID…"><select id="studentStatusFilter"><option value="all">All statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select><select id="studentRoleFilter"><option value="student">Students</option><option value="all">All roles</option><option value="admin">Admins</option></select></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Student ID</th><th>Status</th><th>Role</th><th>Cloud Lab</th><th>Action</th></tr></thead><tbody id="studentsBody"></tbody></table></div>
+  </section>
+
+  <section id="courses" class="page hidden">
+    <div class="section-head"><div><h1>Courses</h1><div class="subtitle">Courses available in the training platform.</div></div><button class="btn primary" id="refreshCourses">Refresh</button></div>
+    <div class="table-wrap"><table><thead><tr><th>Course</th><th>Slug</th><th>Created</th></tr></thead><tbody id="coursesBody"></tbody></table></div>
+  </section>
+
+  <section id="batches" class="page hidden">
+    <div class="section-head"><div><h1>Batches</h1><div class="subtitle">Create and manage training batches.</div></div><div class="toolbar"><button class="btn" id="refreshBatches">↻ Refresh</button><button class="btn primary" id="newBatchBtn">+ New Batch</button></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Name</th><th>Course</th><th>Start</th><th>End</th><th>Status</th><th>Action</th></tr></thead><tbody id="batchesBody"></tbody></table></div>
+  </section>
+
+  <section id="assignments" class="page hidden">
+    <div class="section-head"><div><h1>Assignments</h1><div class="subtitle">Create and manage course assignments.</div></div><div class="toolbar"><button class="btn" id="refreshAssignments">↻ Refresh</button><button class="btn primary" id="newAssignmentBtn">+ New Assignment</button></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Title</th><th>Course</th><th>Due Date</th><th>Material</th></tr></thead><tbody id="assignmentsBody"></tbody></table></div>
+  </section>
+
+  <section id="recordings" class="page hidden">
+    <div class="section-head"><div><h1>Session Recordings</h1><div class="subtitle">Publish class recordings to enrolled students.</div></div><div class="toolbar"><button class="btn" id="refreshRecordings">↻ Refresh</button><button class="btn primary" id="newRecordingBtn">+ Add Recording</button></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Title</th><th>Course</th><th>Date</th><th>Duration</th><th>Visibility</th><th>Action</th></tr></thead><tbody id="recordingsBody"></tbody></table></div>
+  </section>
+
+  <section id="certificates" class="page hidden">
+    <div class="section-head"><div><h1>Certificates</h1><div class="subtitle">Issue and track course completion certificates.</div></div><div class="toolbar"><button class="btn" id="refreshCertificates">↻ Refresh</button><button class="btn primary" id="newCertificateBtn">+ Generate Certificate</button></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Student</th><th>Course</th><th>Certificate No.</th><th>Issued</th></tr></thead><tbody id="certificatesBody"></tbody></table></div>
+  </section>
+
+  <section id="cloud" class="page hidden">
+    <h1>☁ NEXTGEN CLOUD LAB</h1><div class="subtitle">NEXTGEN Cloud Lab — free browser practice and paid AWS training environments.</div>
+    <div class="lab">
+      <div class="card"><div class="pill free">FREE PRACTICE</div><h3>FREE BROWSER LAB</h3><p>Use free browser-based DevOps / DevSecOps practice environments such as Killercoda. No AWS account is required.</p><p class="small" style="margin-top:12px">Best for: quick demos, labs and student practice.</p><p style="margin-top:14px"><a class="btn primary" href="https://killercoda.com/playgrounds" target="_blank" rel="noopener">🎮 Launch Free Playground →</a></p></div>
+      <div class="card"><div class="pill paid">PAID TRAINING LAB</div><h3>☁ NEXTGEN AWS CLOUD LAB</h3><p>Dedicated AWS environments for enrolled training participants who need longer cloud-based hands-on practice.</p><p class="small" style="margin-top:12px">AWS Mumbai <code>ap-south-1</code> • Amazon Linux 2023 • t3.micro • SSM browser terminal • 2 / 4 / 6 hour sessions.</p><p style="margin-top:12px"><span class="badge warn">Coming Soon</span></p></div>
+    </div>
+    <div class="section"><div class="notice"><strong>Lab lifecycle</strong><span class="small">AWS lab environments should be time-bound and automatically stopped when the selected session expires. The admin portal can later be extended with provisioning, session tracking and expiry controls.</span></div></div>
+  </section>
+
+  <section id="settings" class="page hidden">
+    <h1>My Account</h1><div class="subtitle">Administrator profile, access and security.</div>
+    <div class="account-grid">
+      <div class="card"><div class="stat-label">Account</div><h3 id="accountName">Administrator</h3><div class="small" id="accountEmail">—</div></div>
+      <div class="card"><div class="stat-label">Role</div><h3>Administrator</h3><span class="badge good">admin / active</span></div>
+      <div class="card"><div class="stat-label">Supabase Project</div><div class="small" id="projectUrl">—</div></div>
+    </div>
+    <div class="section split">
+      <div class="card"><h3>Security</h3><p class="small">Frontend code uses only the Supabase Publishable/Anon key. Privileged operations must remain server-side.</p><button class="btn primary" id="resetPasswordBtn">Send Password Reset Email</button></div>
+      <div class="card"><h3>Session</h3><p class="small" id="sessionInfo">Authenticated administrator session.</p><button class="btn danger" id="logoutSettingsBtn">Logout</button></div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<div class="modal" id="batchModal">
+  <div class="modal-box">
+    <h3>Create Batch</h3>
+    <form id="batchForm">
+      <div class="form-grid">
+        <div class="field full"><label>Batch name</label><input id="batchName" required placeholder="DevSecOps Batch 01"></div>
+        <div class="field full"><label>Course</label><select id="batchCourse" required></select></div>
+        <div class="field"><label>Start date</label><input id="batchStart" type="date"></div>
+        <div class="field"><label>End date</label><input id="batchEnd" type="date"></div>
+        <div class="field full"><label>Status</label><select id="batchStatus"><option value="planned">Planned</option><option value="active">Active</option><option value="completed">Completed</option></select></div>
+      </div>
+      <div class="modal-actions"><button type="button" class="btn" data-close="batchModal">Cancel</button><button class="btn primary">Create Batch</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="assignmentModal">
+  <div class="modal-box">
+    <h3>Create Assignment</h3>
+    <form id="assignmentForm">
+      <div class="form-grid">
+        <div class="field full"><label>Title</label><input id="assignmentTitle" required placeholder="Secure CI/CD Pipeline"></div>
+        <div class="field full"><label>Course</label><select id="assignmentCourse" required></select></div>
+        <div class="field"><label>Due date</label><input id="assignmentDue" type="date"></div>
+        <div class="field"><label>Material path</label><input id="assignmentMaterial" placeholder="curriculum/..."></div>
+      </div>
+      <div class="modal-actions"><button type="button" class="btn" data-close="assignmentModal">Cancel</button><button class="btn primary">Create Assignment</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="recordingModal"><div class="modal-box"><h3>Add Session Recording</h3><form id="recordingForm"><div class="form-grid"><div class="field full"><label>Session title</label><input id="recordingTitle" required placeholder="DevSecOps Session 01"></div><div class="field full"><label>Course</label><select id="recordingCourse" required></select></div><div class="field"><label>Session date</label><input id="recordingDate" type="date" required></div><div class="field"><label>Duration (minutes)</label><input id="recordingDuration" type="number" min="1"></div><div class="field full"><label>Zoom recording URL</label><input id="recordingUrl" type="url" required placeholder="https://zoom.us/rec/..."></div><div class="field"><label>Passcode</label><input id="recordingPasscode"></div><div class="field"><label>Published</label><select id="recordingPublished"><option value="true">Published</option><option value="false">Unpublished</option></select></div><div class="field full"><label>Description</label><input id="recordingDescription" placeholder="Session highlights"></div></div><div class="modal-actions"><button type="button" class="btn" data-close="recordingModal">Cancel</button><button class="btn primary">Save Recording</button></div></form></div></div>
+<div class="modal" id="inviteStudentModal">
+  <div class="modal-box">
+    <div class="section-head"><div><h3>Invite Student</h3><div class="subtitle">Create or reuse a Supabase Auth account, save the student profile and enroll them in a course.</div></div><button class="btn" type="button" data-close="inviteStudentModal">×</button></div>
+    <form id="inviteStudentForm">
+      <div class="form-grid">
+        <div class="field"><label>Full name *</label><input id="inviteName" required placeholder="Student name"></div>
+        <div class="field"><label>Email *</label><input id="inviteEmail" type="email" required placeholder="student@example.com"></div>
+        <div class="field"><label>Phone</label><input id="invitePhone" placeholder="Optional"></div>
+        <div class="field"><label>Student ID</label><input id="inviteStudentId" placeholder="Optional"></div>
+        <div class="field"><label>Course *</label><select id="inviteCourse" required></select></div>
+        <div class="field"><label>Batch</label><select id="inviteBatch"><option value="">No batch</option></select></div>
+      </div>
+      <p class="small" style="margin-top:14px">The browser never receives the service-role key. Student creation and enrollment are handled by the <code>invite-student</code> Supabase Edge Function.</p>
+      <div class="modal-actions"><button type="button" class="btn" data-close="inviteStudentModal">Cancel</button><button class="btn primary" type="submit">Send Invitation</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="certificateModal"><div class="modal-box"><h3>Generate Certificate</h3><form id="certificateForm"><div class="form-grid"><div class="field full"><label>Student</label><select id="certificateStudent" required></select></div><div class="field full"><label>Course</label><select id="certificateCourse" required></select></div><div class="field"><label>Certificate number</label><input id="certificateNumber" placeholder="NGDAI-2026-000001"></div><div class="field"><label>Issue date</label><input id="certificateDate" type="date" required></div></div><div class="modal-actions"><button type="button" class="btn" data-close="certificateModal">Cancel</button><button class="btn primary">Issue Certificate</button></div></form></div></div>
+
+<div class="modal" id="assignCourseModal">
+  <div class="modal-box">
+    <h3>Assign Course</h3>
+    <p class="small" id="assignCourseStudentLabel" style="margin:-4px 0 16px">Select a course for this student.</p>
+    <form id="assignCourseForm">
+      <input type="hidden" id="assignCourseStudentId">
+      <div class="form-grid">
+        <div class="field full"><label>Course</label><select id="assignCourseCourse" required></select></div>
+        <div class="field full"><label>Batch (Optional)</label><select id="assignCourseBatch"><option value="">No batch</option></select></div>
+        <div class="field full"><label>Enrollment Status</label><select id="assignCourseStatus"><option value="active">Active</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></div>
+      </div>
+      <p class="small" style="margin-top:12px">If the student is already enrolled in this course, the existing enrollment will be updated instead of creating a duplicate.</p>
+      <div class="modal-actions"><button type="button" class="btn" data-close="assignCourseModal">Cancel</button><button class="btn primary" type="submit">Assign Course</button></div>
+    </form>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>if(!window.supabase){document.write('<script src="https://unpkg.com/@supabase/supabase-js@2"><\/script>')}</script>
+<script>
+// Frontend-safe fallback. The same values are also maintained in js/supabase-config.js.
+window.NEXTGEN_SUPABASE_URL = window.NEXTGEN_SUPABASE_URL || 'https://hkpvigvtdckxhmnsvdrh.supabase.co';
+window.NEXTGEN_SUPABASE_ANON_KEY = window.NEXTGEN_SUPABASE_ANON_KEY || 'sb_publishable_JlIrNdsEXgjikrh9F_YxYg_DBrgimoQ';
+window.NEXTGEN_SUPABASE_CONFIGURED = Boolean(window.NEXTGEN_SUPABASE_URL && window.NEXTGEN_SUPABASE_ANON_KEY);
+</script>
+<script src="./js/supabase-config.js?v=18"></script>
+
+<script>
+(() => {
+  'use strict';
+
+  const statusEl = document.getElementById('status');
+  let sb = null;
+  let currentUser = null;
+  let coursesCache = [];
+  let batchesCache = [];
+  let studentsCache = [];
+  let recordingsCache = [];
+  let certificatesCache = [];
+
+  function showStatus(message, type='') {
+    statusEl.textContent = message;
+    statusEl.className = 'status show ' + type;
+  }
+
+  function clearStatus() {
+    statusEl.className = 'status';
+    statusEl.textContent = '';
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+    }[c]));
+  }
+
+  function badge(value) {
+    const v = String(value ?? '').toLowerCase();
+    const cls = ['active','completed'].includes(v) ? 'good' :
+                ['inactive','cancelled'].includes(v) ? 'bad' : 'warn';
+    return `<span class="badge ${cls}">${escapeHtml(value || '—')}</span>`;
+  }
+
+  function getClient() {
+    if (sb && typeof sb.from === 'function' && sb.auth) return sb;
+
+    if (!window.NEXTGEN_SUPABASE_CONFIGURED) {
+      throw new Error('Supabase is not configured. Check admin-portal/js/supabase-config.js.');
+    }
+    if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+      throw new Error('Supabase library failed to load. Please refresh the page.');
+    }
+    if (!window.NEXTGEN_SUPABASE_URL || !window.NEXTGEN_SUPABASE_ANON_KEY) {
+      throw new Error('Supabase URL or publishable key is missing.');
+    }
+
+    sb = window.supabase.createClient(
+      window.NEXTGEN_SUPABASE_URL,
+      window.NEXTGEN_SUPABASE_ANON_KEY
+    );
+    return sb;
+  }
+
+  async function requireAdmin() {
+    const client = getClient();
+
+    const { data: sessionData, error: sessionError } = await client.auth.getSession();
+    if (sessionError) throw sessionError;
+    if (!sessionData.session) {
+      location.replace('./login.html');
+      return false;
+    }
+
+    const { data: userData, error: userError } = await client.auth.getUser();
+    if (userError || !userData.user) {
+      await client.auth.signOut();
+      location.replace('./login.html');
+      return false;
+    }
+
+    currentUser = userData.user;
+
+    // Authoritative admin check: SECURITY DEFINER RPC.
+    // This avoids false denials caused by browser-side profile RLS.
+    const { data: isAdmin, error: adminCheckError } = await client.rpc('is_admin');
+
+    console.info('NextGen Admin authorization:', {
+      supabaseUrl: window.NEXTGEN_SUPABASE_URL,
+      authUserId: currentUser.id,
+      authEmail: currentUser.email || '',
+      isAdmin,
+      adminCheckError
+    });
+
+    if (adminCheckError) {
+      throw new Error(
+        'Admin authorization check failed.\n\n' +
+        'Supabase: ' + window.NEXTGEN_SUPABASE_URL + '\n' +
+        'Auth User ID: ' + currentUser.id + '\n' +
+        'Email: ' + (currentUser.email || 'unknown') + '\n\n' +
+        'RPC error: ' + (adminCheckError.message || adminCheckError.code || 'is_admin() failed') + '\n\n' +
+        'Run the current supabase/schema.sql in Supabase SQL Editor.'
+      );
+    }
+
+    if (isAdmin !== true) {
+      const { data: profile, error: profileError } = await client
+        .from('profiles')
+        .select('id,full_name,role,status')
+        .eq('id', currentUser.id)
+        .maybeSingle();
+
+      if (profileError) {
+        throw new Error(
+          'Admin authorization returned FALSE and the profile could not be read.\n\n' +
+          'Auth User ID: ' + currentUser.id + '\n' +
+          'Email: ' + (currentUser.email || 'unknown') + '\n' +
+          'Profile query error: ' + (profileError.message || profileError.code || 'unknown')
+        );
+      }
+
+      throw new Error(
+        'Admin access denied.\n\n' +
+        'Email: ' + (currentUser.email || 'unknown') + '\n' +
+        'Auth User ID: ' + currentUser.id + '\n' +
+        'Profile ID: ' + (profile?.id || 'NOT FOUND') + '\n' +
+        'Role: ' + (profile?.role ?? 'NULL') + '\n' +
+        'Status: ' + (profile?.status ?? 'NULL') + '\n\n' +
+        'Required: role = admin and status = active.'
+      );
+    }
+
+    // Profile is optional for authorization; RPC is authoritative.
+    const { data: profile } = await client
+      .from('profiles')
+      .select('id,full_name,role,status')
+      .eq('id', currentUser.id)
+      .maybeSingle();
+
+    document.getElementById('userEmail').textContent =
+      currentUser.email || profile?.full_name || 'Administrator';
+    document.getElementById('accountName').textContent =
+      profile?.full_name || 'Administrator';
+    document.getElementById('accountEmail').textContent =
+      currentUser.email || '—';
+    document.getElementById('sessionInfo').textContent =
+      `Signed in as ${currentUser.email || profile?.full_name || 'Administrator'}.`;
+    document.getElementById('projectUrl').textContent =
+      window.NEXTGEN_SUPABASE_URL;
+
+    return true;
+  }
+
+  async function loadCourses() {
+    const client = getClient();
+    const { data, error } = await client.from('courses').select('id,name,slug,description,created_at').order('created_at', {ascending:false});
+    if (error) throw error;
+    coursesCache = data || [];
+    document.getElementById('statCourses').textContent = coursesCache.length;
+    renderCourses();
+    fillCourseSelects();
+    fillAdvancedSelects();
+  }
+
+  async function loadStudents() {
+    const client = getClient();
+    let data = null;
+    let rpcError = null;
+
+    // Preferred path: an admin-only RPC can safely join auth.users to profiles
+    // and return the Auth email together with the student's profile.
+    try {
+      const rpc = await client.rpc('admin_list_students_with_email');
+      data = rpc.data;
+      rpcError = rpc.error;
+    } catch (e) {
+      rpcError = e;
+    }
+
+    // Backward-compatible fallback for projects where the email RPC has not
+    // been deployed yet. The profile table itself never contains email.
+    if (rpcError || !Array.isArray(data)) {
+      const fallback = await client.from('profiles')
+        .select('*')
+        .order('created_at', {ascending:false});
+      if (fallback.error) throw fallback.error;
+      data = fallback.data || [];
+    }
+
+    studentsCache = (data || []).map(s => ({
+      ...s,
+      id: s.id,
+      email: s.email || s.auth_email || '',
+      full_name: s.full_name || s.name || s.student_name || '',
+      student_id: s.student_id || s.studentId || s.registration_id || '',
+      phone: s.phone || s.mobile || s.phone_number || '',
+      role: String(s.role || 'student').toLowerCase(),
+      status: String(s.status || 'active').toLowerCase()
+    }));
+
+    const studentCount = studentsCache.filter(s => s.role === 'student').length;
+    const activeCount = studentsCache.filter(s => s.role === 'student' && s.status === 'active').length;
+    document.getElementById('statStudents').textContent = studentCount;
+    document.getElementById('activeStudentsKpi').innerHTML = `<strong>${activeCount}</strong>active students`;
+    applyStudentFilters();
+    fillAdvancedSelects();
+  }
+
+  async function loadBatches() {
+    const client = getClient();
+    const { data, error } = await client.from('batches')
+      .select('*,courses(name)')
+      .order('created_at', {ascending:false});
+    if (error) throw error;
+    batchesCache = data || [];
+    renderBatches(batchesCache);
+    document.getElementById('statBatches').textContent = batchesCache.length;
+    filterInviteBatches();
+  }
+
+  async function loadAssignments() {
+    const client = getClient();
+    const { data, error } = await client.from('assignments')
+      .select('id,title,description,due_date,material_path,course_id,courses(name)')
+      .order('due_date', {ascending:true});
+    if (error) throw error;
+    renderAssignments(data || []);
+    document.getElementById('statAssignments').textContent = (data || []).length;
+  }
+
+  async function loadRecordings() {
+    const client = getClient();
+    const { data, error } = await client.from('recordings').select('id,title,description,recording_date,duration_minutes,zoom_url,zoom_passcode,published,course_id,courses(name)').order('recording_date',{ascending:false});
+    if(error) throw error;
+    recordingsCache=data||[]; renderRecordings();
+  }
+
+  async function loadCertificates() {
+    const client = getClient();
+    const { data, error } = await client.from('certificates')
+      .select('id,student_id,course_id,certificate_number,issued_at,file_path')
+      .order('issued_at',{ascending:false});
+    if(error) throw error;
+    certificatesCache = data || [];
+    renderCertificates();
+  }
+
+  function applyStudentFilters(){
+    const q=(document.getElementById('studentSearch')?.value||'').trim().toLowerCase();
+    const st=document.getElementById('studentStatusFilter')?.value||'all';
+    const role=document.getElementById('studentRoleFilter')?.value||'student';
+    const rows=studentsCache.filter(s => (role==='all'||s.role===role) && (st==='all'||s.status===st) && (!q||[s.full_name,s.email,s.phone,s.student_id].some(v=>String(v||'').toLowerCase().includes(q))));
+    renderStudents(rows);
+  }
+
+  function renderRecordings(){
+    const body=document.getElementById('recordingsBody');
+    if(!recordingsCache.length){body.innerHTML='<tr><td colspan="6" class="empty">No session recordings found.</td></tr>';return;}
+    body.innerHTML=recordingsCache.map(r=>`<tr><td>${escapeHtml(r.title||'—')}</td><td>${escapeHtml(r.courses?.name||'—')}</td><td>${escapeHtml(r.recording_date||'—')}</td><td>${r.duration_minutes?escapeHtml(r.duration_minutes)+' min':'—'}</td><td>${r.published?badge('published'):badge('unpublished')}</td><td>${r.zoom_url?`<a class="btn" href="${escapeHtml(r.zoom_url)}" target="_blank" rel="noopener">Open</a>`:'—'}</td></tr>`).join('');
+  }
+
+  function renderCertificates(){
+    const body=document.getElementById('certificatesBody');
+    if(!certificatesCache.length){body.innerHTML='<tr><td colspan="4" class="empty">No certificates issued yet.</td></tr>';return;}
+    const studentMap=new Map((studentsCache||[]).map(s=>[String(s.id),s]));
+    const courseMap=new Map((coursesCache||[]).map(c=>[String(c.id),c]));
+    body.innerHTML=certificatesCache.map(c=>{
+      const student=studentMap.get(String(c.student_id));
+      const course=courseMap.get(String(c.course_id));
+      const studentName=student?.full_name || student?.email || student?.student_id || `Student (${String(c.student_id).slice(0,8)})`;
+      const studentEmail=student?.email ? ` — ${student.email}` : '';
+      const courseName=course?.name || course?.slug || `Course (${String(c.course_id).slice(0,8)})`;
+      return `<tr><td>${escapeHtml(studentName + studentEmail)}</td><td>${escapeHtml(courseName)}</td><td>${escapeHtml(c.certificate_number||'—')}</td><td>${c.issued_at?new Date(c.issued_at).toLocaleDateString('en-IN'):'—'}</td></tr>`;
+    }).join('');
+  }
+
+  function fillAdvancedSelects(){
+    const courseOptions = coursesCache.map(c =>
+      `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name || c.title || 'Course')}</option>`
+    ).join('');
+
+    ['recordingCourse','certificateCourse'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = courseOptions || '<option value="">No courses available</option>';
+    });
+
+    const students = studentsCache.filter(s => String(s.role).toLowerCase() === 'student');
+    const studentOptions = students.map(s => {
+      const name = String(s.full_name || '').trim() || 'Unnamed Student';
+      const email = s.email ? ` — ${s.email}` : '';
+      const id = s.student_id ? ` — ${s.student_id}` : '';
+      const phone = s.phone ? ` — ${s.phone}` : '';
+      const status = s.status ? ` — ${s.status}` : '';
+      return `<option value="${escapeHtml(s.id)}">${escapeHtml(name + email + id + phone + status)}</option>`;
+    }).join('');
+
+    const el = document.getElementById('certificateStudent');
+    if (el) {
+      el.innerHTML = studentOptions || '<option value="">No student profiles found</option>';
+      el.disabled = !studentOptions;
+    }
+  }
+
+  function renderStudents(rows) {
+    const body = document.getElementById('studentsBody');
+    if (!rows.length) { body.innerHTML = '<tr><td colspan="8" class="empty">No students found. Check the role/status filters.</td></tr>'; return; }
+    body.innerHTML = rows.map(s => {
+      const active = String(s.status || '').toLowerCase() === 'active';
+      const cloudLab = active ? '<span class="badge good">FREE PLAYGROUND</span>' : '<span class="badge bad">DISABLED</span>';
+      return `<tr>
+        <td><strong>${escapeHtml(s.full_name || '—')}</strong></td>
+        <td>${escapeHtml(s.email || '—')}</td>
+        <td>${escapeHtml(s.phone || '—')}</td>
+        <td>${escapeHtml(s.student_id || '—')}</td>
+        <td>${badge(s.status)}</td>
+        <td>${badge(s.role)}</td>
+        <td>${cloudLab}</td>
+        <td><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn" onclick="editStudentName('${s.id}')">Edit Name</button><button class="btn primary" onclick="assignCourse('${s.id}')">Assign Course</button><button class="btn" onclick="toggleStudentStatus('${s.id}','${active ? 'inactive' : 'active'}')">${active ? 'Deactivate' : 'Activate'}</button></div></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderCourses() {
+    const body = document.getElementById('coursesBody');
+    if (!coursesCache.length) { body.innerHTML = '<tr><td colspan="4" class="empty">No courses found.</td></tr>'; return; }
+    body.innerHTML = coursesCache.map(c => `
+      <tr><td>${escapeHtml(c.name || c.title || '—')}</td><td>${escapeHtml(c.slug || '—')}</td>
+      <td>${escapeHtml(c.created_at ? new Date(c.created_at).toLocaleDateString('en-IN') : '—')}</td></tr>`).join('');
+  }
+
+  function renderBatches(rows) {
+    const body = document.getElementById('batchesBody');
+    if (!rows.length) { body.innerHTML = '<tr><td colspan="6" class="empty">No batches found.</td></tr>'; return; }
+    body.innerHTML = rows.map(b => `
+      <tr><td>${escapeHtml(b.name || '—')}</td><td>${escapeHtml(b.courses?.name || '—')}</td>
+      <td>${escapeHtml(b.start_date || '—')}</td><td>${escapeHtml(b.end_date || '—')}</td>
+      <td>${badge(b.status)}</td><td>—</td></tr>`).join('');
+  }
+
+  function renderAssignments(rows) {
+    const body = document.getElementById('assignmentsBody');
+    if (!rows.length) { body.innerHTML = '<tr><td colspan="4" class="empty">No assignments found.</td></tr>'; return; }
+    body.innerHTML = rows.map(a => `
+      <tr><td>${escapeHtml(a.title || a.name || '—')}</td><td>${escapeHtml(a.courses?.name || '—')}</td>
+      <td>${escapeHtml(a.due_date || '—')}</td><td>${escapeHtml(a.material_path || '—')}</td></tr>`).join('');
+  }
+
+  function fillStudentEnrollmentSelects() {
+    const course = document.getElementById('inviteCourse');
+    const batch = document.getElementById('inviteBatch');
+    if (!course || !batch) return;
+    const current = course.value;
+    course.innerHTML = '<option value="">Select course</option>' + coursesCache.map(c =>
+      `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name || c.title || 'Course')}</option>`).join('');
+    if (current && coursesCache.some(c => String(c.id) === String(current))) course.value = current;
+    filterInviteBatches();
+  }
+
+  function filterInviteBatches() {
+    const courseId = document.getElementById('inviteCourse')?.value || '';
+    const batch = document.getElementById('inviteBatch');
+    if (!batch) return;
+    batch.innerHTML = '<option value="">No batch</option>' + batchesCache
+      .filter(b => !courseId || String(b.course_id || '') === String(courseId))
+      .map(b => `<option value="${escapeHtml(b.id)}">${escapeHtml(b.name || 'Batch')}${b.status ? ' — ' + escapeHtml(b.status) : ''}</option>`).join('');
+  }
+
+  async function prepareCertificateForm() {
+    try {
+      getClient();
+      await Promise.all([loadCourses(), loadStudents()]);
+      fillAdvancedSelects();
+      const dateEl = document.getElementById('certificateDate');
+      if (dateEl) dateEl.value = new Date().toISOString().slice(0,10);
+      const numberEl = document.getElementById('certificateNumber');
+      if (numberEl) numberEl.value = `NGDAI-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;
+      const studentEl = document.getElementById('certificateStudent');
+      if (!studentEl || studentEl.disabled || !studentEl.options.length || !studentEl.options[0].value) {
+        throw new Error('No student profiles are available. Open Students and verify the student role, or use + Invite Student.');
+      }
+      document.getElementById('certificateModal').classList.add('show');
+    } catch (e) {
+      console.error(e);
+      showStatus(e.message || 'Unable to load students for certificate generation.', 'error');
+    }
+  }
+
+  function fillCourseSelects() {
+    const options = coursesCache.map(c =>
+      `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name || c.title)}</option>`).join('');
+    document.getElementById('batchCourse').innerHTML = options;
+    document.getElementById('assignmentCourse').innerHTML = options;
+  }
+
+  async function refreshAll() {
+    clearStatus();
+    try {
+      getClient();
+      const results = await Promise.allSettled([
+        loadCourses(),
+        loadStudents(),
+        loadBatches(),
+        loadAssignments(),
+        loadRecordings(),
+        loadCertificates()
+      ]);
+      const failures = results.filter(r => r.status === 'rejected');
+      fillAdvancedSelects();
+      renderCertificates();
+      if (failures.length) {
+        const messages = failures.map(r => r.reason?.message || 'Unknown error').join(' | ');
+        showStatus(`Some admin data could not be loaded: ${messages}`, 'error');
+      } else {
+        showStatus('Admin dashboard refreshed successfully.', 'success');
+        setTimeout(clearStatus, 2500);
+      }
+    } catch (e) {
+      console.error(e);
+      showStatus(e.message || 'Unable to load admin data.', 'error');
+    }
+  }
+
+  window.editStudentName = async (id) => {
+    try {
+      const student = (studentsCache || []).find(s => String(s.id) === String(id));
+      if (!student) throw new Error('Student profile not found.');
+      const currentName = String(student.full_name || '').trim();
+      const name = window.prompt("Enter the student\'s full name:", currentName);
+      if (name === null) return;
+      const fullName = name.trim().replace(/\s+/g, ' ');
+      if (!fullName) throw new Error('Student name cannot be empty.');
+      if (fullName.length < 2) throw new Error("Please enter the student's complete name.");
+      if (fullName === currentName) return;
+
+      const client = getClient();
+      const { error } = await client.from('profiles')
+        .update({ full_name: fullName })
+        .eq('id', id);
+      if (error) throw error;
+
+      showStatus(`Student name updated to ${fullName}.`, 'success');
+      await loadStudents();
+      fillAdvancedSelects();
+      await loadCertificates();
+    } catch (e) {
+      console.error(e);
+      showStatus(e.message || 'Unable to update student name.', 'error');
+    }
+  };
+
+  function populateAssignCourseBatches() {
+    const courseId = document.getElementById('assignCourseCourse')?.value;
+    const el = document.getElementById('assignCourseBatch');
+    if (!el) return;
+    const batches = (batchesCache || []).filter(b => !courseId || String(b.course_id || '') === String(courseId));
+    el.innerHTML = '<option value="">No batch</option>' + batches.map(b =>
+      `<option value="${escapeHtml(b.id)}">${escapeHtml(b.name || 'Batch')}${b.status ? ` — ${escapeHtml(b.status)}` : ''}</option>`
+    ).join('');
+  }
+
+  window.assignCourse = async (id) => {
+    try {
+      const student = (studentsCache || []).find(s => String(s.id) === String(id));
+      if (!student) throw new Error('Student profile not found.');
+      if (String(student.role || '').toLowerCase() !== 'student') throw new Error('Only student accounts can be assigned courses.');
+
+      document.getElementById('assignCourseStudentId').value = id;
+      const name = String(student.full_name || '').trim() || 'Unnamed Student';
+      const email = String(student.email || '').trim();
+      document.getElementById('assignCourseStudentLabel').textContent = `Student: ${name}${email ? ` — ${email}` : ''}`;
+
+      const courseEl = document.getElementById('assignCourseCourse');
+      courseEl.innerHTML = (coursesCache || []).map(c =>
+        `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name || c.title || c.slug || 'Course')}</option>`
+      ).join('');
+      if (!courseEl.options.length) throw new Error('No courses are available. Create a course first.');
+
+      populateAssignCourseBatches();
+      document.getElementById('assignCourseStatus').value = 'active';
+      document.getElementById('assignCourseModal').classList.add('show');
+    } catch (e) {
+      console.error(e);
+      showStatus(e.message || 'Unable to prepare course assignment.', 'error');
+    }
+  };
+
+  document.getElementById('assignCourseCourse').addEventListener('change', populateAssignCourseBatches);
+
+  document.getElementById('assignCourseForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    try {
+      const client = getClient();
+      const studentId = document.getElementById('assignCourseStudentId').value;
+      const courseId = document.getElementById('assignCourseCourse').value;
+      const batchId = document.getElementById('assignCourseBatch').value || null;
+      const status = document.getElementById('assignCourseStatus').value;
+      if (!studentId || !courseId) throw new Error('Student and course are required.');
+
+      // Use the admin-only SECURITY DEFINER RPC.
+      // This avoids browser-side enrollments INSERT/UPDATE RLS failures.
+      const { data: assignedId, error } = await client.rpc('admin_assign_course', {
+        target_student_id: studentId,
+        target_course_id: courseId,
+        target_batch_id: batchId,
+        target_status: status
+      });
+      if (error) throw error;
+      if (!assignedId) throw new Error('Course assignment did not return an enrollment ID.');
+
+      document.getElementById('assignCourseModal').classList.remove('show');
+      e.target.reset();
+      showStatus('Course assigned successfully. The student can now access the enrolled course when their account is active.', 'success');
+    } catch (err) {
+      console.error(err);
+      showStatus(err.message || 'Unable to assign course.', 'error');
+    }
+  });
+
+  window.toggleStudentStatus = async (id, status) => {
+    try {
+      const client = getClient();
+      const { error } = await client.from('profiles').update({status}).eq('id', id);
+      if (error) throw error;
+      showStatus(`Student status changed to ${status}.`, 'success');
+      await loadStudents();
+    } catch (e) {
+      console.error(e);
+      showStatus(e.message || 'Unable to update student.', 'error');
+    }
+  };
+
+  document.querySelectorAll('.nav button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.nav button').forEach(x => x.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+      document.getElementById(btn.dataset.section).classList.remove('hidden');
+    });
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    if (sb) await sb.auth.signOut();
+    location.replace('./login.html');
+  });
+
+  document.getElementById('siteBtn').addEventListener('click', () => {
+    location.href = '../';
+  });
+
+  async function safeRefresh(fn, successMessage) {
+    try {
+      await fn();
+      showStatus(successMessage, 'success');
+      setTimeout(clearStatus, 2000);
+    } catch (e) {
+      console.error(e);
+      showStatus(e.message || 'Refresh failed.', 'error');
+    }
+  }
+
+  document.getElementById('refreshStudents').addEventListener('click', () => safeRefresh(loadStudents, 'Students refreshed.'));
+  document.getElementById('refreshCourses').addEventListener('click', () => safeRefresh(loadCourses, 'Courses refreshed.'));
+  document.getElementById('refreshAll').addEventListener('click', refreshAll);
+  document.getElementById('studentSearch').addEventListener('input', applyStudentFilters);
+  document.getElementById('studentStatusFilter').addEventListener('change', applyStudentFilters);
+  document.getElementById('studentRoleFilter').addEventListener('change', applyStudentFilters);
+
+
+  document.getElementById('refreshBatches').addEventListener('click', () => safeRefresh(loadBatches, 'Batches refreshed.'));
+  document.getElementById('refreshAssignments').addEventListener('click', () => safeRefresh(loadAssignments, 'Assignments refreshed.'));
+  document.getElementById('refreshRecordings').addEventListener('click', () => safeRefresh(loadRecordings, 'Session recordings refreshed.'));
+  document.getElementById('refreshCertificates').addEventListener('click', () => safeRefresh(loadCertificates, 'Certificates refreshed.'));
+  document.getElementById('newBatchBtn').addEventListener('click', () => document.getElementById('batchModal').classList.add('show'));
+  document.getElementById('newAssignmentBtn').addEventListener('click', () => document.getElementById('assignmentModal').classList.add('show'));
+  document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () =>
+    document.getElementById(b.dataset.close).classList.remove('show')));
+
+  document.getElementById('batchForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    try {
+      const client = getClient();
+      const { error } = await client.from('batches').insert({
+        name: document.getElementById('batchName').value.trim(),
+        course_id: document.getElementById('batchCourse').value,
+        start_date: document.getElementById('batchStart').value || null,
+        end_date: document.getElementById('batchEnd').value || null,
+        status: document.getElementById('batchStatus').value
+      });
+      if (error) throw error;
+      document.getElementById('batchModal').classList.remove('show');
+      e.target.reset(); showStatus('Batch created successfully.', 'success'); await loadBatches();
+    } catch (err) { showStatus(err.message || 'Unable to create batch.', 'error'); }
+  });
+
+  document.getElementById('assignmentForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    try {
+      const client = getClient();
+      const { error } = await client.from('assignments').insert({
+        title: document.getElementById('assignmentTitle').value.trim(),
+        course_id: document.getElementById('assignmentCourse').value,
+        due_date: document.getElementById('assignmentDue').value || null,
+        material_path: document.getElementById('assignmentMaterial').value.trim() || null
+      });
+      if (error) throw error;
+      document.getElementById('assignmentModal').classList.remove('show');
+      e.target.reset(); showStatus('Assignment created successfully.', 'success'); await loadAssignments();
+    } catch (err) { showStatus(err.message || 'Unable to create assignment.', 'error'); }
+  });
+
+
+  document.querySelectorAll('[data-go]').forEach(btn => btn.addEventListener('click', async () => {
+    const target = btn.dataset.go;
+    document.querySelector(`.nav button[data-section="${target}"]`)?.click();
+    if (target === 'certificates' && btn.querySelector('strong')?.textContent.includes('Issue Certificate')) {
+      await prepareCertificateForm();
+    }
+  }));
+  document.getElementById('newRecordingBtn').addEventListener('click',()=>document.getElementById('recordingModal').classList.add('show'));
+  document.getElementById('inviteStudentBtn').addEventListener('click', async () => {
+    try {
+      await Promise.all([loadCourses(), loadBatches()]);
+      fillStudentEnrollmentSelects();
+      document.getElementById('inviteStudentModal').classList.add('show');
+    } catch (e) {
+      showStatus(e.message || 'Unable to prepare student invitation.', 'error');
+    }
+  });
+  document.getElementById('inviteCourse').addEventListener('change', filterInviteBatches);
+  document.getElementById('inviteStudentForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    try {
+      const client = getClient();
+      const email = document.getElementById('inviteEmail').value.trim().toLowerCase();
+      if (!email) throw new Error('Student email is required.');
+
+      // Pre-flight check: if this email is already represented by an LMS student,
+      // stop here instead of allowing the Edge Function to reuse the account.
+      // Email is resolved from auth.users through the admin-only RPC; it is never
+      // read from profiles.email because that column does not exist.
+      try {
+        const { data: existingStudents, error: checkError } =
+          await client.rpc('admin_list_students_with_email');
+        if (!checkError && Array.isArray(existingStudents)) {
+          const existing = existingStudents.find(s =>
+            String(s.email || '').trim().toLowerCase() === email
+          );
+          if (existing) {
+            throw new Error(`A student account already exists for ${email}. Use the existing student account instead of sending another invitation.`);
+          }
+        }
+      } catch (checkErr) {
+        // Preserve our duplicate error. Other RPC errors are non-fatal because
+        // the Edge Function remains the authoritative server-side check.
+        if (checkErr?.message?.startsWith('A student account already exists for')) {
+          throw checkErr;
+        }
+        console.warn('Student email pre-check unavailable:', checkErr);
+      }
+
+      const { data, error } = await client.functions.invoke('invite-student', {
+        body: {
+          email,
+          full_name: document.getElementById('inviteName').value.trim(),
+          phone: document.getElementById('invitePhone').value.trim() || null,
+          student_id: document.getElementById('inviteStudentId').value.trim() || null,
+          course_id: document.getElementById('inviteCourse').value,
+          batch_id: document.getElementById('inviteBatch').value || null
+        }
+      });
+      if (error) throw error;
+      document.getElementById('inviteStudentModal').classList.remove('show');
+      e.target.reset();
+      showStatus(data?.message || 'Student invitation sent successfully.', 'success');
+      await loadStudents();
+    } catch (err) {
+      console.error(err);
+      const detail = err?.context?.json?.error || err?.context?.json?.message || err?.message || 'Unable to send student invitation.';
+      const duplicate = /already exists|already registered|user already exists|email.*exists/i.test(String(detail));
+      showStatus(duplicate ? `Invitation not sent: ${detail}` : detail, 'error');
+    }
+  });
+  document.getElementById('newCertificateBtn').addEventListener('click', prepareCertificateForm);
+  document.getElementById('resetPasswordBtn').addEventListener('click',async()=>{
+    try{const email=currentUser?.email;if(!email)throw new Error('Administrator email is not available.'); const client=getClient(); const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:new URL('../student-portal/reset-password.html',location.href).href});if(error)throw error;showStatus('Password reset email sent to the administrator email address.','success');}catch(e){showStatus(e.message||'Unable to send password reset email.','error');}
+  });
+  document.getElementById('logoutSettingsBtn').addEventListener('click',async()=>{if(sb)await sb.auth.signOut();location.replace('./login.html');});
+  document.getElementById('recordingForm').addEventListener('submit',async e=>{e.preventDefault();try{const client=getClient(); const {error}=await client.from('recordings').insert({title:document.getElementById('recordingTitle').value.trim(),course_id:document.getElementById('recordingCourse').value,recording_date:document.getElementById('recordingDate').value,duration_minutes:Number(document.getElementById('recordingDuration').value)||null,zoom_url:document.getElementById('recordingUrl').value.trim(),zoom_passcode:document.getElementById('recordingPasscode').value.trim()||null,published:document.getElementById('recordingPublished').value==='true',description:document.getElementById('recordingDescription').value.trim()||null});if(error)throw error;document.getElementById('recordingModal').classList.remove('show');e.target.reset();showStatus('Session recording saved successfully.','success');await loadRecordings();}catch(err){showStatus(err.message||'Unable to save recording.','error');}});
+  document.getElementById('certificateForm').addEventListener('submit',async e=>{e.preventDefault();try{const client=getClient(); const studentId=document.getElementById('certificateStudent').value,courseId=document.getElementById('certificateCourse').value,num=document.getElementById('certificateNumber').value.trim()||null; if(num){const {data:dup}=await client.from('certificates').select('id').eq('certificate_number',num).maybeSingle();if(dup)throw new Error('Certificate number already exists.');} const {error}=await client.from('certificates').insert({student_id:studentId,course_id:courseId,certificate_number:num,issued_at:new Date(document.getElementById('certificateDate').value+'T00:00:00').toISOString()});if(error)throw error;document.getElementById('certificateModal').classList.remove('show');e.target.reset();showStatus('Certificate issued successfully.','success');await loadCertificates();}catch(err){showStatus(err.message||'Unable to issue certificate.','error');}});
+  (async () => {
+    try {
+      const ok = await requireAdmin();
+      if (!ok) return;
+      await refreshAll();
+    } catch (e) {
+      console.error('Admin access error:', e);
+      document.getElementById('userEmail').textContent = 'Access check failed';
+      showStatus(e.message || 'Unable to verify administrator access.', 'error');
+    }
+  })();
+})();
+</script>
+</body>
+</html>
