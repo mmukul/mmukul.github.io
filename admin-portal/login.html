@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NextGen DevSecOps AI — Admin Login</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#080d1c;color:#f8fafc;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:grid;place-items:center;padding:24px}
+.card{width:min(520px,100%);background:rgba(15,23,42,.94);border:1px solid rgba(148,163,184,.18);border-radius:24px;padding:34px;box-shadow:0 30px 90px rgba(0,0,0,.45)}
+.brand{font-size:14px;font-weight:800;letter-spacing:.2px;color:#c4b5fd;margin-bottom:28px}
+.brand span{color:#22d3ee}
+h1{font-size:32px;margin:0 0 8px;letter-spacing:-1px}
+.sub{color:#94a3b8;font-size:14px;margin:0 0 28px}
+label{display:block;font-size:12px;font-weight:800;color:#cbd5e1;margin:16px 0 7px}
+input{width:100%;padding:14px 15px;border-radius:11px;border:1px solid #334155;background:#0b1220;color:#fff;outline:none;font-size:14px}
+input:focus{border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,.12)}
+button{width:100%;margin-top:22px;padding:15px;border:0;border-radius:12px;color:#fff;font-size:15px;font-weight:900;cursor:pointer;background:linear-gradient(100deg,#7c3aed,#06b6d4)}
+button:disabled{opacity:.65;cursor:wait}
+.status{display:none;margin-top:18px;padding:15px;border-radius:12px;background:rgba(127,29,29,.28);border:1px solid rgba(248,113,113,.2);color:#fecaca;font-size:13px;line-height:1.55;white-space:pre-wrap}
+.status.show{display:block}
+.status.success{background:rgba(6,78,59,.28);border-color:rgba(45,212,191,.2);color:#99f6e4}
+.small{margin-top:22px;color:#64748b;font-size:11px;line-height:1.5}
+a{color:#a5b4fc;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand">NextGen <span>DevSecOps AI</span></div>
+  <h1>Login to Admin Portal →</h1>
+  <p class="sub">Secure administrator access for the NextGen LMS.</p>
+
+  <form id="loginForm">
+    <label for="email">Administrator Email</label>
+    <input id="email" type="email" autocomplete="username" required placeholder="admin@example.com">
+
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password" required placeholder="••••••••">
+
+    <button id="loginBtn" type="submit">Login to Admin Portal →</button>
+  </form>
+
+  <div id="status" class="status"></div>
+  <div class="small">
+    Admin access is verified against the authenticated Supabase user and the
+    <code>public.is_admin()</code> database function. No service-role key is used in this page.
+  </div>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  const SUPABASE_URL = 'https://hkpvigvtdckxhmnsvdrh.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_JlIrNdsEXgjikrh9F_YxYg_DBrgimoQ';
+
+  const statusEl = document.getElementById('status');
+  const loginBtn = document.getElementById('loginBtn');
+  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  function show(message, type='') {
+    statusEl.textContent = message;
+    statusEl.className = 'status show ' + type;
+  }
+
+  function safeError(error) {
+    if (!error) return 'Unknown error';
+    return error.message || error.error_description || String(error);
+  }
+
+  async function verifyAdmin(user) {
+    // Primary authorization check: server-side SECURITY DEFINER function.
+    const rpc = await client.rpc('is_admin');
+
+    if (rpc.error) {
+      throw new Error(
+        'Admin authorization check failed.\n\n' +
+        'Supabase error: ' + safeError(rpc.error) + '\n\n' +
+        'Make sure public.is_admin() exists and EXECUTE is granted to authenticated.'
+      );
+    }
+
+    if (rpc.data !== true) {
+      // Diagnostic profile lookup. This is read-only and uses the normal RLS path.
+      const p = await client
+        .from('profiles')
+        .select('id,full_name,role,status')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (p.error) {
+        throw new Error(
+          'Admin profile could not be verified.\n\n' +
+          'Auth email: ' + (user.email || 'unknown') + '\n' +
+          'Auth user ID: ' + user.id + '\n\n' +
+          'Profile query error: ' + safeError(p.error)
+        );
+      }
+
+      if (!p.data) {
+        throw new Error(
+          'No admin profile is linked to this Auth account.\n\n' +
+          'Auth email: ' + (user.email || 'unknown') + '\n' +
+          'Auth user ID: ' + user.id + '\n\n' +
+          'The value in public.profiles.id must exactly match auth.users.id.'
+        );
+      }
+
+      throw new Error(
+        'Admin access denied.\n\n' +
+        'Auth email: ' + (user.email || 'unknown') + '\n' +
+        'Auth user ID: ' + user.id + '\n' +
+        'Profile ID: ' + p.data.id + '\n' +
+        'Role: ' + (p.data.role ?? 'NULL') + '\n' +
+        'Status: ' + (p.data.status ?? 'NULL') + '\n\n' +
+        'Required: role = admin and status = active.'
+      );
+    }
+
+    return true;
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    statusEl.className = 'status';
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Verifying administrator…';
+
+    try {
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const password = document.getElementById('password').value;
+
+      // Clear any stale session before a new login.
+      await client.auth.signOut();
+
+      const { data, error } = await client.auth.signInWithPassword({ email, password });
+      if (error) throw new Error('Login failed: ' + safeError(error));
+      if (!data.user) throw new Error('Supabase authenticated the request but returned no user.');
+
+      await verifyAdmin(data.user);
+
+      show('Administrator verified. Opening Admin Portal…', 'success');
+
+      // Cache-busting ensures GitHub Pages does not serve an older index.html.
+      setTimeout(() => {
+        location.replace('./index.html?v=' + Date.now());
+      }, 300);
+    } catch (error) {
+      console.error('Admin login error:', error);
+      await client.auth.signOut().catch(() => {});
+      show(safeError(error));
+    } finally {
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'Login to Admin Portal →';
+    }
+  });
+})();
+</script>
+</body>
+</html>
