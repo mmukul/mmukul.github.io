@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Certificate | NextGen DevSecOps AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b1730;
+  --navy2:#13284b;
+  --ink:#172033;
+  --muted:#607089;
+  --cyan:#18c7df;
+  --cyan2:#68e5f3;
+  --gold:#c9a65b;
+  --paper:#fffdf7;
+  --line:#d8c48b;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+body{
+  background:
+    radial-gradient(circle at 10% 15%,rgba(24,199,223,.16),transparent 26%),
+    radial-gradient(circle at 90% 85%,rgba(201,166,91,.18),transparent 30%),
+    linear-gradient(135deg,#eaf1f5,#f8f4e9 55%,#e9f2f4);
+  color:var(--ink);
+  padding:28px;
+}
+.toolbar{max-width:1180px;margin:0 auto 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{font-weight:800;color:var(--navy);font-size:14px}
+.actions{display:flex;gap:8px}
+.btn{
+  appearance:none;border:1px solid #b9c4d4;background:#fff;color:var(--navy);
+  border-radius:9px;padding:10px 14px;font-weight:800;font-size:12px;cursor:pointer;text-decoration:none
+}
+.btn.primary{border:0;color:#fff;background:linear-gradient(135deg,#0b6f87,#0b3d68)}
+.btn:hover{transform:translateY(-1px)}
+.status{max-width:1180px;margin:0 auto 14px;color:#607089;font-size:12px;text-align:center}
+.certificate{
+  position:relative;overflow:hidden;max-width:1180px;min-height:790px;margin:0 auto;
+  background:var(--paper);
+  border:1px solid rgba(11,23,48,.16);
+  box-shadow:0 28px 70px rgba(11,23,48,.18);
+  padding:30px;
+}
+.certificate:before{
+  content:"";position:absolute;inset:14px;border:2px solid var(--gold);pointer-events:none
+}
+.certificate:after{
+  content:"";position:absolute;inset:22px;border:1px solid rgba(24,199,223,.55);pointer-events:none
+}
+.corner{position:absolute;width:90px;height:90px;border-color:var(--gold);z-index:1}
+.c1{top:31px;left:31px;border-top:4px solid;border-left:4px solid}
+.c2{top:31px;right:31px;border-top:4px solid;border-right:4px solid}
+.c3{bottom:31px;left:31px;border-bottom:4px solid;border-left:4px solid}
+.c4{bottom:31px;right:31px;border-bottom:4px solid;border-right:4px solid}
+.inner{
+  position:relative;z-index:2;min-height:730px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  padding:54px 70px 48px;
+}
+.eyebrow{
+  color:#0795ae;font-weight:900;letter-spacing:6px;font-size:15px;text-transform:uppercase;margin-top:4px
+}
+.title{
+  margin:26px 0 8px;font-family:"Playfair Display",Georgia,serif;
+  font-size:58px;line-height:1.05;color:var(--navy);font-weight:700
+}
+.subtitle{font-size:17px;color:var(--muted);margin:0}
+.presented{margin-top:42px;color:#68758a;font-size:15px}
+.student{
+  margin:14px 0 7px;font-family:"Playfair Display",Georgia,serif;
+  font-size:48px;line-height:1.15;color:#0b5270;font-weight:700;
+  padding:0 25px 12px;border-bottom:2px solid var(--gold);min-width:420px
+}
+.bodycopy{max-width:760px;margin:12px auto 0;color:#59677c;font-size:16px;line-height:1.65}
+.course{
+  margin-top:8px;font-size:25px;font-weight:800;color:var(--navy)
+}
+.meta{
+  width:min(760px,100%);display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:38px
+}
+.meta-box{padding:12px 20px;border-top:1px solid #d8dee8}
+.meta-label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8490a1;font-weight:800}
+.meta-value{display:block;margin-top:6px;font-size:14px;color:var(--navy);font-weight:700}
+.signature-row{
+  width:min(760px,100%);display:flex;justify-content:space-between;align-items:flex-end;
+  margin-top:auto;padding-top:34px
+}
+.signature{min-width:230px}
+.sig-line{border-top:1px solid #7d8795;margin-bottom:8px}
+.sig-name{font-weight:800;color:var(--navy);font-size:13px}
+.sig-role{font-size:10px;color:#7d8795;margin-top:3px}
+.seal{
+  width:92px;height:92px;border-radius:50%;display:grid;place-items:center;
+  border:2px solid #129bb3;box-shadow:inset 0 0 0 6px rgba(24,199,223,.08);
+  color:#129bb3;font-size:34px;font-weight:800
+}
+.footer{margin-top:18px;font-size:10px;color:#7b8798;letter-spacing:1.2px}
+.error{color:#a33b3b;font-weight:700}
+@media(max-width:800px){
+  body{padding:10px}.toolbar{margin-bottom:10px}.brand{font-size:12px}
+  .toolbar .actions .btn:first-child{display:none}
+  .certificate{min-height:auto;padding:18px}.certificate:before{inset:9px}.certificate:after{inset:15px}
+  .corner{display:none}.inner{min-height:760px;padding:40px 22px 35px}
+  .title{font-size:40px}.student{font-size:34px;min-width:0;width:100%}
+  .meta{grid-template-columns:1fr}.signature-row{gap:25px}.bodycopy{font-size:14px}
+}
+@media print{
+  @page{size:A4 landscape;margin:0}
+  body{padding:0;background:#fff}
+  .toolbar,.status{display:none!important}
+  .certificate{width:297mm;height:210mm;max-width:none;min-height:0;box-shadow:none;border:0}
+  .inner{min-height:160mm}
+}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <div class="brand">NextGen DevSecOps AI • Certificate Verification</div>
+  <div class="actions">
+    <a class="btn" href="index.html">← Student Portal</a>
+    <button class="btn primary" type="button" onclick="window.print()">Print / Save PDF</button>
+  </div>
+</div>
+
+<div id="status" class="status">Loading certificate…</div>
+
+<section class="certificate" aria-label="Certificate of Completion">
+  <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+  <div class="inner">
+    <div class="eyebrow">NextGen DevSecOps AI</div>
+    <h1 class="title">Certificate of Completion</h1>
+    <p class="subtitle">Learning • Building • Securing • Innovating</p>
+
+    <div class="presented">This certificate is proudly presented to</div>
+    <div id="studentName" class="student">Loading…</div>
+
+    <p class="bodycopy">for successfully completing the training program and demonstrating commitment to practical, hands-on learning.</p>
+    <div id="courseName" class="course">Loading course…</div>
+
+    <div class="meta">
+      <div class="meta-box">
+        <span class="meta-label">Certificate ID</span>
+        <span id="certificateId" class="meta-value">—</span>
+      </div>
+      <div class="meta-box">
+        <span class="meta-label">Issue Date</span>
+        <span id="issueDate" class="meta-value">—</span>
+      </div>
+    </div>
+
+    <div class="signature-row">
+      <div class="signature">
+        <div class="sig-line"></div>
+        <div class="sig-name">Mukul Malhotra</div>
+        <div class="sig-role">Instructor &amp; Technology Mentor • NextGen DevSecOps AI</div>
+      </div>
+      <div class="seal" aria-label="Verified certificate">✓</div>
+      <div class="signature">
+        <div class="sig-line"></div>
+        <div class="sig-name">NextGen DevSecOps AI</div>
+        <div class="sig-role">Training &amp; Certification</div>
+      </div>
+    </div>
+    <div class="footer">This certificate is issued through the secure NextGen DevSecOps AI Student Portal.</div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+if(!window.supabase){
+  document.write('<script src="https://unpkg.com/@supabase/supabase-js@2"><\\/script>');
+}
+window.NEXTGEN_SUPABASE_URL = window.NEXTGEN_SUPABASE_URL || 'https://hkpvigvtdckxhmnsvdrh.supabase.co';
+window.NEXTGEN_SUPABASE_ANON_KEY = window.NEXTGEN_SUPABASE_ANON_KEY || 'sb_publishable_JlIrNdsEXgjikrh9F_YxYg_DBrgimoQ';
+</script>
+<script>
+(() => {
+  'use strict';
+
+  const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+  }[c]));
+
+  const fmtDate = v => {
+    if(!v) return 'Date not specified';
+    const d = new Date(v);
+    return Number.isNaN(d.getTime()) ? String(v) :
+      d.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  };
+
+  async function boot(){
+    const status = document.getElementById('status');
+    try{
+      const params = new URLSearchParams(location.search);
+      const certificateId = params.get('id');
+      if(!certificateId) throw new Error('Certificate ID is missing.');
+
+      if(!window.supabase?.createClient) throw new Error('Supabase library failed to load.');
+      const client = window.supabase.createClient(
+        window.NEXTGEN_SUPABASE_URL,
+        window.NEXTGEN_SUPABASE_ANON_KEY
+      );
+
+      const {data:{session},error:sessionError}=await client.auth.getSession();
+      if(sessionError) throw sessionError;
+      if(!session){ location.replace('login.html'); return; }
+
+      const {data:userData,error:userError}=await client.auth.getUser();
+      if(userError || !userData.user) throw new Error('Your secure session could not be verified.');
+
+      const uid = userData.user.id;
+
+      // Load certificate without relying on nested PostgREST relationships.
+      const {data:cert,error:certError}=await client
+        .from('certificates')
+        .select('id,student_id,course_id,certificate_number,issued_at,file_path')
+        .eq('id',certificateId)
+        .eq('student_id',uid)
+        .maybeSingle();
+
+      if(certError) throw certError;
+      if(!cert) throw new Error('Certificate not found or not available for this student.');
+
+      const {data:profile,error:profileError}=await client
+        .from('profiles')
+        .select('id,full_name,student_id')
+        .eq('id',uid)
+        .maybeSingle();
+
+      if(profileError) throw profileError;
+
+      let courseName='Course Completion';
+      if(cert.course_id){
+        const {data:course,error:courseError}=await client
+          .from('courses')
+          .select('id,name,slug')
+          .eq('id',cert.course_id)
+          .maybeSingle();
+        if(courseError) throw courseError;
+        courseName=course?.name || course?.slug || courseName;
+      }
+
+      const fullName=String(profile?.full_name || 'Student').trim();
+      document.getElementById('studentName').textContent=fullName || 'Student';
+      document.getElementById('courseName').textContent=courseName;
+      document.getElementById('certificateId').textContent=cert.certificate_number || cert.id;
+      document.getElementById('issueDate').textContent=fmtDate(cert.issued_at);
+      status.textContent='Verified certificate • Secure student record';
+    }catch(e){
+      console.error(e);
+      document.getElementById('studentName').textContent='Certificate unavailable';
+      document.getElementById('courseName').textContent='';
+      document.getElementById('certificateId').textContent='—';
+      document.getElementById('issueDate').textContent='—';
+      status.innerHTML='<span class="error">'+esc(e.message || 'Unable to load certificate.')+'</span>';
+    }
+  }
+  boot();
+})();
+</script>
+</body>
+</html>
