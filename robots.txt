@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /student-portal/
-Disallow: /admin-portal/
-
-Sitemap: https://mmukul.github.io/sitemap.xml
