@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevSecOps & AppSec Training | NextGen DevSecOps AI</title>
+<meta name="description" content="DevSecOps and Application Security training covering Secure SDLC, pre-commit security, secrets, SCA, SBOM, SAST, DAST and secure CI/CD.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://mmukul.github.io/training/devsecops-appsec.html">
+<meta property="og:title" content="DevSecOps & AppSec Training | NextGen DevSecOps AI">
+<meta property="og:description" content="DevSecOps and Application Security training covering Secure SDLC, pre-commit security, secrets, SCA, SBOM, SAST, DAST and secure CI/CD.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mmukul.github.io/training/devsecops-appsec.html">
+<meta name="twitter:card" content="summary">
+<style>
+:root{
+  --bg:#070914;--panel:#0d1120;--panel2:#10172a;--line:#252c40;
+  --text:#f5f7ff;--muted:#9aa3b7;--violet:#786cff;--cyan:#67e8f9;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:
+  radial-gradient(circle at 85% 0%,rgba(120,108,255,.18),transparent 28%),
+  radial-gradient(circle at 10% 35%,rgba(34,211,238,.06),transparent 25%),
+  var(--bg);
+  color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+  line-height:1.65;
+}
+a{text-decoration:none;color:inherit}
+.wrap{width:min(1120px,calc(100% - 36px));margin:auto}
+nav{height:78px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08)}
+.logo{font-size:19px;font-weight:900;letter-spacing:-.4px}.logo span{color:#9b8cff}
+.navlinks{display:flex;gap:20px;align-items:center;color:#aeb7c9;font-size:13px}
+.navlinks a:hover{color:#fff}
+.navbtn{padding:9px 13px;border:1px solid rgba(255,255,255,.14);border-radius:10px;background:rgba(255,255,255,.025);font-weight:800;color:#e7eaff}
+.hero{padding:72px 0 48px}
+.eyebrow{display:inline-flex;padding:7px 11px;border:1px solid rgba(124,92,255,.3);border-radius:999px;color:#bcb4ff;font-size:10px;font-weight:900;letter-spacing:1.7px}
+h1{font-size:clamp(42px,7vw,72px);line-height:.98;letter-spacing:-3.5px;margin:18px 0}
+h1 span{background:linear-gradient(90deg,#9b8cff,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{max-width:760px;color:#aeb8ca;font-size:17px;line-height:1.75}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:25px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:11px;font-size:12px;font-weight:900;transition:.22s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:linear-gradient(135deg,#7c5cff,#4f8cff);color:#fff;box-shadow:0 12px 28px rgba(92,85,255,.2)}
+.btn-secondary{border:1px solid rgba(255,255,255,.14);background:#0d1322;color:#e9ecf7}
+.btn-cyan{border:1px solid rgba(34,211,238,.3);background:linear-gradient(135deg,rgba(34,211,238,.14),rgba(59,130,246,.1));color:#dffcff}
+.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin:25px 0 55px}
+.panel{background:linear-gradient(145deg,rgba(17,24,39,.96),rgba(9,14,26,.98));border:1px solid rgba(255,255,255,.09);border-radius:22px;padding:28px}
+.panel h2{margin:0 0 14px;font-size:23px}
+.panel p{color:var(--muted);margin:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{padding:17px;border:1px solid rgba(255,255,255,.08);border-radius:15px;background:rgba(255,255,255,.025)}
+.stat strong{display:block;font-size:19px}.stat small{color:#818da2;font-size:10px}
+section{padding:34px 0 62px}
+.kicker{color:#8f84ff;font-size:10px;font-weight:900;letter-spacing:2px}
+.title{font-size:36px;letter-spacing:-1.8px;margin:7px 0 10px}
+.muted{color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px}
+.card{padding:22px;border:1px solid var(--line);border-radius:17px;background:#0d1321}
+.card h3{margin:0 0 8px;font-size:17px}.card p{margin:0;color:#a1aabd;font-size:13px}
+.card ul{margin:12px 0 0;padding-left:18px;color:#cbd4e4;font-size:13px}
+.roadmap{display:grid;gap:10px;margin-top:20px}
+.step{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:start;padding:17px;border:1px solid rgba(255,255,255,.08);border-radius:15px;background:rgba(255,255,255,.025)}
+.step b{display:flex;width:42px;height:42px;align-items:center;justify-content:center;border-radius:12px;background:linear-gradient(135deg,#7c5cff,#22d3ee);font-size:12px}
+.step strong{display:block;font-size:14px}.step span{display:block;color:#8995aa;font-size:12px;margin-top:2px}
+.cta{margin:10px 0 70px;padding:28px;border-radius:22px;border:1px solid rgba(124,92,255,.3);background:linear-gradient(135deg,rgba(124,92,255,.14),rgba(34,211,238,.06),rgba(9,14,26,.98));display:flex;align-items:center;justify-content:space-between;gap:20px}
+.cta h2{margin:0 0 5px;font-size:25px}.cta p{margin:0;color:#9da9bc;font-size:13px}
+footer{border-top:1px solid rgba(255,255,255,.08);padding:24px 0 35px;color:#778399;font-size:11px;display:flex;justify-content:space-between}
+@media(max-width:800px){.navlinks{display:none}.grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.cta{display:block}.cta .actions{margin-top:18px}}
+@media(max-width:520px){.wrap{width:min(100% - 28px,1120px)}.hero{padding-top:48px}h1{font-size:42px;letter-spacing:-2.5px}.title{font-size:30px}.panel{padding:21px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <a class="logo" href="../">NextGen <span>DevSecOps AI</span></a>
+  <div class="navlinks">
+    <a href="../#services">Services</a>
+    <a href="../#training">Training</a>
+    <a href="../#cloud-lab">Hands-on Labs</a>
+    <a class="navbtn" href="../#contact">Enquire</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">DEVSECOPS • APPSEC</span>
+  <h1>Secure the SDLC.<br><span>Automate Security.</span></h1>
+  <p class="lead">Hands-on DevSecOps and AppSec training that integrates security into CI/CD through pre-commit controls, secrets protection, SCA, SBOM, SAST, DAST and automated security gates.</p>
+  <div class="actions">
+    <a class="btn btn-primary" href="../curriculum/DevSecOps-Curriculum-NextGen-DevSecOps-AI.pdf" target="_blank" rel="noopener noreferrer">Foundational Curriculum ↗</a><a class="btn btn-cyan" href="../curriculum/DevSecOps-Advanced-Curriculum-NextGen-DevSecOps-AI.pdf" target="_blank" rel="noopener noreferrer">Advanced Curriculum ↗</a>
+    <a class="btn btn-secondary" href="https://github.com/mmukul/devsecops-training-lab" target="_blank" rel="noopener noreferrer">Training Lab GitHub ↗</a>
+    <a class="btn btn-secondary" href="../">← Back to Website</a>
+  </div>
+</header>
+
+<div class="grid">
+  <div class="panel"><h2>Program Overview</h2><p>The foundational program introduces the transition from DevOps to DevSecOps and embeds security throughout the software delivery lifecycle. The advanced program extends this into runtime security, compliance as code, Infrastructure as Code security, containers and threat modeling.</p></div>
+  <div class="panel"><h2>At a Glance</h2><div class="stats"><div class="stat"><strong>1 Month</strong><small>Foundational</small></div><div class="stat"><strong>1 Month</strong><small>Advanced</small></div><div class="stat"><strong>Practical</strong><small>Demos + Project</small></div></div></div>
+</div>
+
+<section>
+  <span class="kicker">WHAT YOU'LL LEARN</span>
+  <h2 class="title">Practical skills, structured for hands-on learning.</h2>
+  <p class="muted">The course details below are aligned with the current published curriculum.</p>
+  <div class="cards"><article class="card"><h3>Secure SDLC & CI/CD</h3><p>Map security activities into the delivery workflow and introduce practical security gates.</p><ul><li>Security requirements</li><li>Secure SDLC</li><li>CI/CD security controls</li></ul></article><article class="card"><h3>Pre-Commit & Secrets</h3><p>Catch risky changes before they enter the delivery pipeline.</p><ul><li>Pre-commit hooks</li><li>Hardcoded secret detection</li><li>Pipeline automation</li></ul></article><article class="card"><h3>Supply Chain Security</h3><p>Understand dependency risk and SBOM-driven security.</p><ul><li>SCA</li><li>CycloneDX / SPDX</li><li>Dependency-Check</li><li>Log4j case study</li></ul></article><article class="card"><h3>SAST & DAST</h3><p>Integrate application security testing into CI/CD.</p><ul><li>SonarQube</li><li>OWASP ZAP</li><li>Baseline scanning</li></ul></article><article class="card"><h3>Advanced Security</h3><p>Extend beyond foundational pipeline controls.</p><ul><li>Runtime detection</li><li>InSpec / Compliance as Code</li><li>Terraform security</li><li>STRIDE threat modeling</li></ul></article><article class="card"><h3>Capstone</h3><p>Build an end-to-end secure CI/CD pipeline.</p><ul><li>SCA → SAST → DAST</li><li>Automated security gates</li><li>Secure delivery workflow</li></ul></article></div>
+</section>
+
+<section>
+  <span class="kicker">LEARNING ROADMAP</span>
+  <h2 class="title">Build knowledge step by step.</h2>
+  <div class="roadmap"><div class="step"><b>01</b><div><strong>Foundations</strong><span>DevOps → security terminology → DevSecOps maturity</span></div></div><div class="step"><b>02</b><div><strong>Secure development</strong><span>Secure SDLC → pre-commit → secrets → optional code signing</span></div></div><div class="step"><b>03</b><div><strong>Supply chain</strong><span>SCA → SBOM → dependency vulnerability analysis</span></div></div><div class="step"><b>04</b><div><strong>Application testing</strong><span>SAST → DAST → automated security checks</span></div></div><div class="step"><b>05</b><div><strong>Advanced track</strong><span>Runtime → Compliance as Code → IaC security → threat modeling</span></div></div></div>
+</section>
+
+<div class="cta">
+  <div><h2>Ready to discuss the training?</h2><p>Ask about upcoming batches, corporate delivery, hands-on labs or the right learning path.</p></div>
+  <div class="actions"><a class="btn btn-primary" href="../#contact">Enquire About Training →</a><a class="btn btn-cyan" href="../">Explore All Courses</a></div>
+</div>
+
+<footer><span>© 2026 Mukul Malhotra</span><span>NextGen DevSecOps AI</span></footer>
+</div>
+</body>
+</html>
