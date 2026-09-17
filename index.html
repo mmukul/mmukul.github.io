@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevOps, DevSecOps & AI Security Training | NextGen DevSecOps AI</title>
+<meta name="description" content="Practical DevOps, DevSecOps, AppSec, GenAI and AI Security training with hands-on labs, corporate programs and consulting by Mukul Malhotra.">
+<meta name="author" content="Mukul Malhotra">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#070914">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="canonical" href="https://mmukul.github.io/">
+<meta property="og:site_name" content="NextGen DevSecOps AI">
+<meta property="og:title" content="DevOps, DevSecOps & AI Security Training | NextGen DevSecOps AI">
+<meta property="og:description" content="Practical DevOps, DevSecOps, AppSec, GenAI and AI Security training with hands-on labs, corporate programs and consulting by Mukul Malhotra.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mmukul.github.io/">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DevOps, DevSecOps & AI Security Training | NextGen DevSecOps AI">
+<meta name="twitter:description" content="Practical DevOps, DevSecOps, AppSec, GenAI and AI Security training, hands-on labs and consulting.">
+
+<style>
+:root{--bg:#070914;--panel:#0d1120;--line:#252c40;--text:#f5f7ff;--muted:#9aa3b7;--violet:#786cff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 80% 0%,#18143c 0,transparent 28%),var(--bg);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;line-height:1.6}
+a{text-decoration:none;color:inherit}.wrap{max-width:1180px;margin:auto;padding:0 28px}
+nav{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.logo{font-size:20px;font-weight:800}.logo span{color:var(--violet)}
+.links{display:flex;gap:25px;color:#aab1c1;font-size:14px}.links a:hover{color:#fff}
+.navbtn{border:1px solid #414860;border-radius:9px;padding:9px 14px;font-size:13px;font-weight:700}
+.hero{min-height:680px;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:60px}
+.tag,.badge{display:inline-block;border:1px solid #393f58;color:#aaa4ff;border-radius:30px;padding:7px 12px;font-size:10px;font-weight:800;letter-spacing:1.7px}
+.hero h1{font-size:clamp(52px,7vw,84px);line-height:.98;letter-spacing:-4px;margin:23px 0}.hero h1 em{font-style:normal;color:var(--violet)}
+.hero p{font-size:18px;color:var(--muted);max-width:700px}.actions{display:flex;gap:12px;margin:30px 0}
+.btn{display:inline-block;padding:13px 19px;border-radius:9px;font-size:13px;font-weight:800;transition:.2s}.btn:hover{transform:translateY(-2px)}.btn:focus-visible,.navbtn:focus-visible,.links a:focus-visible{outline:2px solid #8b82ff;outline-offset:3px}.primary{background:var(--violet);color:#fff}.outline{border:1px solid #353c51}
+.hero-art{height:430px;border:1px solid #292f47;border-radius:25px;background:linear-gradient(145deg,#11152a,#090c16);position:relative;overflow:hidden;padding:35px}
+.glow{position:absolute;width:270px;height:270px;border-radius:50%;background:radial-gradient(circle,#776cff,transparent 68%);right:-80px;top:-80px;opacity:.65}
+.terminal{position:absolute;left:35px;right:35px;bottom:35px;border:1px solid #2a3045;background:#090c14;border-radius:14px;padding:20px;font:12px/1.8 ui-monospace,monospace;color:#aeb6c9}.terminal b{color:#7dffda}
+.metrics{display:flex;gap:42px;margin-top:40px}.metrics strong{font-size:23px;display:block}.metrics small{color:#7f8799;font-size:11px}
+section{padding:88px 0}.kicker{color:#8176ff;font-size:10px;letter-spacing:2px;font-weight:800}.title{font-size:42px;letter-spacing:-2px;line-height:1.05;margin:9px 0 12px}.intro{color:var(--muted);max-width:680px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:28px;transition:.2s}.card:hover{transform:translateY(-4px);border-color:#5148a5}.card .n{color:#7e73ff;font-size:11px}.card h3{font-size:20px;margin:17px 0 7px}.card p{color:#929bad;font-size:14px;margin-bottom:20px}.link{color:#aaa4ff;font-size:13px;font-weight:800}
+.training{background:#0a0d18}.training-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:32px}.course{border:1px solid var(--line);background:#0e1321;border-radius:13px;padding:23px;min-height:160px;transition:.2s}.course:hover{transform:translateY(-3px);border-color:#5148a5}.course-meta{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0 8px}.course-meta span{font-size:8px;letter-spacing:.8px;color:#a9a3ff;border:1px solid #343a51;border-radius:999px;padding:4px 7px}.course h3{font-size:17px;margin:10px 0 6px}.course p{font-size:12px;color:#858e9f}.course a{font-size:12px;color:#8d83ff;font-weight:800}
+.ai{border:1px solid #2a2f47;border-radius:22px;padding:42px;background:linear-gradient(120deg,#11142a,#0a0d17)}.pillbox{display:flex;flex-wrap:wrap;gap:9px;margin-top:25px}.pill{border:1px solid #343a51;padding:8px 13px;border-radius:30px;color:#cbd1dd;font-size:12px}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}.about p{color:var(--muted)}
+.testimonials{background:#0a0d18}
+.testimonial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:35px}
+.testimonial{background:#101522;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.image-placeholder{text-align:center;color:#697286;font-size:10px;font-weight:800;letter-spacing:1.5px;line-height:1.8}
+.testimonial-content{padding:24px}.quote{font-family:Georgia,serif;font-size:42px;color:var(--violet);line-height:.6}.testimonial-content p{color:#a4abbb;font-size:14px;min-height:65px}.testimonial-content strong{display:block;font-size:14px}.testimonial-content small{color:#737c8e;font-size:11px}
+.contact{margin:25px 0 80px;border:1px solid #3b3977;border-radius:22px;background:linear-gradient(110deg,#141938,#0e1221);color:#fff;padding:45px;display:flex;justify-content:space-between;align-items:center;gap:30px}.contact h2{font-size:39px;line-height:1;margin:0 0 10px;letter-spacing:-2px}.contact p{color:#aeb6c8}.contact .btn{white-space:nowrap}
+.contact-modal{position:fixed;inset:0;background:rgba(3,5,12,.84);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:22px;z-index:9999}.contact-modal.active{display:flex}
+.contact-panel{width:min(520px,100%);background:#101522;border:1px solid #30374e;border-radius:22px;padding:34px;box-shadow:0 30px 90px rgba(0,0,0,.45);position:relative}.contact-close{position:absolute;top:10px;right:16px;border:0;background:transparent;color:#9ca5b8;font-size:28px;cursor:pointer}.contact-panel h2{margin:6px 0 8px;font-size:38px;letter-spacing:-1.5px}.contact-panel>p{color:#9aa3b7;margin-bottom:25px}.contact-options{display:grid;gap:10px}.contact-option{display:flex;align-items:center;justify-content:space-between;padding:17px 18px;border:1px solid #282f43;border-radius:12px;background:#0b0f19}.contact-option:hover{border-color:#675ce0}.contact-option span{color:#818a9e;font-size:10px;text-transform:uppercase;letter-spacing:1px}.contact-option strong{display:block;font-size:14px;margin-top:2px}.contact-arrow{color:#8b82ff;font-weight:800}.contact-note{font-size:11px;color:#727b8d;margin-top:18px}
+footer{border-top:1px solid var(--line);padding:26px 0;color:#737b8d;font-size:12px;display:flex;justify-content:space-between}
+@media(max-width:1100px){.testimonial-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:850px){.links{display:none}.hero,.about{grid-template-columns:1fr}.hero{padding:65px 0;min-height:auto}.hero-art{height:350px}.cards{grid-template-columns:1fr}.training-grid{grid-template-columns:1fr 1fr}.testimonial-grid{grid-template-columns:1fr 1fr}.contact{display:block}.contact .btn{display:inline-block;margin-top:15px}}
+@media(max-width:520px){.training-grid,.testimonial-grid{grid-template-columns:1fr}.metrics{gap:20px;flex-wrap:wrap}.hero h1{letter-spacing:-2px}.title{font-size:35px}.contact{padding:32px}.contact h2{font-size:31px}footer{display:block}}
+
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;padding:30px;z-index:10000}
+.lightbox.active{display:flex}
+.lightbox img{max-width:96vw;max-height:92vh;width:auto;height:auto;object-fit:contain;background:#fff;border-radius:8px}
+.lightbox-close{position:fixed;top:18px;right:25px;border:0;background:transparent;color:#fff;font-size:38px;cursor:pointer}
+.coming{display:inline-block;margin-top:10px;padding:5px 10px;border:1px solid rgba(255,255,255,.2);border-radius:999px;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+
+.learn-strip,.journey,.hands-on,.audience{padding:55px;border-top:1px solid rgba(255,255,255,.08)}
+.learn-flow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:18px;font-size:18px;font-weight:700}
+.learn-flow span,.hands-grid span,.audience-pills span{padding:10px 15px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(255,255,255,.03)}
+.learn-flow b{opacity:.45}
+.journey-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:30px}
+.journey-grid>div{padding:24px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:rgba(255,255,255,.025)}
+.journey-grid span{font-size:12px;opacity:.6}.journey-grid h3{margin:12px 0 8px}.journey-grid p{margin:0;opacity:.75}.journey-grid small{display:inline-block;margin-top:15px;font-weight:800;letter-spacing:.08em}
+.hands-on{display:grid;grid-template-columns:1fr 1.5fr;gap:40px;align-items:center;padding-left:55px;padding-right:55px}.hands-grid{display:flex;flex-wrap:wrap;gap:12px}
+.audience-pills{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
+@media(max-width:800px){.journey-grid{grid-template-columns:1fr 1fr}.hands-on{grid-template-columns:1fr;padding-left:24px;padding-right:24px}.audience{padding-left:24px;padding-right:24px}}
+@media(max-width:520px){.journey-grid{grid-template-columns:1fr}.learn-flow{font-size:15px}.learn-flow b{display:none}.hands-on{padding-left:20px;padding-right:20px}.audience{padding-left:20px;padding-right:20px}}
+.journey{position:relative;overflow:hidden}.journey:before{content:"";position:absolute;inset:18% -10% auto;height:260px;background:radial-gradient(circle at 25% 50%,rgba(124,92,255,.16),transparent 32%),radial-gradient(circle at 75% 50%,rgba(34,211,238,.11),transparent 32%);pointer-events:none}.journey .kicker,.journey .title,.journey .intro,.journey-flow{position:relative;z-index:1}.journey-flow{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:nowrap;margin-top:34px;position:relative}.journey-flow:before{content:"";position:absolute;left:10%;right:10%;top:48%;height:2px;background:linear-gradient(90deg,rgba(124,92,255,.08),rgba(124,92,255,.65),rgba(34,211,238,.7),rgba(124,92,255,.12));box-shadow:0 0 18px rgba(124,92,255,.25);z-index:0}.journey-step{flex:1 1 210px;max-width:270px;min-height:190px;padding:25px;border:1px solid rgba(255,255,255,.13);border-radius:20px;background:linear-gradient(145deg,rgba(124,92,255,.12),rgba(255,255,255,.035) 48%,rgba(34,211,238,.06));backdrop-filter:blur(10px);position:relative;z-index:2;box-shadow:0 12px 35px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.07);transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}.journey-step:hover{transform:translateY(-7px);border-color:rgba(124,92,255,.5);box-shadow:0 18px 45px rgba(0,0,0,.28),0 0 28px rgba(124,92,255,.13)}.journey-step>span{display:inline-flex;width:42px;height:42px;align-items:center;justify-content:center;border-radius:13px;background:linear-gradient(135deg,#7c5cff,#22d3ee);color:#fff;font-size:13px;font-weight:800;box-shadow:0 0 20px rgba(124,92,255,.28)}.journey-step h3{margin:16px 0 9px;font-size:18px}.journey-step p{margin:0;line-height:1.6;opacity:.76;font-size:14px}.journey-step small{display:inline-flex;margin-top:15px;padding:5px 9px;border-radius:999px;border:1px solid rgba(34,211,238,.25);background:rgba(34,211,238,.08);color:#67e8f9;font-weight:800;letter-spacing:.08em;font-size:10px}.journey-arrow{align-self:center;position:relative;z-index:3;width:42px;height:42px;display:flex;align-items:center;justify-content:center;margin:0 -1px;border:1px solid rgba(124,92,255,.25);border-radius:50%;background:#0b0d16;color:#9b8cff;font-size:22px;box-shadow:0 0 20px rgba(124,92,255,.16)}@media(max-width:900px){.journey-flow{flex-wrap:wrap;gap:12px}.journey-flow:before{display:none}.journey-step{max-width:none;flex:1 1 calc(50% - 12px)}.journey-arrow{display:none}}@media(max-width:520px){.journey-flow{gap:10px}.journey-step{flex-basis:100%;min-height:0;padding:20px}.journey-step:hover{transform:none}}
+
+/* Responsive layout refinements */
+html,body{overflow-x:hidden}
+img{max-width:100%;height:auto}
+.menu-toggle,.mobile-menu{display:none}
+
+@media(max-width:1100px){
+  .wrap{padding:0 22px}
+  .hero{gap:35px}
+  .hero h1{font-size:clamp(48px,7vw,72px)}
+  .metrics{gap:28px}
+  .training-grid{grid-template-columns:repeat(3,1fr)}
+  .testimonial-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:850px){
+  .wrap{padding:0 20px}
+  nav{height:70px;gap:12px}
+  .logo{font-size:17px;white-space:nowrap}
+  .links{display:none}
+  .menu-toggle{display:block;margin-left:auto;border:1px solid #353c51;background:#0d1120;color:#fff;border-radius:9px;width:42px;height:40px;font-size:20px;cursor:pointer}
+  .navbtn{font-size:12px;padding:9px 12px}
+  .mobile-menu{display:none;position:absolute;left:20px;right:20px;top:76px;z-index:1000;padding:10px;background:#101522;border:1px solid #30374e;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+  .mobile-menu.active{display:grid}
+  .mobile-menu a{padding:12px 14px;color:#cbd1dd;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px}
+  .mobile-menu a:last-child{border-bottom:0}
+  .hero,.about{grid-template-columns:1fr}
+  .hero{padding:55px 0 65px;min-height:auto}
+  .hero h1{font-size:clamp(44px,10vw,68px);letter-spacing:-3px}
+  .hero p{font-size:17px}
+  .hero-art{height:320px;margin-top:5px}
+  .cards{grid-template-columns:1fr 1fr}
+  .training-grid{grid-template-columns:1fr 1fr}
+  .testimonial-grid{grid-template-columns:1fr 1fr}
+  .contact{display:block}
+  .contact .btn{display:inline-block;margin-top:15px}
+}
+
+@media(max-width:600px){
+  .wrap{padding:0 16px}
+  nav{height:66px}
+  .logo{font-size:15px}
+  .navbtn{font-size:11px;padding:8px 10px}
+  .mobile-menu{left:16px;right:16px;top:70px}
+  section{padding:64px 0}
+  .hero{padding:45px 0 55px}
+  .tag,.badge{font-size:9px;letter-spacing:1.3px}
+  .hero h1{font-size:clamp(38px,11vw,56px);letter-spacing:-2.5px;margin:18px 0}
+  .hero p{font-size:15px;line-height:1.7}
+  .actions{flex-direction:column;align-items:stretch;margin:24px 0}
+  .actions .btn{width:100%;text-align:center}
+  .metrics{display:grid;grid-template-columns:1fr 1fr;gap:22px 16px;margin-top:30px}
+  .metrics strong{font-size:20px}
+  .metrics small{font-size:10px;display:block}
+  .hero-art{height:270px;padding:22px;border-radius:18px}
+  .hero-art .terminal{left:16px;right:16px;bottom:16px;padding:14px;font-size:10px;line-height:1.7}
+  .glow{width:190px;height:190px;right:-70px;top:-65px}
+  .title{font-size:32px;letter-spacing:-1.5px}
+  .intro{font-size:14px}
+  .cards,.training-grid,.testimonial-grid{grid-template-columns:1fr}
+  .card,.course{padding:22px}
+  .course{min-height:0}
+  .journey-flow{gap:9px;margin-top:24px}
+  .journey-step{flex:1 1 100%;padding:20px}
+  .journey-arrow{width:100%;transform:rotate(90deg);height:24px;line-height:24px}
+  .hands-on{grid-template-columns:1fr;gap:25px}
+  .hands-grid,.audience-pills{gap:8px}
+  .hands-grid span,.audience-pills span{font-size:11px;padding:8px 11px}
+  .ai{padding:28px 22px;border-radius:18px}
+  .pillbox{gap:7px}
+  .pill{font-size:11px;padding:7px 10px}
+  .testimonial-content{padding:22px}
+  .testimonial-content p{min-height:0;font-size:13px}
+  .contact{padding:30px 22px;margin-bottom:55px}
+  .contact h2{font-size:31px}
+  .contact .btn{width:100%;text-align:center}
+  .contact-panel{padding:28px 20px}
+  .contact-panel h2{font-size:30px}
+  .contact-option{padding:14px}
+  footer{display:flex;flex-direction:column;gap:8px;text-align:center}
+}
+
+@media(max-width:380px){
+  .logo{font-size:13px}
+  .navbtn{display:none}
+  .hero h1{font-size:36px}
+  .metrics{grid-template-columns:1fr}
+  .hero-art{height:250px}
+}
+
+/* NextGen Cloud Lab */
+.cloud-lab{background:#0a0d18}.cloud-lab-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:24px}.cloud-lab-card{margin-top:0;height:100%;box-sizing:border-box;border:1px solid var(--line);background:linear-gradient(135deg,#0e1321,#11172a);border-radius:16px;padding:24px;display:block}.cloud-lab-card h3{font-size:24px;margin:8px 0 7px}.cloud-lab-card p{color:var(--muted);max-width:700px;margin:0}.aws-lab-card{background:linear-gradient(135deg,#101728,#141326);border-color:rgba(120,140,255,.28)}
+.lab-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.lab-tags span{border:1px solid var(--line);border-radius:999px;padding:7px 11px;font-size:11px;color:#aeb6c8;background:#0b1020}.cloud-lab-card .btn{white-space:nowrap;display:inline-block;margin-top:16px}.powered{display:block;color:var(--muted);font-size:11px;margin-top:7px;text-align:left}.cloud-lab-use{margin:14px 0 12px;padding:12px 14px;border-left:3px solid #8b5cf6;background:rgba(139,92,246,.07);border-radius:8px;font-size:.9rem;line-height:1.45;color:#cbd5e1}.cloud-lab-use strong{display:block;color:#f8fafc;margin-bottom:5px}.cloud-lab-use ul{margin:0;padding-left:20px}.cloud-lab-use li{margin:3px 0}.free-labs{margin-top:16px}.free-labs-title{display:flex;align-items:center;gap:9px;margin:0 0 9px;font-size:13px;font-weight:800;letter-spacing:.4px;color:#f8fafc}.free-labs-title span{font-size:9px;letter-spacing:.6px;padding:4px 7px;border:1px solid rgba(34,211,238,.25);border-radius:999px;color:#67e8f9;background:rgba(34,211,238,.06)}.free-lab-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.free-lab-grid.single-lab{grid-template-columns:minmax(0,1fr);max-width:100%}.free-lab-card{display:flex;flex-direction:column;gap:5px;padding:12px 13px;border:1px solid var(--line);border-radius:11px;background:rgba(7,11,24,.72);text-decoration:none;transition:.2s}.free-lab-card:hover{transform:translateY(-2px);border-color:rgba(139,92,246,.55)}.free-lab-card strong{font-size:14px;color:#fff}.free-lab-card small{font-size:10.5px;line-height:1.45;color:var(--muted)}.free-lab-card span{font-size:10px;font-weight:700;color:#a78bfa;margin-top:2px}.devsecops-lab-title{margin-top:16px}
+.coming-soon-badge{display:inline-flex;align-items:center;margin-top:16px;padding:10px 16px;border:1px solid rgba(120,140,255,.35);border-radius:999px;background:rgba(120,140,255,.10);font-weight:700;font-size:.9rem;letter-spacing:.2px}
+@media(max-width:800px){.cloud-lab-grid{grid-template-columns:1fr;gap:16px}.cloud-lab-card{padding:20px}.free-lab-grid{grid-template-columns:1fr}.cloud-lab-card .btn{width:auto}.powered{text-align:left}}
+
+
+/* Hands-on learning option cards */
+.hands-on-options{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:28px}
+.hands-on-card{position:relative;min-height:390px;padding:26px 24px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,rgba(17,24,39,.96),rgba(10,15,28,.98));box-shadow:0 18px 45px rgba(0,0,0,.18);overflow:hidden}
+.hands-on-card:before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:24px;background:linear-gradient(135deg,rgba(124,92,255,.10),transparent 45%,rgba(34,211,238,.06))}
+.hands-on-icon{position:relative;width:62px;height:62px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:28px;background:rgba(124,92,255,.13);border:1px solid rgba(124,92,255,.25);margin-bottom:20px}
+.hands-on-card .n{display:block;position:relative;font-size:13px;letter-spacing:.16em;opacity:.55;margin-bottom:9px}
+.hands-on-card h3{position:relative;font-size:22px;line-height:1.2;margin:0 0 13px}
+.hands-on-card p{position:relative;color:var(--muted);font-size:14px;line-height:1.65;margin:0 0 18px}
+.hands-on-card ul{position:relative;list-style:none;padding:0;margin:0;display:grid;gap:9px;color:#d8e0ef;font-size:13px}
+.hands-on-card li{line-height:1.35}
+.hands-on-card.browser-card{border-color:rgba(124,92,255,.32)}
+.hands-on-card.local-card{border-color:rgba(34,211,238,.28)}
+.hands-on-card.aws-card{border-color:rgba(56,189,248,.28)}
+.hands-on-card.mobile-card{border-color:rgba(168,85,247,.38)}
+.mobile-coming{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:18px;
+  padding:10px 28px;
+  min-width:190px;
+  border:2px solid rgba(139,92,246,.72);
+  border-radius:999px;
+  background:linear-gradient(
+    135deg,
+    rgba(124,92,255,.12),
+    rgba(15,23,42,.72)
+  );
+  color:#cbb8ef;
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  box-shadow:
+    0 0 0 1px rgba(124,92,255,.05),
+    0 0 22px rgba(124,92,255,.12);
+  text-shadow:0 0 12px rgba(196,181,253,.18);
+  transition:
+    border-color .25s ease,
+    color .25s ease,
+    box-shadow .25s ease,
+    transform .25s ease;
+}
+
+.mobile-card:hover .mobile-coming{
+  border-color:rgba(34,211,238,.78);
+  color:#e9e1ff;
+  box-shadow:
+    0 0 0 1px rgba(124,92,255,.08),
+    0 0 28px rgba(124,92,255,.18),
+    0 0 18px rgba(34,211,238,.08);
+  transform:translateY(-1px);
+}
+
+@media (max-width:600px){
+  .mobile-coming{
+    min-width:170px;
+    padding:9px 22px;
+    font-size:11px;
+  }
+}.coming-soon-badge{position:relative;display:inline-block;margin-top:18px;padding:7px 12px;border-radius:999px;border:1px solid rgba(34,211,238,.35);font-size:11px;color:#c8f7ff}
+.mobile-badge{position:relative;margin-top:20px;padding:11px 12px;border:1px solid rgba(168,85,247,.7);border-radius:14px;text-align:center;font-weight:700;font-size:11px;letter-spacing:.06em;color:#dccbff}
+.hands-on-message{display:flex;align-items:center;justify-content:center;gap:14px;margin:22px 0 0;padding:18px 22px;border:1px solid rgba(124,92,255,.25);border-radius:18px;background:rgba(124,92,255,.07)}
+.hands-on-message strong{font-size:16px}
+.hands-on-message span{color:var(--muted);font-size:13px}
+@media(max-width:1100px){.hands-on-options{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.hands-on-options{grid-template-columns:1fr}.hands-on-message{align-items:flex-start;flex-direction:column}.hands-on-card{min-height:auto}}
+
+
+/* Interactive hover cards */
+.hands-on-card{
+  cursor:pointer;
+  transition:transform .28s ease, border-color .28s ease, box-shadow .28s ease, background .28s ease;
+  transform:translateY(0);
+}
+.hands-on-card:after{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:3px;
+  transform:scaleX(.35);
+  transform-origin:center;
+  opacity:.45;
+  transition:transform .28s ease,opacity .28s ease;
+  background:linear-gradient(90deg,rgba(124,92,255,.95),rgba(34,211,238,.95));
+}
+.hands-on-card:hover,
+.hands-on-card:focus-within{
+  transform:translateY(-8px);
+  border-color:rgba(124,92,255,.75);
+  box-shadow:0 24px 60px rgba(0,0,0,.32),0 0 30px rgba(124,92,255,.12);
+  background:linear-gradient(145deg,rgba(24,31,52,.98),rgba(10,15,28,.99));
+}
+.hands-on-card:hover:after,
+.hands-on-card:focus-within:after{
+  transform:scaleX(1);
+  opacity:1;
+}
+.hands-on-card:hover .hands-on-icon,
+.hands-on-card:focus-within .hands-on-icon{
+  transform:scale(1.08);
+  border-color:rgba(34,211,238,.55);
+  box-shadow:0 0 24px rgba(34,211,238,.14);
+}
+.hands-on-icon{
+  transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+.hands-on-card h3{
+  transition:transform .28s ease;
+}
+.hands-on-card:hover h3,
+.hands-on-card:focus-within h3{
+  transform:translateX(3px);
+}
+@media (prefers-reduced-motion:reduce){
+  .hands-on-card,.hands-on-icon,.hands-on-card h3{transition:none}
+  .hands-on-card:hover,.hands-on-card:focus-within{transform:none}
+}
+
+
+/* Hover interaction for all training tabs/cards */
+.training-grid .course{
+  position:relative;
+  transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease,background .28s ease;
+}
+.training-grid .course:hover,
+.training-grid .course:focus-within{
+  transform:translateY(-7px);
+  border-color:rgba(124,92,255,.72);
+  box-shadow:0 20px 50px rgba(0,0,0,.28),0 0 28px rgba(124,92,255,.10);
+  background:linear-gradient(145deg,rgba(24,31,52,.98),rgba(10,15,28,.99));
+}
+.training-grid .course:after{
+  content:"";
+  position:absolute;
+  left:14%;right:14%;bottom:0;height:2px;
+  background:linear-gradient(90deg,rgba(124,92,255,.9),rgba(34,211,238,.9));
+  transform:scaleX(0);
+  transition:transform .28s ease;
+}
+.training-grid .course:hover:after,
+.training-grid .course:focus-within:after{transform:scaleX(1)}
+
+/* Premium / paid AWS cloud lab styling */
+.paid-label{position:relative;display:inline-block;margin:-2px 0 12px;padding:5px 10px;border:1px solid rgba(34,211,238,.32);border-radius:999px;color:#9eefff;font-size:10px;font-weight:700;letter-spacing:.12em}
+.aws-access{position:relative;display:grid;gap:4px;margin-top:18px;padding:12px 13px;border-radius:14px;border:1px solid rgba(34,211,238,.22);background:rgba(34,211,238,.055)}
+.aws-access strong{font-size:12px;color:#e8fbff}.aws-access span{font-size:11px;line-height:1.45;color:var(--muted)}
+.aws-card:hover .paid-label,.aws-card:focus-within .paid-label{border-color:rgba(34,211,238,.65);box-shadow:0 0 20px rgba(34,211,238,.10)}
+
+
+/* Agentic AI Coming Soon accent */
+.training-grid .course .coming{
+  display:inline-block;
+  margin-top:14px;
+  padding:7px 13px;
+  border:1px solid rgba(168,85,247,.55);
+  border-radius:999px;
+  background:linear-gradient(135deg,rgba(124,92,255,.18),rgba(34,211,238,.08));
+  color:#d9c5ff;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  box-shadow:0 0 18px rgba(124,92,255,.10);
+}
+.training-grid .course:hover .coming{
+  border-color:rgba(34,211,238,.65);
+  color:#e9fbff;
+  box-shadow:0 0 24px rgba(34,211,238,.16);
+}
+
+
+/* Certificate of Completion highlight */
+.certificate-highlight{position:relative;margin:42px 0;padding:30px;border:1px solid rgba(139,92,246,.45);border-radius:18px;background:linear-gradient(135deg,rgba(139,92,246,.13),rgba(34,211,238,.06) 55%,rgba(10,13,24,.96));overflow:hidden}
+.certificate-highlight:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 15%,rgba(34,211,238,.14),transparent 30%);pointer-events:none}
+.certificate-inner{position:relative;display:grid;grid-template-columns:1.35fr .65fr;gap:28px;align-items:center}
+.certificate-badge{display:inline-flex;align-items:center;gap:7px;font-size:9px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:#c4b5fd;border:1px solid rgba(139,92,246,.35);background:rgba(139,92,246,.1);padding:7px 10px;border-radius:999px}
+.certificate-highlight h3{font-size:26px;margin:11px 0 7px;letter-spacing:-.7px}
+.certificate-highlight p{color:#9aa5b8;font-size:12px;line-height:1.65;margin:0;max-width:680px}
+.certificate-points{display:grid;gap:8px;margin-top:15px}
+.certificate-points span{font-size:11px;color:#cbd5e1}
+.certificate-points span:before{content:"✓";color:#67e8f9;font-weight:900;margin-right:8px}
+.certificate-card{border:1px solid rgba(34,211,238,.25);background:rgba(7,10,18,.58);border-radius:14px;padding:22px;text-align:center}
+.certificate-card .mini-title{font-size:9px;letter-spacing:1.7px;color:#67e8f9;font-weight:900;text-transform:uppercase}
+.certificate-card strong{display:block;font-size:18px;margin:9px 0 4px}
+.certificate-card small{display:block;color:#778398;font-size:10px;line-height:1.5}
+@media(max-width:850px){.certificate-inner{grid-template-columns:1fr}}
+
+/* Premium themed sections */
+.hands-on{
+  position:relative; overflow:hidden; padding:68px 34px; margin:20px 0;
+  border:1px solid rgba(45,212,191,.20); border-radius:28px;
+  background:linear-gradient(135deg,rgba(8,28,31,.96),rgba(10,17,29,.98));
+  box-shadow:0 24px 70px rgba(0,0,0,.22), inset 0 1px rgba(255,255,255,.04);
+}
+.hands-on:before{content:"";position:absolute;width:420px;height:420px;right:-170px;top:-210px;background:radial-gradient(circle,rgba(45,212,191,.20),transparent 68%);pointer-events:none}
+.hands-on:after{content:"";position:absolute;width:300px;height:300px;left:-180px;bottom:-180px;background:radial-gradient(circle,rgba(34,211,238,.13),transparent 68%);pointer-events:none}
+.hands-on>div,.hands-grid{position:relative;z-index:1}
+.hands-on .kicker{color:#5eead4}
+.hands-on .title{background:linear-gradient(90deg,#fff,#99f6e4 60%,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hands-grid{gap:14px}
+.hands-grid span{padding:13px 17px;border-radius:14px;border:1px solid rgba(94,234,212,.20);background:rgba(20,184,166,.08);color:#d9fffa;box-shadow:inset 0 1px rgba(255,255,255,.04);transition:.25s}
+.hands-grid span:hover{transform:translateY(-3px);border-color:rgba(94,234,212,.55);background:rgba(20,184,166,.15);box-shadow:0 10px 25px rgba(20,184,166,.12)}
+
+.audience{position:relative;overflow:hidden;padding:68px 34px;margin:20px 0;border:1px solid rgba(96,165,250,.20);border-radius:28px;background:linear-gradient(135deg,rgba(10,20,42,.98),rgba(12,17,31,.98));box-shadow:0 24px 70px rgba(0,0,0,.20)}
+.audience:before{content:"";position:absolute;inset:-100px auto auto 45%;width:520px;height:300px;background:radial-gradient(ellipse,rgba(59,130,246,.17),transparent 68%);pointer-events:none}
+.audience .kicker,.audience .title,.audience-pills{position:relative;z-index:1}
+.audience .kicker{color:#60a5fa}
+.audience .title{background:linear-gradient(90deg,#fff,#bfdbfe 55%,#a5b4fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.audience-pills span{padding:12px 17px;border-radius:14px;border:1px solid rgba(96,165,250,.20);background:rgba(59,130,246,.07);color:#dbeafe;transition:.25s}
+.audience-pills span:hover{transform:translateY(-3px);border-color:rgba(129,140,248,.65);background:rgba(99,102,241,.14);box-shadow:0 10px 25px rgba(59,130,246,.12)}
+
+.testimonials{position:relative;overflow:hidden;padding:68px 34px;background:linear-gradient(135deg,#160f20,#0b1020 52%,#101327)!important;border-top:1px solid rgba(244,114,182,.16);border-bottom:1px solid rgba(139,92,246,.14)}
+.testimonials:before{content:"";position:absolute;right:-180px;top:-190px;width:500px;height:500px;background:radial-gradient(circle,rgba(236,72,153,.16),transparent 66%);pointer-events:none}
+.testimonials:after{content:"";position:absolute;left:-200px;bottom:-250px;width:500px;height:500px;background:radial-gradient(circle,rgba(139,92,246,.14),transparent 66%);pointer-events:none}
+.testimonials>.kicker,.testimonials>.title,.testimonials>.intro,.testimonial-grid{position:relative;z-index:1}
+.testimonials>.kicker{color:#f0abfc}
+.testimonials>.title{background:linear-gradient(90deg,#fff,#f5d0fe 55%,#f9a8d4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.testimonial{background:linear-gradient(145deg,rgba(30,20,43,.90),rgba(16,21,34,.96));border:1px solid rgba(244,114,182,.16);border-radius:20px;box-shadow:0 16px 40px rgba(0,0,0,.18);transition:.28s;position:relative}
+.testimonial:before{content:"";position:absolute;left:0;top:0;right:0;height:2px;background:linear-gradient(90deg,#a78bfa,#f0abfc,#f9a8d4);opacity:.7}
+.testimonial:hover{transform:translateY(-5px);border-color:rgba(244,114,182,.38);box-shadow:0 22px 45px rgba(139,92,246,.14)}
+.testimonial .quote{color:#e879f9;text-shadow:0 0 20px rgba(232,121,249,.25)}
+.testimonial-content p{color:#c5bfd0}
+.testimonial-content small{color:#9b91aa}
+
+.about{position:relative;overflow:hidden;margin:20px 0;padding:68px 34px;border:1px solid rgba(167,139,250,.22);border-radius:28px;background:linear-gradient(135deg,rgba(25,17,49,.98),rgba(12,16,30,.98));box-shadow:0 24px 70px rgba(0,0,0,.22)}
+.about:before{content:"";position:absolute;width:430px;height:430px;right:-150px;top:-180px;background:radial-gradient(circle,rgba(167,139,250,.18),transparent 68%);pointer-events:none}
+.about:after{content:"";position:absolute;width:300px;height:300px;left:-180px;bottom:-180px;background:radial-gradient(circle,rgba(34,211,238,.10),transparent 68%);pointer-events:none}
+.about>div{position:relative;z-index:1}
+.about .kicker{color:#c4b5fd}
+.about .title{background:linear-gradient(90deg,#fff,#ddd6fe 58%,#a5f3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.about p{color:#c8c3d5}
+.about .ai{border:1px solid rgba(167,139,250,.20);background:rgba(255,255,255,.035);border-radius:22px;padding:28px;box-shadow:inset 0 1px rgba(255,255,255,.05)}
+.about .ai .kicker{color:#67e8f9}
+.about .ai h3{color:#fff}
+.about .ai p{color:#aaa5b8}
+
+/* Premium Testimonials v2 */
+.testimonials{padding:76px 34px 82px!important;background:
+ radial-gradient(circle at 10% 15%,rgba(34,211,238,.10),transparent 28%),
+ radial-gradient(circle at 88% 18%,rgba(168,85,247,.16),transparent 30%),
+ linear-gradient(135deg,#080d1b 0%,#10132a 48%,#160d25 100%)!important;border-top:1px solid rgba(103,232,249,.12);border-bottom:1px solid rgba(167,139,250,.15)}
+.testimonials .kicker{color:#67e8f9!important;letter-spacing:2.6px}
+.testimonials .title{font-size:clamp(40px,5vw,64px);background:linear-gradient(90deg,#fff 0%,#dbeafe 42%,#c4b5fd 72%,#67e8f9 100%);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+.testimonials .intro{max-width:720px;color:#aebbd0}
+.testimonial-grid{grid-template-columns:repeat(12,1fr)!important;gap:16px!important;margin-top:38px!important}
+.testimonial{grid-column:span 4;background:linear-gradient(150deg,rgba(18,25,43,.96),rgba(12,16,31,.98))!important;border:1px solid rgba(148,163,184,.16)!important;border-radius:22px!important;box-shadow:0 18px 45px rgba(0,0,0,.22)!important;overflow:hidden;transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease}
+.testimonial:nth-child(2){grid-column:span 4;border-color:rgba(103,232,249,.25)!important;background:linear-gradient(150deg,rgba(14,35,50,.96),rgba(12,19,34,.98))!important}
+.testimonial:nth-child(5){grid-column:span 4}
+.testimonial:hover{transform:translateY(-7px);border-color:rgba(103,232,249,.42)!important;box-shadow:0 24px 55px rgba(34,211,238,.09),0 18px 45px rgba(0,0,0,.24)!important}
+.testimonial:before{height:3px;background:linear-gradient(90deg,#22d3ee,#8b5cf6,#f0abfc)!important;opacity:1}
+.testimonial-content{padding:27px 25px 24px!important;display:flex;flex-direction:column;min-height:235px}
+.quote{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:linear-gradient(135deg,rgba(34,211,238,.13),rgba(139,92,246,.16));color:#67e8f9!important;font-family:Georgia,serif;font-size:34px;line-height:1;text-shadow:none!important;margin-bottom:15px}
+.testimonial-content p{color:#d4dbea!important;font-size:14px!important;line-height:1.75;min-height:0!important;margin:0 0 22px!important;flex:1}
+.testimonial-content strong{font-size:14px;color:#fff;margin-bottom:5px}
+.testimonial-content small{display:inline-block;width:max-content;max-width:100%;color:#9aa8be!important;font-size:10.5px!important;line-height:1.45;padding:6px 9px;border:1px solid rgba(148,163,184,.14);border-radius:999px;background:rgba(255,255,255,.025)}
+.testimonial-grid:after{content:'Practical training • Hands-on learning • Real-world guidance';grid-column:1/-1;text-align:center;color:#7f8da5;font-size:11px;letter-spacing:.8px;margin-top:8px}
+.service-note,.course-note{display:block;margin-top:16px;color:#8996ad;font-size:11px;letter-spacing:.2px}
+@media(max-width:1000px){.testimonial-grid{grid-template-columns:repeat(2,1fr)!important}.testimonial,.testimonial:nth-child(2),.testimonial:nth-child(5){grid-column:span 1}}
+@media(max-width:700px){.testimonials{padding:58px 20px 64px!important}.testimonial-grid{grid-template-columns:1fr!important}.testimonial,.testimonial:nth-child(2),.testimonial:nth-child(5){grid-column:span 1}.testimonial-content{min-height:0;padding:23px 21px 21px!important}}
+
+@media(max-width:800px){.hands-on,.audience,.testimonials,.about{padding:52px 22px}.about{grid-template-columns:1fr;gap:35px}.testimonial-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.hands-on,.audience,.testimonials,.about{padding:45px 18px}.testimonial-grid{grid-template-columns:1fr}.hands-grid span,.audience-pills span{padding:10px 13px}}
+
+</style>
+
+
+<style id="metric-alignment">
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;align-items:start;max-width:760px}.metrics .metric{min-width:0}.metrics strong{font-size:23px;line-height:1.2;white-space:nowrap}.metrics small{display:block;margin-top:7px;color:#7f8799;font-size:11px;line-height:1.45;max-width:180px}
+@media(max-width:850px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;max-width:none}.metrics strong{font-size:20px}.metrics small{font-size:10px;max-width:150px}}
+@media(max-width:520px){.metrics{grid-template-columns:1fr 1fr;gap:18px 16px}.metrics .metric:last-child{grid-column:1 / -1}.metrics small{max-width:200px}}
+</style>
+
+<style id="compact-spacing">
+/* Compact premium spacing */
+section{padding:68px 0}
+.hero{min-height:570px;gap:42px}
+.hero h1{margin:16px 0}
+.hero p{font-size:17px;line-height:1.6}
+.actions{margin:22px 0}
+.metrics{margin-top:28px;gap:28px}
+.cards,.training-grid,.testimonial-grid{margin-top:24px}
+.card{padding:22px}
+.course{padding:20px;min-height:145px}
+.testimonial-content{padding:20px}
+.ai{padding:30px}
+.hands-on{gap:28px}
+.audience{padding:45px 0}
+.contact{padding:34px;margin:18px 0 55px}
+footer{padding:28px 0}
+@media(max-width:900px){
+ section{padding:54px 0}
+ .hero{min-height:auto;gap:30px;padding:42px 0 48px}
+ .hero h1{margin:12px 0;font-size:clamp(42px,9vw,68px)}
+ .actions{margin:18px 0}
+ .metrics{margin-top:22px;gap:20px}
+ .cards,.training-grid,.testimonial-grid{margin-top:20px}
+ .card,.course,.testimonial-content{padding:18px}
+ .ai{padding:24px}
+ .audience{padding:38px 0}
+ .contact{padding:28px;margin:12px 0 40px}
+}
+@media(max-width:600px){
+ section{padding:46px 0}
+ .hero{padding:34px 0 40px;gap:24px}
+ .hero p{font-size:16px}
+ .metrics{margin-top:18px;gap:16px}
+ .course{min-height:0}
+ .ai{padding:20px}
+ .hands-on{gap:18px}
+ .audience{padding:32px 0}
+ .contact{padding:24px;margin:8px 0 32px}
+}
+</style>
+
+
+
+<style id="lab-category-buttons">
+.lab-category-btn{display:inline-block;margin-top:14px;text-decoration:none}
+</style>
+
+<style id="final-compact-spacing">
+  section{padding-top:52px!important;padding-bottom:52px!important}
+  .section-head{margin-bottom:20px!important}
+  .cloud-lab-grid{margin-top:16px!important;gap:14px!important}
+  .cloud-lab-card{padding:20px!important}
+  .cloud-lab-card h3{margin-bottom:8px!important}
+  .cloud-lab-card p{margin-bottom:12px!important}
+  .cloud-lab-card ul{margin:8px 0 12px!important}
+  .cloud-lab-card li{margin:4px 0!important}
+  .cloud-lab-card .tags{margin:10px 0!important}
+  .cloud-lab-card .btn{margin-top:8px!important}
+  .hero{padding-top:72px!important;padding-bottom:56px!important}
+  @media(max-width:800px){section{padding-top:40px!important;padding-bottom:40px!important}.hero{padding-top:52px!important;padding-bottom:44px!important}.cloud-lab-grid{gap:12px!important}}
+</style>
+
+<style id="cloud-lab-alignment-fix">
+.cloud-lab-card{flex-direction:column;align-items:stretch;justify-content:flex-start;gap:14px}
+.cloud-lab-card>div{width:100%;box-sizing:border-box}
+.cloud-lab-use{width:100%;box-sizing:border-box;margin:12px 0!important;padding:12px 14px!important;line-height:1.4!important}
+.cloud-lab-use strong{display:block;margin-bottom:4px}
+.cloud-lab-use ul{margin:4px 0 0 18px!important;padding:0!important}
+.cloud-lab-use li{margin:2px 0!important}
+.free-labs{margin-top:14px}
+@media(max-width:700px){.cloud-lab-card{gap:12px}}
+</style>
+
+<style id="top-redesign">
+/* Premium top navigation + hero redesign */
+nav{height:82px;border-bottom:1px solid rgba(255,255,255,.08);position:relative;z-index:20}
+.logo{font-size:21px;letter-spacing:-.5px}.logo span{color:#9b8cff}
+.links{gap:22px}.links a{transition:color .2s ease}.links a:hover{color:#fff}
+.nav-actions{display:flex;align-items:center;gap:8px;margin-left:18px}.navbtn{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.025);padding:9px 13px;border-radius:10px;transition:.2s}.navbtn:hover{border-color:#6559d9;background:rgba(120,108,255,.08)}
+.student-nav{color:#dce1ff}.admin-nav{color:#aeb6c8}
+.mobile-portal{display:none}
+.hero{position:relative;min-height:600px;padding-top:54px!important;padding-bottom:54px!important;grid-template-columns:1.08fr .92fr;gap:52px}
+.hero:before{content:"";position:absolute;inset:0 -30px auto;height:430px;pointer-events:none;background:radial-gradient(circle at 20% 38%,rgba(120,108,255,.12),transparent 34%),radial-gradient(circle at 78% 20%,rgba(34,211,238,.08),transparent 27%);z-index:-1}
+.hero-copy{max-width:700px}
+.hero .tag{background:rgba(120,108,255,.06);border-color:rgba(155,140,255,.25);color:#b8aeff}
+.hero h1{font-size:clamp(56px,6.4vw,82px);line-height:.94;letter-spacing:-4.8px;margin:20px 0 22px}
+.hero h1 em{background:linear-gradient(90deg,#9b8cff,#65e6ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:17px;max-width:650px;color:#aab3c5;line-height:1.72}
+.actions{margin:26px 0}.actions .btn{padding:14px 18px}.primary{box-shadow:0 10px 30px rgba(120,108,255,.18)}
+.hero-art{height:410px;border-radius:24px;background:linear-gradient(145deg,rgba(19,24,45,.96),rgba(7,10,20,.98));box-shadow:0 30px 90px rgba(0,0,0,.28);border-color:rgba(255,255,255,.10);padding:28px}
+.hero-art:after{content:"";position:absolute;inset:1px;border-radius:23px;pointer-events:none;background:linear-gradient(135deg,rgba(255,255,255,.05),transparent 35%,rgba(101,230,255,.04));}
+.hero-art .tag{position:relative;z-index:2}.glow{opacity:.38;filter:blur(3px)}
+.terminal{left:28px;right:28px;bottom:28px;padding:19px 20px;border-color:rgba(255,255,255,.10);background:rgba(4,7,14,.92);box-shadow:0 20px 55px rgba(0,0,0,.35)}
+.metrics{margin-top:30px;max-width:720px;gap:0}.metric{padding-right:24px;border-right:1px solid rgba(255,255,255,.09);margin-right:24px}.metric:last-child{border-right:0;margin-right:0}.metrics strong{font-size:24px}.metrics small{color:#7f8a9f}
+@media(max-width:1000px){.links{gap:15px}.nav-actions{margin-left:10px}.hero{gap:30px}.hero h1{font-size:clamp(52px,7vw,72px)}}
+@media(max-width:850px){nav{height:70px}.nav-actions{margin-left:auto}.hero{padding-top:48px!important;grid-template-columns:1fr}.hero-art{height:330px}.mobile-portal{display:block}.mobile-menu .mobile-portal{color:#bdb5ff;font-weight:700}}
+@media(max-width:600px){nav{height:66px}.logo{font-size:15px}.nav-actions{gap:5px}.admin-nav{display:none}.student-nav{font-size:11px;padding:8px 9px}.hero{padding-top:38px!important;padding-bottom:38px!important}.hero h1{font-size:clamp(43px,11vw,57px);letter-spacing:-3px;margin:17px 0}.hero p{font-size:15px}.hero-art{height:280px;padding:20px}.hero-art .terminal{left:15px;right:15px;bottom:15px;padding:14px}.metric{padding-right:12px;margin-right:12px}}
+</style>
+<style id="ai-security-premium-theme">
+#ai-security{position:relative;overflow:hidden;padding-top:62px!important;padding-bottom:62px!important}
+#ai-security:before{content:"";position:absolute;width:520px;height:360px;right:-150px;top:20px;background:radial-gradient(circle,rgba(111,92,255,.20),rgba(0,220,255,.08) 42%,transparent 72%);pointer-events:none}
+#ai-security .ai{position:relative;overflow:hidden;border:1px solid rgba(123,113,255,.38)!important;border-radius:28px!important;padding:46px!important;background:radial-gradient(circle at 90% 10%,rgba(0,221,255,.10),transparent 30%),linear-gradient(135deg,#11162b 0%,#101328 48%,#0b101d 100%)!important;box-shadow:0 24px 70px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.05)}
+#ai-security .ai:after{content:"";position:absolute;left:0;top:0;width:34%;height:3px;background:linear-gradient(90deg,#8b7cff,#00d9ff,transparent);box-shadow:0 0 22px rgba(0,217,255,.45)}
+#ai-security .kicker{color:#9d91ff!important;letter-spacing:2.2px;font-weight:800}
+#ai-security .title{background:linear-gradient(90deg,#fff 0%,#dcd8ff 55%,#b8f5ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+#ai-security .intro{color:#aeb9d0!important;max-width:720px}
+#ai-security .pillbox{gap:11px!important;margin-top:28px!important}
+#ai-security .pill{position:relative;border:1px solid rgba(126,119,255,.34)!important;background:linear-gradient(135deg,rgba(116,102,255,.09),rgba(0,211,255,.045))!important;color:#d9dded!important;padding:11px 17px!important;border-radius:999px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.035);transition:all .22s ease}
+#ai-security .pill:hover{transform:translateY(-2px);border-color:rgba(0,220,255,.62)!important;color:#fff!important;background:linear-gradient(135deg,rgba(116,102,255,.18),rgba(0,211,255,.11))!important;box-shadow:0 8px 25px rgba(0,180,255,.10),0 0 0 1px rgba(126,119,255,.08)}
+@media(max-width:700px){#ai-security .ai{padding:30px!important;border-radius:22px!important}#ai-security .pillbox{gap:8px!important}#ai-security .pill{padding:9px 13px!important}}
+</style>
+
+<style id="section-left-spacing-final-fix">
+/* Final alignment fix — keep all existing themes/content while giving
+   full-width feature sections a consistent inner gutter. */
+.hands-on, .audience, .testimonials, .about {
+  padding-left: 55px !important;
+  padding-right: 55px !important;
+}
+.hands-on > div, .audience > *, .testimonials > *, .about > div {
+  min-width: 0;
+}
+@media (max-width: 800px) {
+  .hands-on, .audience, .testimonials, .about {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+@media (max-width: 520px) {
+  .hands-on, .audience, .testimonials, .about {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+}
+</style>
+
+<style id="final-equal-section-spacing">
+/* Final layout rhythm: equal, compact spacing between all major sections */
+body > section {
+  margin-top: 0 !important;
+  margin-bottom: 18px !important;
+}
+body > section + section {
+  margin-top: 0 !important;
+}
+body > section:last-of-type {
+  margin-bottom: 18px !important;
+}
+/* Keep section internals compact while preserving each section's visual theme */
+body > section {
+  scroll-margin-top: 90px;
+}
+@media (max-width: 800px) {
+  body > section { margin-bottom: 14px !important; }
+}
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://mmukul.github.io/#organization",
+      "name": "NextGen DevSecOps AI",
+      "alternateName": "NextGen DevSecOps AI by Mukul Malhotra",
+      "url": "https://mmukul.github.io/",
+      "founder": {"@id": "https://mmukul.github.io/#mukul-malhotra"},
+      "sameAs": [
+        "https://www.youtube.com/@DevSecOps-Experts",
+        "https://github.com/mmukul"
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://mmukul.github.io/#mukul-malhotra",
+      "name": "Mukul Malhotra",
+      "url": "https://mmukul.github.io/",
+      "jobTitle": "DevSecOps & AI Security Architect, Corporate Trainer and Consultant"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://mmukul.github.io/#website",
+      "url": "https://mmukul.github.io/",
+      "name": "NextGen DevSecOps AI",
+      "publisher": {"@id": "https://mmukul.github.io/#organization"},
+      "inLanguage": "en-IN"
+    },
+    {
+      "@type": "ItemList",
+      "name": "NextGen DevSecOps AI Training Courses",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"url":"https://mmukul.github.io/#devops-course","item":{"@type":"Course","name":"DevOps Training","description":"Practical DevOps training covering CI/CD, Git, Jenkins, Docker and Kubernetes.","provider":{"@id":"https://mmukul.github.io/#organization"}}},
+        {"@type":"ListItem","position":2,"url":"https://mmukul.github.io/#devsecops-appsec-course","item":{"@type":"Course","name":"DevSecOps & AppSec Training","description":"Foundational and advanced DevSecOps and AppSec training covering secure SDLC, SAST, DAST, SCA and security automation.","provider":{"@id":"https://mmukul.github.io/#organization"}}},
+        {"@type":"ListItem","position":3,"url":"https://mmukul.github.io/#genai-ai-security-course","item":{"@type":"Course","name":"GenAI & AI Security Training","description":"Practical GenAI and AI Security training covering LLMs, RAG, LangChain, LangGraph, AI agents and security.","provider":{"@id":"https://mmukul.github.io/#organization"}}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+
+<body>
+<div class="wrap">
+
+<nav>
+<a class="logo" href="#">NextGen <span>DevSecOps AI</span></a>
+<div class="links">
+<a href="#services">Services</a>
+<a href="#training">Training</a>
+<a href="#cloud-lab">Cloud Lab</a>
+
+<a href="#testimonials">Testimonials</a>
+<a href="#about">About</a>
+<a href="#contact" onclick="openContact(event)">Contact</a>
+</div>
+<button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" onclick="toggleMenu()">☰</button>
+<div class="nav-actions"><a class="navbtn student-nav" href="student-portal/login.html">Student Login</a><a class="navbtn admin-nav" href="admin-portal/login.html">Admin</a></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+<a href="#services" onclick="closeMenu()">Services</a>
+<a href="#training" onclick="closeMenu()">Training</a>
+<a href="#cloud-lab" onclick="closeMenu()">Cloud Lab</a>
+<a href="#testimonials" onclick="closeMenu()">Testimonials</a>
+<a href="#about" onclick="closeMenu()">About</a>
+<a href="#contact" onclick="openContact(event);closeMenu()">Contact</a>
+<a class="mobile-portal" href="student-portal/login.html" onclick="closeMenu()">Student Login</a>
+<a class="mobile-portal" href="admin-portal/login.html" onclick="closeMenu()">Admin</a>
+</div>
+
+<header class="hero">
+<div>
+<span class="tag">DEVSECOPS • APPSEC • AI SECURITY</span>
+<h1>Engineer the Future.<br><em>Secure the AI Era.</em></h1>
+<p>DevSecOps & AI Security Architect, Corporate Trainer and Consultant helping organizations modernize delivery, strengthen security and adopt GenAI responsibly.</p>
+<div class="actions">
+<a class="btn primary" href="#contact" onclick="openContact(event)">Enrol Now →</a>
+<a class="btn outline" href="#training">View Courses &amp; Curriculum →</a>
+</div>
+<div class="metrics">
+<div class="metric"><strong>20+</strong><small>Years of Industry Experience</small></div>
+<div class="metric"><strong>6+</strong><small>Years of Corporate Training</small></div>
+<div class="metric"><strong>2 Years</strong><small>GenAI &amp; AI Security Experience</small></div>
+</div>
+</div>
+<div class="hero-art">
+<span class="tag">NextGen DevSecOps AI</span>
+<div class="glow"></div>
+<div class="terminal">
+<div><b>$</b> build --secure --ai</div>
+<div>✓ DevSecOps Pipeline</div>
+<div>✓ AppSec Controls</div>
+<div>✓ AI Security</div>
+<div>✓ Threat Modeling</div>
+<div>✓ <b>Secure AI Architecture</b></div>
+</div>
+</div>
+</header>
+
+
+
+<section id="services">
+<span class="kicker">SERVICES</span>
+<h2 class="title">Security that enables delivery.</h2>
+<p class="intro">Architecture and consulting across the software lifecycle — from secure pipelines to modern AI applications.</p>
+<div class="cards">
+<article class="card"><span class="n">01 / DEVSECOPS</span><h3>DevSecOps Transformation</h3><p>Secure CI/CD, automation, Kubernetes, cloud and shift-left security.</p><span class="service-note">Secure delivery & shift-left security</span></article>
+<article class="card"><span class="n">02 / APPSEC</span><h3>Application Security</h3><p>Secure SDLC, SAST, SCA, DAST, OWASP and application security architecture.</p><span class="service-note">Secure SDLC & application protection</span></article>
+<article class="card"><span class="n">03 / AI SECURITY</span><h3>AI Security Consulting</h3><p>LLM, RAG and agent security, threat modeling, guardrails and secure AI architecture.</p><span class="service-note">LLM, RAG & secure AI architecture</span></article>
+</div>
+</section>
+
+<section id="training" class="training">
+<span class="kicker">TRAINING</span>
+<h2 class="title">Practical training. Real-world skills.</h2>
+<p class="intro">Instructor-led, hands-on and corporate programs designed for engineers, security professionals, career switchers and teams. <strong>Eligible completed programs include a Certificate of Completion.</strong></p>
+<div class="training-grid">
+<div class="course" id="devops-course"><span class="n">01</span><h3>DevOps</h3><div class="course-meta"><span>FOUNDATIONAL</span><span>HANDS-ON</span></div><p>CI/CD, Git, Jenkins, Docker & Kubernetes.</p><a href="curriculum/DevOps-Curriculum-NextGen-DevSecOps-AI.pdf" target="_blank" rel="noopener">View Course Curriculum →</a></div>
+<div class="course" id="devsecops-appsec-course"><span class="n">02</span><h3>DevSecOps & AppSec</h3><div class="course-meta"><span>FOUNDATIONAL + ADVANCED</span><span>HANDS-ON</span></div><p><strong>Foundational & Advanced</strong><br>Secure SDLC, SAST, DAST, SCA, Threat Modeling, Container & CI/CD Security.</p><a href="curriculum/DevSecOps-Curriculum-NextGen-DevSecOps-AI.pdf" target="_blank" rel="noopener">Foundational Course Curriculum →</a> <span style="opacity:.55">|</span> <a href="curriculum/DevSecOps-Advanced-Curriculum-NextGen-DevSecOps-AI.pdf" target="_blank" rel="noopener">Advanced Course Curriculum →</a></div>
+<div class="course" id="genai-ai-security-course"><span class="n">03</span><h3>GenAI and AI Security</h3><div class="course-meta"><span>GENAI + AI SECURITY</span><span>HANDS-ON</span></div><p>LLMs, Prompt Engineering, Ollama, LangChain, RAG, ChromaDB, LangGraph, AI Agents & AI Security.</p><a href="curriculum/Practical-Generative-AI-for-Beginners-NextGen-DevSecOps-AI.pdf" target="_blank" rel="noopener">View Course Curriculum →</a></div>
+<div class="course"><span class="n">04</span><h3>Agentic AI</h3><div class="course-meta"><span>ADVANCED</span><span>COMING SOON</span></div><p>AI agents, agentic workflows and secure agent architecture.</p><span class="coming">Coming Soon</span></div>
+<div class="course"><span class="n">05</span><h3>Corporate Training</h3><div class="course-meta"><span>CUSTOM PROGRAMS</span><span>TEAMS</span></div><p>Customized programs aligned to your team.</p><span class="course-note">Custom programs available for teams.</span></div>
+</div>
+</section>
+
+<section id="certificate" class="certificate-highlight">
+  <div class="certificate-inner">
+    <div>
+      <span class="certificate-badge">🏆 CERTIFICATE OF COMPLETION</span>
+      <h3>Complete the training. Earn your certificate.</h3>
+      <p>Participants who successfully complete an eligible training program receive a <strong>NextGen DevSecOps AI Certificate of Completion</strong> as recognition of their learning and hands-on training journey.</p>
+      <div class="certificate-points">
+        <span>Issued after successful course completion and trainer approval</span>
+        <span>Certificate number and issue date included</span>
+        <span>Available through the secure Student Portal</span>
+      </div>
+    </div>
+    <div class="certificate-card">
+      <div class="mini-title">Your achievement</div>
+      <strong>Certificate of Completion</strong>
+      <small>DevOps • DevSecOps &amp; AppSec • GenAI &amp; AI Security</small>
+    </div>
+  </div>
+</section>
+
+<section id="cloud-lab" class="cloud-lab">
+  <span class="kicker">HANDS-ON LEARNING</span>
+  <h2 class="title">Practice. Build. Gain Real-World Experience.</h2>
+  <p class="intro">Choose the environment that works best for you — or combine multiple options for a complete hands-on training experience.</p>
+
+  <div class="hands-on-options">
+    <div class="hands-on-card browser-card">
+      <div class="hands-on-icon">🌐</div>
+      <span class="n">01</span>
+      <h3>Browser-Based Lab</h3>
+      <p>Practice instantly in a browser without installing tools or configuring your system. Ideal for quick exercises and guided practice.</p>
+      <ul>
+        <li>✓ No installation required</li>
+        <li>✓ Access from anywhere</li>
+        <li>✓ Guided exercises</li>
+      </ul>
+    </div>
+
+    <div class="hands-on-card local-card">
+      <div class="hands-on-icon">💻</div>
+      <span class="n">02</span>
+      <div class="installer-badge">⚡ ONE-CLICK INSTALLER</div>
+      <h3>Local Lab Setup</h3>
+      <p>Set up your DevOps, DevSecOps and AI training environment on a local Virtual Machine using the NextGen one-click installer.</p>
+      <ul>
+        <li>✓ One-click lab installation</li>
+        <li>✓ Preconfigured training environment</li>
+        <li>✓ Step-by-step setup guide</li>
+        <li>✓ Practice locally at your own pace</li>
+      </ul>
+      <div class="installer-note"><strong>Recommended:</strong> Use the installer to get your hands-on lab ready quickly before training.</div>
+    </div>
+
+    <div class="hands-on-card aws-card">
+      <div class="hands-on-icon">☁️</div>
+      <span class="n">03</span>
+      <div class="paid-label">PREMIUM CLOUD LAB</div>
+      <h3>AWS Cloud Hands-on Practice</h3>
+      <p>Work with dedicated AWS environments to practice deployment, security and DevSecOps scenarios. Ideal for real-world cloud experience and advanced hands-on training.</p>
+      <ul>
+        <li>✓ Real AWS environment</li>
+        <li>✓ Deploy & secure applications</li>
+        <li>✓ Learn cloud best practices</li>
+        <li>✓ Dedicated training environment</li>
+      </ul>
+      <div class="aws-access">
+        <strong>Paid Training Benefit</strong>
+        <span>AWS lab access is available as part of selected paid training programs.</span>
+      </div>
+      <span class="coming-soon-badge">🚀 Coming Soon</span>
+    </div>
+
+    <div class="hands-on-card mobile-card">
+      <div class="hands-on-icon">📱</div>
+      <span class="n">04</span>
+      <h3>Android Mobile App</h3>
+      <p>Access courses, labs, resources and training updates on the go with the upcoming Android mobile app.</p>
+      <ul>
+        <li>✓ Learn anytime, anywhere</li>
+        <li>✓ Access course content</li>
+        <li>✓ Get updates & notifications</li>
+      </ul>
+
+      <span class="mobile-coming">Coming Soon</span>
+    </div>
+  </div>
+
+  <div class="hands-on-message">
+    <strong>Multiple ways to learn. One goal — Your Success!</strong>
+    <span>Choose the environment that works best for you or combine multiple options for a complete hands-on experience.</span>
+  </div>
+</section>
+
+<section class="journey">
+<span class="kicker">LEARNING JOURNEY</span>
+<h2 class="title">From DevOps to AI Security.</h2>
+<p class="intro">A practical progression from engineering foundations to secure GenAI and the next generation of AI systems.</p>
+<div class="journey-flow">
+<div class="journey-step"><span>01</span><h3>DevOps</h3><p>Build engineering and delivery foundations.</p></div>
+<b class="journey-arrow">→</b>
+<div class="journey-step"><span>02</span><h3>DevSecOps & AppSec</h3><p>Integrate security into development and delivery.</p></div>
+<b class="journey-arrow">→</b>
+<div class="journey-step"><span>03</span><h3>GenAI & AI Security</h3><p>Build practical LLM, RAG and secure AI applications.</p></div>
+<b class="journey-arrow">→</b>
+<div class="journey-step"><span>04</span><h3>Agentic AI</h3><p>Explore secure agentic workflows and architectures.</p><small>COMING SOON</small></div>
+</div>
+</section>
+
+<section class="hands-on">
+<div>
+<span class="kicker">PRACTICAL LEARNING</span>
+<h2 class="title">Learn by Building.<br>Secure by Practicing.</h2>
+</div>
+<div class="hands-grid"><span>Live Demos</span><span>Hands-on Labs</span><span>Real-World Projects</span><span>Assignments</span><span>Capstone Projects</span><span>Security Scenarios</span></div>
+</section>
+
+<section class="audience">
+<span class="kicker">WHO IS THIS FOR?</span>
+<h2 class="title">Skills for professionals at every stage.</h2>
+<div class="audience-pills"><span>Students</span><span>Freshers</span><span>Career Switchers</span><span>Developers</span><span>DevOps Engineers</span><span>Security Professionals</span><span>Architects</span><span>Organizations</span></div>
+</section>
+
+<section id="ai-security">
+<div class="ai">
+<span class="kicker">NextGen DevSecOps AI</span>
+<h2 class="title">Secure the AI you build.</h2>
+<p class="intro">Practical security for modern GenAI and agentic applications.</p>
+<div class="pillbox">
+<span class="pill">LLM Security</span><span class="pill">RAG Security</span><span class="pill">AI Agents</span><span class="pill">Prompt Injection</span><span class="pill">Guardrails</span><span class="pill">AI Threat Modeling</span><span class="pill">OWASP LLM Top 10</span><span class="pill">MAESTRO</span><span class="pill">AI Governance</span>
+</div>
+</div>
+</section>
+
+<section id="testimonials" class="testimonials">
+<span class="kicker">TESTIMONIALS</span>
+<h2 class="title">What people say.</h2>
+<p class="intro">Real feedback from training participants, clients and professionals.</p>
+
+<div class="testimonial-grid">
+
+<article class="testimonial">
+<div class="testimonial-content">
+<div class="quote">“</div>
+<p>Training material is good. Trainer is also experienced. Recommended for those who want to learn DevSecOps from scratch.</p>
+<strong>Rohan</strong>
+<small>DevSecOps Lateral Training | Professional Participant</small>
+</div>
+</article>
+
+<article class="testimonial">
+<div class="testimonial-content">
+<div class="quote">“</div>
+<p>Great training! Excellent materials and presentations. I can take what I learned and start practicing for my future perspective. Mukul provided great depth on the topics that were covered and was able to discuss off-topic areas as well.</p>
+<strong>Manish Suryawanshi</strong>
+<small>DevOps Training | Professional Participant</small>
+</div>
+</article>
+
+<article class="testimonial">
+<div class="testimonial-content">
+<div class="quote">“</div>
+<p>With the ever increasing tools in DevOps field I was a bit confused where to start with. Came across this course and all my questions were answered. All the parts were explained with examples and practical code runs.</p>
+<strong>Dashrath</strong>
+<small>DevOps Training | Professional Participant</small>
+</div>
+</article>
+
+<article class="testimonial">
+<div class="testimonial-content">
+<div class="quote">“</div>
+<p>Would definitely recommend. Mukul is professional, patient and methodical, with an organized approach including classes, quizzes and doubt sessions.</p>
+<strong>Pinaakee Bhardwaj</strong>
+<small>DevOps Professional Training | Corporate</small>
+</div>
+</article>
+
+<article class="testimonial">
+<div class="testimonial-content">
+<div class="quote">“</div>
+<p>Rahul found the GenAI and AI Security program practical and insightful, with clear explanations, hands-on learning and useful real-world security perspectives.</p>
+<strong>Rahul</strong>
+<small>GenAI &amp; AI Security Training | Professional Participant</small>
+</div>
+</article>
+
+<article class="testimonial">
+<div class="testimonial-content">
+<div class="quote">“</div>
+<p>Mukul has been very helpful in guiding me with his Devops and DevSecOps training. It was very beginning when I started looking to learn Devops Concepts. It was like starting from What, Why to How ? I found it insightful and he also mentored me later.</p>
+<strong>Bhaskar Taneja</strong>
+<small>DevSecOps Lateral Training | Professional Participant</small>
+</div>
+</article>
+
+<article class="testimonial">
+<div class="testimonial-content">
+<div class="quote">“</div>
+<p>Mukul has been very helpful in guiding me with DevOps training. I would definitely recommend my DevOps Program to others.</p>
+<strong>Nagasri</strong>
+<small>DevOps Training | Professional Participant</small>
+</div>
+</article>
+
+</div>
+</section>
+
+<section id="about" class="about">
+<div>
+<span class="kicker">ABOUT</span>
+<h2 class="title">20+ years of engineering & security experience.</h2>
+<p>I bring together DevOps, DevSecOps, AppSec, Cloud Security, and emerging AI Security to deliver practical, industry-oriented training. My focus is on secure engineering, automation, real-world projects, and knowledge sharing that helps professionals build future-ready skills.</p>
+</div>
+<div class="ai">
+<span class="kicker">LEARN WITH ME</span>
+<h3>Learn. Build. Secure. Innovate.</h3>
+<p>Practical training, videos, demos and learning resources across DevOps, DevSecOps, GenAI and AI Security.</p>
+<a class="btn primary" href="https://www.youtube.com/@DevSecOps-Experts" target="_blank" rel="noopener">YouTube Channel ↗</a>
+</div>
+</section>
+
+<div id="contact" class="contact">
+<div>
+<h2>Let’s Build Something<br>Secure Together.</h2>
+<p>DevSecOps transformation, AI Security, corporate training, or technology consulting — let’s discuss how I can help.</p>
+</div>
+<a class="btn primary" href="#contact" onclick="openContact(event)">Start an Enquiry →</a>
+</div>
+
+
+<div id="imageLightbox" class="lightbox" onclick="closeImage()">
+<button class="lightbox-close" onclick="closeImage(event)" aria-label="Close image">×</button>
+<img id="lightboxImage" src="" alt="" onclick="event.stopPropagation()">
+</div>
+
+<div id="contactModal" class="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+<div class="contact-panel">
+<button class="contact-close" onclick="closeContact()" aria-label="Close">×</button>
+<span class="kicker">LET’S CONNECT</span>
+<h2 id="contactTitle">Let’s Build Something Secure Together.</h2>
+<p>Training • Consulting • AI Security</p>
+<div class="contact-options">
+<a class="contact-option whatsapp-contact" href="https://wa.me/917769929666?text=Hello%20Mukul%2C%20I%20am%20interested%20in%20your%20training%20programs." target="_blank" rel="noopener">
+<div><span>TRAINING • WhatsApp</span><strong>Enquire About Training</strong></div><div class="contact-arrow">↗</div>
+</a>
+<a class="contact-option whatsapp-contact consulting-contact" href="https://wa.me/917769929666?text=Hello%20Mukul%2C%20I%20am%20interested%20in%20DevSecOps%20or%20AI%20Security%20consulting." target="_blank" rel="noopener">
+<div><span>CONSULTING • WhatsApp</span><strong>Discuss Consulting</strong></div><div class="contact-arrow">↗</div>
+</a>
+</div>
+<div class="contact-services">
+<span>Corporate Training</span><span>DevSecOps Consulting</span><span>AI Security</span><span>Technology Mentoring</span>
+</div>
+<div class="contact-note">Tell me what you need, your preferred timeline, and whether it is for an individual or organization.</div>
+</div>
+</div>
+
+<footer>
+<span>© 2026 Mukul Malhotra</span>
+<span>NextGen DevSecOps AI</span>
+</footer>
+
+</div>
+
+<script>
+function toggleMenu(){
+  const menu=document.getElementById('mobileMenu');
+  const btn=document.querySelector('.menu-toggle');
+  if(!menu) return;
+  const active=menu.classList.toggle('active');
+  if(btn) btn.setAttribute('aria-expanded', active ? 'true' : 'false');
+}
+function closeMenu(){
+  const menu=document.getElementById('mobileMenu');
+  const btn=document.querySelector('.menu-toggle');
+  if(menu) menu.classList.remove('active');
+  if(btn) btn.setAttribute('aria-expanded','false');
+}
+function openContact(event){
+  if(event) event.preventDefault();
+  const modal=document.getElementById('contactModal');
+  if(modal){ modal.classList.add('active'); document.body.style.overflow='hidden'; }
+}
+function closeContact(){
+  const modal=document.getElementById('contactModal');
+  if(modal){ modal.classList.remove('active'); document.body.style.overflow=''; }
+}
+document.addEventListener('click', function(e){
+  const modal=document.getElementById('contactModal');
+  if(modal && e.target === modal) closeContact();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeContact();
+});
+</script>
+
+
+
+<style>
+/* LET'S CONNECT refinement */
+.contact-services{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 2px}
+.contact-services span{font-size:10px;color:#aeb8ca;border:1px solid #2a3550;background:rgba(17,24,42,.7);border-radius:999px;padding:6px 9px}
+.whatsapp-contact{border-color:rgba(34,211,238,.28)}
+.whatsapp-contact:hover{border-color:rgba(34,211,238,.55);transform:translateY(-1px)}
+</style>
+
+
+<style>
+/* Final alignment + LET'S CONNECT premium theme */
+.wrap{width:min(1180px,100%);margin-inline:auto;padding-inline:28px}
+.audience,.hands-on,#ai-security,.testimonials{width:100%;margin-left:0;margin-right:0}
+.audience,.hands-on,#ai-security,.testimonials{box-sizing:border-box}
+.audience{padding-left:34px!important;padding-right:34px!important}
+.audience .title{max-width:100%;overflow-wrap:anywhere}
+@media(max-width:850px){
+  .wrap{padding-inline:22px}
+  .audience{padding-left:24px!important;padding-right:24px!important}
+}
+@media(max-width:520px){
+  .wrap{padding-inline:16px}
+  .audience{padding-left:18px!important;padding-right:18px!important}
+}
+
+/* Premium contact / Let's Connect */
+.contact-modal{background:rgba(3,6,18,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.contact-panel{
+  width:min(560px,100%);
+  padding:38px;
+  border:1px solid rgba(124,92,255,.38);
+  border-radius:26px;
+  background:
+    radial-gradient(circle at 85% 8%,rgba(34,211,238,.13),transparent 28%),
+    radial-gradient(circle at 10% 100%,rgba(124,92,255,.16),transparent 32%),
+    linear-gradient(145deg,#11182c,#090e1b 72%);
+  box-shadow:0 30px 100px rgba(0,0,0,.55),0 0 55px rgba(124,92,255,.10);
+  overflow:hidden;
+}
+.contact-panel:before{content:"";position:absolute;left:38px;right:38px;top:0;height:2px;background:linear-gradient(90deg,transparent,#7c5cff,#22d3ee,transparent);box-shadow:0 0 18px rgba(34,211,238,.35)}
+.contact-panel .kicker{color:#8b82ff;display:inline-flex;align-items:center;gap:8px}
+.contact-panel .kicker:before{content:"";width:22px;height:2px;border-radius:2px;background:linear-gradient(90deg,#7c5cff,#22d3ee);box-shadow:0 0 10px rgba(34,211,238,.45)}
+.contact-panel h2{font-size:clamp(32px,5vw,43px);line-height:1.02;margin:10px 0 10px;background:linear-gradient(90deg,#fff,#d9d5ff 52%,#9cecff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.contact-panel>p{color:#aab4c9;font-size:14px;margin:0 0 24px}
+.contact-options{gap:12px}
+.contact-option{position:relative;padding:18px 19px;border:1px solid rgba(124,92,255,.20);border-radius:16px;background:rgba(10,16,30,.82);box-shadow:inset 0 1px rgba(255,255,255,.035);transition:.25s}
+.contact-option:after{content:"";position:absolute;inset:0;border-radius:16px;background:linear-gradient(90deg,rgba(124,92,255,.08),rgba(34,211,238,.05));opacity:0;transition:.25s;pointer-events:none}
+.contact-option:hover{transform:translateY(-2px);border-color:rgba(34,211,238,.48);box-shadow:0 12px 30px rgba(34,211,238,.08)}
+.contact-option:hover:after{opacity:1}
+.contact-option span{color:#7ddff1;font-size:9px;letter-spacing:1.5px}
+.contact-option strong{font-size:15px;margin-top:3px;color:#f4f7ff}
+.contact-arrow{color:#8b82ff;font-size:18px}
+.contact-services{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0 4px}
+.contact-services span{font-size:9px;letter-spacing:.4px;color:#b9c2d3;border:1px solid rgba(124,92,255,.18);background:rgba(124,92,255,.06);border-radius:999px;padding:6px 9px}
+.contact-note{font-size:11px;color:#78849a;line-height:1.6;margin-top:17px;padding-top:14px;border-top:1px solid rgba(255,255,255,.07)}
+.contact-close{top:12px;right:15px;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:#aeb8ca;line-height:30px}
+.contact-close:hover{color:#fff;border-color:rgba(34,211,238,.35);background:rgba(34,211,238,.07)}
+@media(max-width:520px){
+  .contact-panel{padding:32px 20px;border-radius:22px}
+  .contact-panel:before{left:20px;right:20px}
+}
+</style>
+
+<style id="ultra-tight-section-rhythm">
+/* Reduce large vertical gaps between major homepage sections */
+section{padding-top:28px!important;padding-bottom:28px!important}
+.learn-strip,.journey,.hands-on,.audience,.testimonials,.about{margin:0!important;padding-top:30px!important;padding-bottom:30px!important}
+.hands-on-message{margin-bottom:0!important}
+.journey .kicker{margin-top:0!important}
+@media(max-width:800px){
+  section{padding-top:24px!important;padding-bottom:24px!important}
+  .learn-strip,.journey,.hands-on,.audience,.testimonials,.about{padding-top:26px!important;padding-bottom:26px!important}
+}
+@media(max-width:520px){
+  section{padding-top:20px!important;padding-bottom:20px!important}
+  .learn-strip,.journey,.hands-on,.audience,.testimonials,.about{padding-top:22px!important;padding-bottom:22px!important}
+}
+</style>
+
+<style id="final-equal-section-gaps">
+/* Final equal spacing between all major homepage sections */
+.wrap > section {
+  margin-top: 0 !important;
+  margin-bottom: 18px !important;
+}
+.wrap > section:first-of-type {
+  margin-top: 0 !important;
+}
+.wrap > section:last-of-type {
+  margin-bottom: 18px !important;
+}
+/* Keep the featured themed sections visually consistent */
+.wrap > section.hands-on,
+.wrap > section.audience,
+.wrap > section#ai-security,
+.wrap > section.testimonials,
+.wrap > section.about,
+.wrap > section.journey,
+.wrap > section.cloud-lab,
+.wrap > section.certificate-highlight,
+.wrap > section.training {
+  margin-top: 0 !important;
+  margin-bottom: 18px !important;
+}
+@media (max-width: 800px) {
+  .wrap > section { margin-bottom: 16px !important; }
+}
+@media (max-width: 520px) {
+  .wrap > section { margin-bottom: 14px !important; }
+}
+</style>
+</body>
+</html>
+<style>
+/* Compact spacing pass */
+section{padding:60px 0}
+.hero{min-height:575px;gap:42px}
+.hero h1{margin:14px 0 12px}
+.hero p{margin:0;line-height:1.55}
+.actions{margin:20px 0}
+.metrics{margin-top:24px;gap:24px}
+.cards,.training-grid,.testimonial-grid{margin-top:24px}
+.card{padding:22px}.card h3{margin:13px 0 6px}.card p{margin-bottom:15px}
+.course{padding:19px;min-height:145px}
+.ai{padding:30px}.pillbox{margin-top:20px}
+.testimonial-grid{gap:14px}.testimonial-content{padding:20px}
+.testimonial-content p{min-height:0;margin:12px 0 16px}
+.contact{margin:18px 0 55px;padding:34px;gap:24px}
+.hands-on,.audience,.learn-strip,.journey{padding:42px 0}
+.journey-flow{margin-top:22px}.journey-step{padding:20px}.journey-step h3{margin:11px 0 6px}
+footer{padding:20px 0}
+@media(max-width:850px){
+  section{padding:48px 0}.hero{padding:48px 0 42px;gap:28px}.hero-art{height:320px}
+  .cards,.training-grid,.testimonial-grid{margin-top:20px}.card{padding:20px}.course{min-height:0}
+  .contact{margin:12px 0 42px;padding:28px}.hands-on,.audience,.learn-strip,.journey{padding:34px 0}
+}
+@media(max-width:520px){
+  section{padding:40px 0}.hero{padding:38px 0 35px}.hero-art{height:280px;padding:25px}
+  .metrics{margin-top:20px;gap:16px}.ai{padding:24px}.contact{padding:24px}
+  .testimonial-content{padding:18px}.journey-step{padding:18px}
+}
+
+/* Local Lab — One-Click Installer */
+.local-card{border-color:rgba(34,211,238,.42)!important;background:linear-gradient(145deg,rgba(34,211,238,.07),rgba(17,24,39,.96) 48%,rgba(124,92,255,.08))!important;box-shadow:0 18px 48px rgba(0,0,0,.2),0 0 28px rgba(34,211,238,.06)}
+.installer-badge{position:relative;display:inline-flex;align-items:center;margin:0 0 14px;padding:7px 11px;border:1px solid rgba(34,211,238,.42);border-radius:999px;background:rgba(34,211,238,.08);color:#67e8f9;font-size:10px;font-weight:800;letter-spacing:.1em}
+.installer-note{position:relative;margin-top:18px;padding:12px 14px;border-left:2px solid #22d3ee;border-radius:0 12px 12px 0;background:rgba(34,211,238,.055);color:#b8c5d9;font-size:12px;line-height:1.5}
+.installer-note strong{color:#e7fbff}
+.consulting-contact{border-color:rgba(124,92,255,.34)!important}
+</style>
+
+<style id="nextgen-section-spacing-final">
+/* Final section rhythm: tighter, premium, consistent spacing */
+section{padding:44px 0!important}
+.learn-strip,.journey,.hands-on,.audience,.testimonials,.about{margin:8px 0!important}
+.learn-strip,.journey,.hands-on,.audience,.testimonials,.about{padding-top:46px!important;padding-bottom:46px!important}
+.certificate-highlight{margin:22px 0!important}
+.contact{margin:22px 0 44px!important}
+
+/* Keep section content aligned to the same page gutter */
+.learn-strip,.journey,.hands-on,.audience,.testimonials,.about{box-sizing:border-box}
+
+@media(max-width:800px){
+  section{padding:38px 0!important}
+  .learn-strip,.journey,.hands-on,.audience,.testimonials,.about{margin:6px 0!important;padding:40px 22px!important}
+}
+@media(max-width:520px){
+  section{padding:32px 0!important}
+  .learn-strip,.journey,.hands-on,.audience,.testimonials,.about{margin:5px 0!important;padding:36px 18px!important}
+  .certificate-highlight{margin:18px 0!important}
+  .contact{margin:18px 0 32px!important}
+}
+</style>
