@@ -1,0 +1,19 @@
+# NextGen DevSecOps AI
+
+## Website
+https://mmukul.github.io/
+
+## About
+NextGen DevSecOps AI is the training and consulting platform of Mukul Malhotra, focused on DevOps, DevSecOps, Application Security, Generative AI and AI Security.
+
+## Training
+- DevOps training: https://mmukul.github.io/curriculum/DevOps-Curriculum-NextGen-DevSecOps-AI.pdf
+- DevSecOps & AppSec foundational curriculum: https://mmukul.github.io/curriculum/DevSecOps-Curriculum-NextGen-DevSecOps-AI.pdf
+- DevSecOps & AppSec advanced curriculum: https://mmukul.github.io/curriculum/DevSecOps-Advanced-Curriculum-NextGen-DevSecOps-AI.pdf
+- Practical Generative AI for Beginners: https://mmukul.github.io/curriculum/Practical-Generative-AI-for-Beginners-NextGen-DevSecOps-AI.pdf
+
+## Topics
+DevOps, DevSecOps, AppSec, Secure SDLC, CI/CD Security, SAST, DAST, SCA, Container Security, Cloud Security, GenAI, LLM Security, RAG Security, AI Agents, Prompt Injection, Guardrails, AI Threat Modeling and AI Security.
+
+## Access
+Student and administrator portals are private authenticated areas and are not intended for public indexing.
