@@ -1,0 +1,26 @@
+{
+  "brand": "NextGen DevSecOps AI",
+  "owner": "Mukul Malhotra",
+  "tagline": "DevSecOps · AppSec · AI Security",
+  "website": "https://mmukul.github.io/",
+  "youtube": "https://www.youtube.com/@DevSecOps-Experts",
+  "updatedAt": "2026-09-23",
+  "services": [
+    {"title":"DevSecOps Transformation","label":"DEVSECOPS","description":"Secure CI/CD, automation, Kubernetes, cloud and shift-left security."},
+    {"title":"Application Security","label":"APPSEC","description":"Secure SDLC, SAST, SCA, DAST, OWASP and application security architecture."},
+    {"title":"AI Security Consulting","label":"AI SECURITY","description":"LLM, RAG and agent security, threat modeling, guardrails and secure AI architecture."}
+  ],
+  "courses": [
+    {"title":"DevOps","description":"Practical DevOps foundations, CI/CD and automation.","fee":"₹20,000"},
+    {"title":"DevSecOps & Application Security","description":"Secure software delivery, AppSec and DevSecOps practices.","fee":"₹25,000"},
+    {"title":"GenAI & AI Security","description":"GenAI foundations, RAG, LLM security and practical AI security labs.","fee":"₹25,000"},
+    {"title":"Customised Training","description":"Role-focused training designed around your team's technology and security requirements.","fee":"Enquire"}
+  ],
+  "build": ["CI/CD Pipeline","Secure Application","RAG Application","AI Security Pipeline"],
+  "learning": ["Browser-Based Lab","Local Lab Setup","AWS Cloud Hands-on Practice"],
+  "connect": ["DevSecOps","Application Security","AI Security","Customised Training"],
+  "about": {
+    "headline":"20+ years of engineering & security experience.",
+    "text":"I bring together DevOps, DevSecOps, Application Security, Cloud Security, and emerging AI Security to deliver practical, industry-oriented training."
+  }
+}
