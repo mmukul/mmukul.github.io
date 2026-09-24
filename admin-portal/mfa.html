@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin MFA | NextGen DevSecOps AI</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js?v=32"></script>
+<style>*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#070a12;color:#fff;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}.box{width:min(500px,calc(100% - 32px));background:#0e1321;border:1px solid #26304a;border-radius:20px;padding:30px;box-shadow:0 25px 80px rgba(0,0,0,.45)}.brand{font-weight:900;color:#bdb5ff}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.14em;color:#65e6ff}.box h1{font-size:27px;margin:10px 0 8px}.sub{color:#9aa5b8;font-size:13px;line-height:1.55;margin:0 0 18px}.qr{background:#fff;padding:12px;border-radius:12px;display:block;max-width:260px;width:100%;margin:18px auto}.secret{word-break:break-all;background:#090e19;border:1px solid #303a54;border-radius:8px;padding:10px;font-family:monospace;font-size:12px}.code{width:100%;padding:13px;border:1px solid #303a54;background:#090e19;color:#fff;border-radius:9px;font-size:22px;letter-spacing:.2em;text-align:center;margin-top:8px}.btn{width:100%;padding:12px;border-radius:10px;border:1px solid #4f46e5;background:linear-gradient(135deg,#4f46e5,#0ea5e9);color:#fff;font-weight:900;cursor:pointer;margin-top:16px}.msg{min-height:20px;margin-top:12px;color:#fbbf24;font-size:12px;line-height:1.5}.hidden{display:none}.back{display:block;text-align:center;color:#94a3b8;font-size:12px;text-decoration:none;margin-top:18px}</style>
+</head><body><main class="box"><div class="brand">NextGen DevSecOps AI</div><div class="eyebrow">ADMIN SECURITY</div><h1>Multi-Factor Authentication</h1>
+<p id="intro" class="sub">Verifying your administrator session…</p>
+<section id="setup" class="hidden"><p class="sub">Scan this QR code with Google Authenticator, Microsoft Authenticator, 1Password, or another TOTP authenticator.</p><img id="qr" class="qr" alt="TOTP setup QR code"><div id="secretWrap" class="hidden"><p class="sub">Manual TOTP setup secret</p><div id="secret" class="secret"></div></div></section>
+<label for="code">6-digit authenticator code</label><p class="sub" style="margin:6px 0 0">Enter the current 6-digit code shown in your authenticator app. Codes refresh about every 30 seconds.</p><input id="code" class="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" aria-label="6-digit authenticator code">
+<button id="verify" class="btn">Verify & Continue</button><div id="msg" class="msg" role="alert"></div>
+<a class="back" href="login.html" id="back">← Return to login</a></main>
+<script>
+const client=window.supabase.createClient(window.NEXTGEN_SUPABASE_URL,window.NEXTGEN_SUPABASE_ANON_KEY);
+const intro=document.getElementById('intro'),setup=document.getElementById('setup'),qr=document.getElementById('qr'),secret=document.getElementById('secret'),code=document.getElementById('code'),verifyBtn=document.getElementById('verify'),msg=document.getElementById('msg');
+let factorId=null, mode='challenge', busy=false;
+
+function showError(error){
+  const codeName=error?.code || '';
+  const message=error?.message || String(error) || 'Unable to complete MFA.';
+  const friendly={
+    mfa_challenge_expired:'This MFA challenge expired. Please request a new code.',
+    mfa_factor_not_found:'The authenticator factor is no longer available. Please return to login and start MFA setup again.',
+    mfa_verification_failed:'The 6-digit code is incorrect or expired. Wait for the next code and try again.',
+    mfa_totp_verify_not_enabled:'TOTP verification is disabled in Supabase. Enable TOTP verification under Authentication → Multi Factor Authentication.',
+    insufficient_aal:'MFA verification is required before accessing the administrator portal.'
+  };
+  msg.textContent=friendly[codeName] || message;
+}
+
+function renderQrCode(value){
+  const raw=String(value||'').trim();
+  if(!raw) throw new Error('Supabase did not return a TOTP QR code. Use the manual secret below or restart MFA setup.');
+
+  // Supabase normally returns raw SVG markup. Also accept a complete data URL
+  // and an already URL-encoded SVG so the QR is never double-encoded.
+  if(/^data:image\//i.test(raw)){
+    qr.src=raw;
+  }else{
+    let svg=raw;
+    try{
+      const decoded=decodeURIComponent(raw);
+      if(/^<svg[\s>]/i.test(decoded) || /^<\?xml/i.test(decoded)) svg=decoded;
+    }catch(_){ /* keep the original value */ }
+    if(/^<svg[\s>]/i.test(svg) || /^<\?xml/i.test(svg)){
+      qr.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+    }else{
+      // Last safe fallback for SVG/XML returned in an unexpected encoding.
+      const blob=new Blob([svg],{type:'image/svg+xml;charset=utf-8'});
+      const url=URL.createObjectURL(blob);
+      qr.onload=()=>URL.revokeObjectURL(url);
+      qr.src=url;
+    }
+  }
+  qr.onerror=()=>{
+    msg.textContent='The QR code could not be rendered. Use the manual secret below or restart MFA setup.';
+  };
+}
+
+async function ensureAdminSession(){
+  const {data:{session},error:se}=await client.auth.getSession();
+  if(se) throw se;
+  if(!session){ location.replace('login.html'); return null; }
+
+  const {data:userData,error:ue}=await client.auth.getUser();
+  if(ue || !userData.user){ await client.auth.signOut(); location.replace('login.html'); return null; }
+
+  const {data:profile,error:pe}=await client.from('profiles').select('role,status').eq('id',userData.user.id).maybeSingle();
+  if(pe) throw pe;
+  if(!profile || profile.role!=='admin' || profile.status!=='active'){
+    await client.auth.signOut();
+    throw new Error('Active administrator account required.');
+  }
+  return session;
+}
+
+async function boot(){
+  try{
+    const session=await ensureAdminSession();
+    if(!session) return;
+
+    const {data:aal,error:ae}=await client.auth.mfa.getAuthenticatorAssuranceLevel();
+    if(ae) throw ae;
+    if(aal.currentLevel==='aal2'){
+      location.replace('index.html');
+      return;
+    }
+
+    const {data:factors,error:fe}=await client.auth.mfa.listFactors();
+    if(fe) throw fe;
+
+    const verified=(factors?.totp || []).find(f=>f.status==='verified');
+
+    if(verified){
+      mode='challenge';
+      factorId=verified.id;
+      intro.textContent='Enter the current 6-digit code from your authenticator app.';
+      setup.classList.add('hidden');
+      code.focus();
+    }else{
+      // Do not delete an existing unverified factor automatically.
+      // The administrator can restart enrollment explicitly if needed.
+      const pending=(factors?.totp || []).find(f=>f.status==='unverified');
+      mode='enroll';
+      intro.textContent='Set up an authenticator app to protect the administrator account.';
+      let data;
+      if(pending){
+        // An unverified factor does not expose the original QR/secret again.
+        // Remove only this unverified factor and start a fresh enrollment so the
+        // administrator receives a new QR code and secret.
+        const {error:ue}=await client.auth.mfa.unenroll({factorId:pending.id});
+        if(ue) throw ue;
+      }
+      const enrolled=await client.auth.mfa.enroll({factorType:'totp',friendlyName:'NextGen Admin'});
+      if(enrolled.error) throw enrolled.error;
+      data=enrolled.data;
+      factorId=data.id;
+      const qrValue=data?.totp?.qr_code || '';
+      renderQrCode(qrValue);
+      secret.textContent=data?.totp?.secret || '';
+      if(!secret.textContent) throw new Error('Supabase did not return a TOTP secret. Restart MFA setup.');
+      document.getElementById('secretWrap').classList.remove('hidden');
+      setup.classList.remove('hidden');
+      code.focus();
+    }
+  }catch(error){
+    showError(error);
+    verifyBtn.disabled=true;
+  }
+}
+
+async function verifyCode(){
+  if(busy) return;
+  msg.textContent='';
+  const value=code.value.replace(/\D/g,'').slice(0,6);
+  code.value=value;
+  if(!/^\d{6}$/.test(value)){
+    showError({message:'Enter the 6-digit code from your authenticator app.'});
+    return;
+  }
+  if(!factorId){
+    showError({message:'No MFA factor is available. Please return to login and try again.'});
+    return;
+  }
+
+  busy=true;
+  verifyBtn.disabled=true;
+  verifyBtn.textContent='Verifying…';
+
+  try{
+    // Use Supabase's explicit documented challenge -> verify flow.
+    // This works for both enrollment verification and normal sign-in MFA.
+    const challenge=await client.auth.mfa.challenge({factorId});
+    if(challenge.error) throw challenge.error;
+    const challengeId=challenge.data?.id;
+    if(!challengeId) throw new Error('Supabase did not create an MFA challenge. Please try again.');
+
+    const verification=await client.auth.mfa.verify({factorId,challengeId,code:value});
+    if(verification.error) throw verification.error;
+
+    // Refresh the local session before checking AAL so the newly verified
+    // authentication level is reflected immediately in the browser.
+    const {data:refreshed,error:re}=await client.auth.refreshSession();
+    if(re) throw re;
+    if(!refreshed?.session) throw new Error('The authenticated session could not be refreshed after MFA verification. Please sign in again.');
+
+    // Supabase promotes the current session to AAL2 after successful TOTP verification.
+    const {data:aal,error:ae}=await client.auth.mfa.getAuthenticatorAssuranceLevel();
+    if(ae) throw ae;
+    if(aal.currentLevel!=='aal2') throw new Error('MFA verification completed but the session is still AAL1. Please sign in again.');
+
+    location.replace('index.html');
+  }catch(error){
+    showError(error);
+    code.value='';
+    code.focus();
+    verifyBtn.disabled=false;
+    verifyBtn.textContent='Verify & Continue';
+    busy=false;
+  }
+}
+
+verifyBtn.addEventListener('click',verifyCode);
+code.addEventListener('input',()=>{
+  code.value=code.value.replace(/\D/g,'').slice(0,6);
+  msg.textContent='';
+});
+code.addEventListener('paste',(event)=>{
+  event.preventDefault();
+  const pasted=(event.clipboardData?.getData('text')||'').replace(/\D/g,'').slice(0,6);
+  code.value=pasted;
+  msg.textContent='';
+  if(pasted.length===6) verifyCode();
+});
+code.addEventListener('keydown',(event)=>{
+  if(event.key==='Enter'){
+    event.preventDefault();
+    verifyCode();
+  }
+});
+boot();
+</script></body></html>
