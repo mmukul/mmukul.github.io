@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Login | NextGen DevSecOps AI</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="js/supabase-config.js?v=20"></script>
+<style>*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#070a12;color:#fff;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}.box{width:min(430px,calc(100% - 32px));background:#0e1321;border:1px solid #26304a;border-radius:20px;padding:30px;box-shadow:0 25px 80px rgba(0,0,0,.45)}.brand{font-weight:900;color:#bdb5ff}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.14em;color:#65e6ff}.box h1{font-size:30px;margin:10px 0 8px}.sub{color:#9aa5b8;font-size:13px;line-height:1.55;margin:0 0 20px}label{display:block;color:#cbd5e1;font-size:12px;font-weight:800;margin:13px 0 6px}input{width:100%;padding:12px 13px;border:1px solid #303a54;background:#090e19;color:#fff;border-radius:9px;outline:none}input:focus{border-color:#8b5cf6}button,.btn{width:100%;display:inline-flex;justify-content:center;align-items:center;padding:12px 14px;border-radius:10px;border:1px solid #4f46e5;background:linear-gradient(135deg,#4f46e5,#0ea5e9);color:#fff;font-weight:900;cursor:pointer;text-decoration:none;margin-top:18px}button:disabled{opacity:.6;cursor:not-allowed}.captcha{margin-top:14px;min-height:65px}.msg{min-height:20px;margin-top:12px;font-size:12px;color:#fbbf24;line-height:1.5}.back{display:block;text-align:center;color:#94a3b8;font-size:12px;text-decoration:none;margin-top:18px}.back:hover{color:#fff}</style>
+</head><body><main class="box"><div class="brand">NextGen DevSecOps AI</div><div class="eyebrow">ADMIN PORTAL</div><h1>Admin Login</h1>
+<p class="sub">Sign in with your Supabase account to continue.</p>
+<form id="loginForm"><label for="email">Email</label><input id="email" type="email" autocomplete="username" required>
+<label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required>
+<div id="turnstile" class="captcha"></div>
+<button id="submit" type="submit">Sign in →</button><div id="msg" class="msg" role="alert"></div></form>
+<a class="back" href="mfa.html" id="mfaLink" style="display:none">Continue to MFA →</a><a class="back" href="../">← Back to website</a></main>
+<script>
+const client=window.supabase.createClient(window.NEXTGEN_SUPABASE_URL,window.NEXTGEN_SUPABASE_ANON_KEY);
+const form=document.getElementById('loginForm'),msg=document.getElementById('msg'),btn=document.getElementById('submit');
+let captchaToken='';
+let turnstileWidgetId=null;
+window.onTurnstileSuccess=(token)=>{captchaToken=String(token||'');};
+window.onTurnstileExpired=()=>{captchaToken='';};
+window.onTurnstileError=()=>{captchaToken=''; msg.textContent='Security check could not be completed. Please retry.';};
+function renderCaptcha(){
+  if(!window.NEXTGEN_TURNSTILE_SITE_KEY){msg.textContent='Security configuration is incomplete: Turnstile site key is not configured.';btn.disabled=true;return;}
+  if(window.turnstile){turnstileWidgetId=window.turnstile.render('#turnstile',{sitekey:window.NEXTGEN_TURNSTILE_SITE_KEY,callback:window.onTurnstileSuccess,'expired-callback':window.onTurnstileExpired,'error-callback':window.onTurnstileError});}
+  else setTimeout(renderCaptcha,250);
+}
+renderCaptcha();
+form.addEventListener('submit',async(e)=>{
+ e.preventDefault(); msg.textContent='Signing in…'; btn.disabled=true;
+ try{
+  if(!captchaToken) throw new Error('Complete the security check before signing in.');
+  const email=document.getElementById('email').value.trim().toLowerCase();
+  const password=document.getElementById('password').value;
+  const token=captchaToken;
+  // Send the Turnstile token explicitly as captcha_token to Supabase Auth.
+  // This avoids relying on client-library option serialization and guarantees
+  // the CAPTCHA token is present in the password-grant request.
+  const authUrl = `${window.NEXTGEN_SUPABASE_URL.replace(/\/$/, '')}/auth/v1/token?grant_type=password`;
+  const response = await fetch(authUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': window.NEXTGEN_SUPABASE_ANON_KEY
+    },
+    body: JSON.stringify({ email, password, captcha_token: token })
+  });
+  const authData = await response.json().catch(()=>({}));
+  if(!response.ok) throw new Error(authData.error_description || authData.msg || authData.message || 'Unable to sign in.');
+  if(!authData.access_token || !authData.refresh_token) throw new Error('Authentication failed.');
+  const {data,error}=await client.auth.setSession({access_token:authData.access_token,refresh_token:authData.refresh_token});
+  if(error) throw error;
+  if(!data.user) throw new Error('Authentication failed.');
+  const {data:profile,error:pe}=await client.from('profiles').select('role,status').eq('id',data.user.id).maybeSingle();
+  if(pe) throw pe;
+  if(!profile||profile.role!=='admin'||profile.status!=='active'){
+    await client.auth.signOut(); throw new Error('This account is not an active admin account.');
+  }
+  const {data:aal,error:ae}=await client.auth.mfa.getAuthenticatorAssuranceLevel(); if(ae) throw ae; if(aal.currentLevel==='aal2') location.replace('index.html'); else location.replace('mfa.html');
+ }catch(err){
+  msg.textContent=err.message||'Unable to sign in.';btn.disabled=false;captchaToken='';
+  if(window.turnstile) try{window.turnstile.reset(turnstileWidgetId);}catch(_ ){}
+ }
+});
+</script></body></html>
