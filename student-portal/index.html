@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Student Portal | NextGen DevSecOps AI</title>
+<style>
+:root{--bg:#070a12;--panel:#0e1321;--panel2:#11182a;--line:#252d43;--text:#f8fafc;--muted:#9aa5b8;--violet:#8b5cf6;--cyan:#22d3ee;--green:#34d399}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% 0%,rgba(99,102,241,.16),transparent 32%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}a{text-decoration:none;color:inherit}.shell{max-width:1180px;margin:auto;padding:0 22px}.top{height:74px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.logo{font-weight:900;letter-spacing:-.5px}.logo span{color:#a78bfa}.top-actions{display:flex;gap:10px;align-items:center}.btn{border:1px solid #39435e;background:#12192a;color:#fff;border-radius:10px;padding:10px 15px;font-weight:800;font-size:12px}.btn.primary{background:linear-gradient(135deg,#7c3aed,#06b6d4);border:0}.layout{display:grid;grid-template-columns:220px 1fr;gap:22px;padding:26px 0 50px}.side{background:rgba(14,19,33,.85);border:1px solid var(--line);border-radius:18px;padding:14px;height:max-content;position:sticky;top:18px}.side a{display:block;padding:12px 13px;color:#aeb8ca;border-radius:9px;font-size:13px;margin:3px 0}.side a.active,.side a:hover{background:rgba(139,92,246,.12);color:#fff}.side small{display:block;color:#657086;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:12px 13px 5px}.hero{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:20px}.eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#67e8f9;font-weight:900}.hero h1{font-size:40px;letter-spacing:-2px;margin:8px 0}.hero p{color:var(--muted);margin:0;max-width:700px}.status{padding:9px 12px;border:1px solid rgba(52,211,153,.25);background:rgba(52,211,153,.07);border-radius:999px;color:#6ee7b7;font-size:11px;font-weight:800;white-space:nowrap}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:linear-gradient(145deg,var(--panel),#0b1020);border:1px solid var(--line);border-radius:16px;padding:20px}.card h3{margin:0 0 7px;font-size:18px}.card p{color:var(--muted);font-size:12px;line-height:1.55;margin:0}.progress{height:7px;background:#20283b;border-radius:99px;overflow:hidden;margin:14px 0 8px}.progress i{display:block;height:100%;width:68%;background:linear-gradient(90deg,var(--violet),var(--cyan));border-radius:99px}.stat{font-size:24px;font-weight:900}.label{font-size:10px;color:#7d879a}.section{margin-top:24px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.section-head h2{font-size:19px;margin:0;letter-spacing:-.5px}.section-head a{font-size:11px;color:#a78bfa;font-weight:800}.courses{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.course{background:linear-gradient(145deg,#101629,#0c1220);border:1px solid var(--line);border-radius:16px;padding:18px}.course .tag{display:inline-block;font-size:9px;color:#67e8f9;border:1px solid rgba(34,211,238,.25);padding:5px 7px;border-radius:999px;margin-bottom:10px}.course h3{margin:0 0 6px;font-size:16px}.course p{color:var(--muted);font-size:11px;line-height:1.5;min-height:34px}.course .btn{display:inline-block;margin-top:8px}.list{display:grid;gap:9px}.row{display:flex;align-items:center;justify-content:space-between;gap:15px;background:#0d1321;border:1px solid var(--line);border-radius:12px;padding:13px 15px}.row strong{font-size:12px}.row small{display:block;color:#737f93;font-size:10px;margin-top:3px}.pill{font-size:9px;padding:5px 8px;border-radius:999px;background:rgba(52,211,153,.08);color:#6ee7b7;border:1px solid rgba(52,211,153,.18)}.lab{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}.lab-main{background:linear-gradient(135deg,#11182b,#15132a);border:1px solid rgba(139,92,246,.35);border-radius:16px;padding:22px}.lab-main h3{font-size:22px;margin:0 0 7px}.lab-main p{color:var(--muted);font-size:12px}.lab-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.duration{border:1px solid var(--line);border-radius:9px;padding:9px;text-align:center;color:#aeb8ca;font-size:11px}.duration b{display:block;color:#fff;font-size:14px}.note{font-size:10px;color:#69758a;line-height:1.5}.recording{background:linear-gradient(145deg,#101629,#0c1220);border:1px solid rgba(34,211,238,.18);border-radius:14px;padding:16px}.recording-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.recording h3{margin:0 0 5px;font-size:15px}.recording p{color:var(--muted);font-size:11px;line-height:1.5;margin:5px 0}.recording .meta{font-size:10px;color:#7d879a}.recording-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.empty-state{color:var(--muted);border:1px dashed var(--line);border-radius:12px;padding:20px;text-align:center;font-size:12px}.footer{border-top:1px solid var(--line);padding:20px 0;color:#667185;font-size:10px;margin-top:25px}@media(max-width:900px){.layout{grid-template-columns:1fr}.side{position:static;display:flex;gap:5px;overflow:auto}.side small{display:none}.side a{white-space:nowrap}.grid,.courses{grid-template-columns:1fr 1fr}.lab{grid-template-columns:1fr}}@media(max-width:600px){.shell{padding:0 14px}.top{height:66px}.top-actions .btn:first-child{display:none}.layout{padding-top:16px}.hero{display:block}.hero h1{font-size:32px}.status{display:inline-block;margin-top:14px}.grid,.courses{grid-template-columns:1fr}.lab-options{grid-template-columns:1fr 1fr}.row{align-items:flex-start}.row .btn{font-size:10px;padding:8px}}
+
+.section{margin-top:26px}.section + .section{margin-top:20px}.section-head{margin-bottom:16px}</style><style>
+/* NextGen course/lab visual theme */
+.course-status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.course-status-card{position:relative;background:#fff;border:1px solid #dbe7f5;border-radius:15px;padding:18px;box-shadow:0 6px 20px rgba(30,58,138,.06);overflow:hidden}
+.course-status-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#2563eb}
+.course-status-card.completed:before{background:#16a34a}.course-status-card.pending:before{background:#d97706}
+.course-status-title{font-weight:750;color:#17315f;font-size:16px}.course-status-meta{margin-top:7px;color:#667892;font-size:13px}
+.course-status-pill{display:inline-block;margin-top:12px;padding:5px 10px;border-radius:999px;background:#e8f1ff;color:#1d4ed8;font-size:11px;font-weight:800;text-transform:uppercase}
+.course-status-card.completed .course-status-pill{background:#e9f8ef;color:#15803d}
+.course-status-card.pending .course-status-pill{background:#fff4df;color:#b45309}
+.lab-assignment-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.lab-assignment-card{background:#fff;border:1px solid #dbe7f5;border-radius:15px;padding:19px;box-shadow:0 6px 20px rgba(30,58,138,.06)}
+.lab-assignment-card.browser{border-top:4px solid #06b6d4}.lab-assignment-card.local{border-top:4px solid #2563eb}.lab-assignment-card.aws{border-top:4px solid #7c3aed}
+.lab-assignment-name{font-weight:750;color:#17315f;font-size:16px}.lab-assignment-meta{margin:7px 0 15px;color:#667892;font-size:13px;line-height:1.5}
+.lab-assignment-status{display:inline-block;padding:5px 10px;border-radius:999px;background:#e9f8ef;color:#15803d;font-size:11px;font-weight:800;text-transform:uppercase}
+.dashboard-gap-tight{margin-top:22px}
+/* v33 Student Portal visual cleanup */
+.course-status-card,.lab-assignment-card{background:linear-gradient(145deg,#101629,#0c1220);border-color:var(--line);box-shadow:0 10px 28px rgba(0,0,0,.16)}
+.course-status-card:before{background:linear-gradient(180deg,var(--violet),var(--cyan))}.course-status-card.completed:before{background:var(--green)}.course-status-card.pending:before{background:#f59e0b}
+.course-status-title,.lab-assignment-name{color:#f8fafc}.course-status-meta,.lab-assignment-meta{color:#9aa5b8}.course-status-pill{background:rgba(34,211,238,.10);color:#67e8f9;border-color:rgba(34,211,238,.22)}.course-status-card.completed .course-status-pill{background:rgba(52,211,153,.10);color:#6ee7b7}.course-status-card.pending .course-status-pill{background:rgba(245,158,11,.10);color:#fbbf24}
+.lab-assignment-card.browser{border-top-color:var(--cyan)}.lab-assignment-card.local{border-top-color:var(--violet)}.lab-assignment-card.aws{border-top-color:#a78bfa}.lab-assignment-status.pending{background:rgba(245,158,11,.10);color:#fbbf24;border-color:rgba(245,158,11,.22)}
+.section-head .btn{white-space:nowrap}.btn{transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}.btn:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(0,0,0,.22)}
+.quick-note{margin-top:12px;padding:12px 14px;border:1px solid rgba(34,211,238,.16);border-radius:12px;background:rgba(34,211,238,.045);color:#8f9aaf;font-size:11px;line-height:1.5}
+</style><style>
+/* v34 functional/UI hardening */
+.btn{cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn:focus-visible,.side a:focus-visible,.setup-close:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+/* v38 Student Portal button theme */
+.btn{transition:transform .15s ease,box-shadow .15s ease,filter .15s ease}.btn:hover{filter:brightness(1.08)}
+.btn.secondary{background:linear-gradient(135deg,#17233b,#1e3a5f);border-color:#35527a;color:#dbeafe}
+.btn.primary{background:linear-gradient(135deg,#7c3aed 0%,#2563eb 52%,#06b6d4 100%);box-shadow:0 6px 18px rgba(37,99,235,.18)}
+.btn.danger{background:linear-gradient(135deg,#3a1821,#5b1f2a);border-color:#6b2b38;color:#fecdd3}
+.btn:focus-visible{box-shadow:0 0 0 3px rgba(34,211,238,.18)}
+.support-link{color:#67e8f9!important;background:rgba(34,211,238,.06);border:1px solid rgba(34,211,238,.14)}
+.activity-row{background:linear-gradient(145deg,#0f1728,#0b1220)}
+
+/* v39 Student Portal refinement */
+.top-actions .btn.primary{min-width:150px}
+.hero h1{background:linear-gradient(90deg,#fff,#c4b5fd 48%,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}
+#assigned-labs .section-head{padding:16px 18px;border:1px solid rgba(139,92,246,.25);border-radius:14px;background:linear-gradient(135deg,rgba(76,29,149,.24),rgba(8,145,178,.12));}
+#assignedLabsList.lab-assignment-grid{padding:2px}
+.lab-assignment-card{background:linear-gradient(145deg,#121a2d 0%,#0b1220 100%);border:1px solid #293652;box-shadow:0 12px 30px rgba(0,0,0,.24);}
+.lab-assignment-card:hover{border-color:rgba(34,211,238,.5);transform:translateY(-2px);transition:.18s ease}
+.lab-assignment-name{font-size:17px;color:#f8fafc}
+.lab-assignment-meta{color:#a7b1c4}
+.lab-open-btn{margin-top:2px;min-width:170px}.curriculum-btn{min-width:160px;text-align:center}.lab-assignment-status.pending{cursor:help}
+#materials .row{background:linear-gradient(145deg,#10182a,#0c1220);border-color:#293652}
+#materials .row .btn.primary{min-width:150px}
+@media(max-width:600px){.top-actions .btn.primary{min-width:0;padding:9px 11px}.top-actions .btn.primary{font-size:11px}.top-actions .btn.secondary{display:none}.hero h1{font-size:31px}}
+</style></head>
+<body><div id="authGuard" style="position:fixed;inset:0;display:grid;place-items:center;background:#070a12;color:#9aa5b8;font:12px Inter,system-ui;z-index:99999">Checking secure login…</div>
+<header class="top"><div class="shell" style="width:100%;display:flex;justify-content:space-between;align-items:center"><a class="logo" href="../">NextGen <span>DevSecOps AI</span></a><div class="top-actions"><a class="btn secondary" href="../">← Website</a><a class="btn primary" href="reset-password.html">🔐 Reset Password</a><a class="btn danger" href="#" onclick="logout(event)">Logout</a></div></div></header>
+<main class="shell">
+<div class="layout">
+<aside class="side"><small>Student Portal</small><a class="active" href="#dashboard">Dashboard</a><a href="#courses">My Courses</a><a href="#materials">Course Material</a><a href="#recordings">🎥 Class Recordings</a><a href="#assigned-labs">🧪 My Assigned Labs</a><a href="#assignments">📝 Activities</a><a href="#certificate">Certificate</a><small>Help</small><a class="support-link" href="https://wa.me/917769929666?text=Hello%20Mukul%2C%20I%20need%20support." target="_blank" rel="noopener noreferrer">💬 Contact Trainer</a></aside>
+<section id="dashboard">
+<div class="hero"><div><div class="eyebrow">Student Dashboard</div><h1 id="welcomeTitle">Welcome Student</h1><p>Your courses, assigned labs, class recordings, activities and certificates — organized in one place.</p><div id="studentIdentity" class="label" style="margin-top:8px"></div></div><div class="status" id="accountStatus">● Checking account</div></div>
+<div class="grid"><div class="card"><div class="stat" id="activeCoursesCount">—</div><div class="label">Active Courses</div></div><div class="card"><div class="stat" id="recordingsCount">—</div><div class="label">Class Recordings</div></div></div>
+<div class="section" id="courses"><div class="section-head"><h2>My Courses</h2></div><div id="coursesList" class="courses"><div class="empty-state">Loading your courses…</div></div></div>
+<div class="section" id="materials"><div class="section-head"><h2>Course Material</h2></div><div id="materialsList" class="list"><div class="empty-state">Loading course material…</div></div></div>
+<div class="section" id="recordings"><div class="section-head"><div><h2>🎥 Class Recordings</h2><div class="label" style="margin-top:4px">Watch recordings from your live training sessions.</div></div></div><div id="recordingsList" class="recording-grid"><div class="empty-state">Loading recordings…</div></div></div>
+
+<div class="section" id="assigned-labs">
+<div class="section-head"><div><h2>🧪 My Assigned Labs</h2><div class="label" style="margin-top:4px">Only labs assigned to your account by the trainer are available here.</div></div></div>
+<div id="assignedLabsList" class="list"><div class="empty-state">Checking your lab assignments…</div></div>
+</div>
+<div class="section" id="assignments"><div class="section-head"><div><h2>📝 Activities</h2><div class="label" style="margin-top:4px">Activities and assignments published by your trainer for your enrolled courses.</div></div></div><div id="assignmentsList" class="list"><div class="empty-state">Loading assigned activities…</div></div></div>
+<div class="section" id="certificate"><div class="section-head"><div><h2>Certificate</h2><div class="label" style="margin-top:4px">Your course completion certificates.</div></div></div><div id="certificatesList" class="list"><div class="empty-state">Loading certificates…</div></div></div>
+<div class="footer">NextGen DevSecOps AI • Secure Student LMS • Your access is controlled by Supabase authentication, active student status, enrollment and trainer-assigned activities/labs.</div>
+</section></div></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>if(!window.supabase){document.write('<script src="https://unpkg.com/@supabase/supabase-js@2"><\/script>')}</script>
+<script>
+window.NEXTGEN_SUPABASE_URL = window.NEXTGEN_SUPABASE_URL || 'https://hkpvigvtdckxhmnsvdrh.supabase.co';
+window.NEXTGEN_SUPABASE_ANON_KEY = window.NEXTGEN_SUPABASE_ANON_KEY || 'sb_publishable_JlIrNdsEXgjikrh9F_YxYg_DBrgimoQ';
+window.NEXTGEN_SUPABASE_CONFIGURED = Boolean(window.NEXTGEN_SUPABASE_URL && window.NEXTGEN_SUPABASE_ANON_KEY);
+</script>
+<script src="js/supabase-config.js?v=43"></script>
+<script>
+let client=null;
+let currentUser=null;
+
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+function formatDate(v){if(!v)return 'Date not specified'; try{return new Date(v+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}catch{return v;}}
+function showDenied(msg){const g=document.getElementById('authGuard');g.innerHTML='<div style="text-align:center;max-width:440px;padding:24px"><div style="font-size:22px;color:#fff;font-weight:900;margin-bottom:8px">LMS Access Denied</div><div>'+esc(msg)+'</div><div style="margin-top:18px"><a class="btn primary" href="login.html">Back to Login</a></div></div>';g.style.display='grid';}
+
+
+
+async function boot(){
+ const guard=document.getElementById('authGuard');
+ try{
+   if(!window.NEXTGEN_SUPABASE_CONFIGURED) throw new Error('Supabase is not configured.');
+   if(!window.supabase?.createClient) throw new Error('Supabase library failed to load.');
+   client=window.supabase.createClient(window.NEXTGEN_SUPABASE_URL,window.NEXTGEN_SUPABASE_ANON_KEY);
+   const {data:{session},error:sessionError}=await client.auth.getSession();
+   if(sessionError) throw sessionError;
+   if(!session){location.replace('login.html');return;}
+   const {data:userData,error:userError}=await client.auth.getUser();
+   if(userError||!userData.user){await client.auth.signOut();location.replace('login.html');return;}
+   currentUser=userData.user;
+   // The welcome name is always read from public.profiles using the authenticated user's id.
+   // This prevents a hard-coded name or another student's name from appearing.
+   const {data:profile,error:profileError}=await client
+     .from('profiles')
+     .select('id,full_name,student_id,status,role')
+     .eq('id',currentUser.id)
+     .maybeSingle();
+   if(profileError) throw new Error('Unable to load your student profile: '+profileError.message);
+   if(!profile || profile.role!=='student' || profile.status!=='active'){
+     await client.auth.signOut();
+     showDenied('Only an active student account can access the LMS.');
+     return;
+   }
+   const welcome=document.getElementById('welcomeTitle');
+   const displayName=String(profile.full_name||'').trim() || String(currentUser.email||'').split('@')[0] || 'Student';
+   welcome.textContent='Welcome, '+displayName;
+   document.title='Student Dashboard | NextGen DevSecOps AI';
+   const identity=document.getElementById('studentIdentity');
+   if(identity) identity.textContent='Student ID: '+(profile.student_id||'Not assigned');
+   document.getElementById('accountStatus').textContent='● Active Student';
+   guard.remove();
+   await loadLMS();
+ }catch(e){console.error(e);showDenied(e.message||'Unable to verify your LMS account.');}
+}
+
+async function loadLabAssignments(uid){
+ const el=document.getElementById('assignedLabsList');
+ if(!el)return;
+ const {data,error}=await client.from('lab_assignments')
+   .select('id,lab_type,lab_name,access_url,status,assigned_at,expires_at,notes')
+   .eq('student_id',uid)
+   .in('status',['assigned','active'])
+   .order('assigned_at',{ascending:false});
+ if(error){
+   console.error('Lab assignments:',error);
+   el.innerHTML='<div class="empty-state"><strong>Assigned labs are unavailable.</strong><br>The lab assignment table or migration is not ready in Supabase. Please ask the trainer/admin to verify the LMS database setup.</div>';
+   return;
+ }
+ const now=Date.now();
+ const rows=(data||[]).filter(r=>{
+   const status=String(r.status||'').toLowerCase();
+   const validExpiry=!r.expires_at || Number.isNaN(new Date(r.expires_at).getTime()) || new Date(r.expires_at).getTime()>now;
+   return ['assigned','active'].includes(status) && validExpiry;
+ });
+ if(!rows.length){
+   el.className='list';
+   el.innerHTML='<div class="empty-state"><strong>No lab assigned yet</strong><br>Your trainer will assign the required lab here when it is ready.</div>';
+   return;
+ }
+ el.className='lab-assignment-grid';
+ const defaults={browser:'https://killercoda.com/explore'};
+ el.innerHTML=rows.map(r=>{
+   const type=String(r.lab_type||'').trim().toLowerCase();
+   const status=String(r.status||'assigned').toLowerCase();
+   const expiry=r.expires_at
+     ? `Expires: ${new Date(r.expires_at).toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}`
+     : 'No expiry';
+   const rawUrl=String(r.access_url||'').trim();
+   let safeUrl='';
+   if(rawUrl){
+     try { const u=new URL(rawUrl,location.href); if(['http:','https:'].includes(u.protocol)) safeUrl=u.href; } catch(_) {}
+   }
+   // Only provide a generic destination for lab types that have a genuine public entry point.
+   // AWS has no public URL until the trainer provisions the environment.
+   if(!safeUrl && defaults[type]) safeUrl=defaults[type];
+   const action=safeUrl
+     ? `<a class="btn primary lab-open-btn" href="${esc(safeUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Open ${esc(r.lab_name||'assigned lab')}">Open Assigned Lab →</a>`
+     : type==='local'
+       ? `<a class="btn secondary lab-open-btn" href="lab-guide.html" aria-label="Open local lab setup guide">Open Setup Guide →</a>`
+       : `<span class="lab-assignment-status pending" title="The trainer has not configured a launch URL for this lab.">Launch Link Pending</span>`;
+   return `<article class="lab-assignment-card ${esc(type)}">
+     <div class="lab-assignment-name">${esc(r.lab_name||'Assigned Lab')}</div>
+     <div class="lab-assignment-meta">${esc(r.notes||'Trainer-assigned hands-on environment')}<br>${esc(expiry)}</div>
+     <span class="lab-assignment-status">${esc(status)}</span>
+     <div style="margin-top:14px">${action}</div>
+   </article>`;
+ }).join('');
+}
+async function loadLMS(){
+ const uid=currentUser.id;
+ const {data:enrollments,error:enrollError}=await client.from('enrollments').select('id,course_id,batch_id,status,courses(id,name,slug,description)').eq('student_id',uid).in('status',['active','completed']);
+ if(enrollError)throw enrollError;
+ const active=(enrollments||[]).filter(e=>String(e.status||'').toLowerCase()==='active');
+ document.getElementById('activeCoursesCount').textContent=active.length;
+ const uniqueEnrollments=dedupeEnrollments(enrollments||[]);
+ const courseIds=[...new Set(uniqueEnrollments.map(e=>e.course_id).filter(Boolean))];
+ renderCourses(uniqueEnrollments);
+ renderMaterials(uniqueEnrollments);
+ await loadLabAssignments(uid);
+ await loadAssignments(courseIds);
+ await loadRecordings(courseIds);
+ await loadCertificates(uid);
+}
+
+
+function dedupeEnrollments(rows){
+ const map=new Map();
+ for(const row of rows||[]){
+   const course=row.courses||{};
+   const slug=String(course.slug||'').trim().toLowerCase();
+   const name=String(course.name||'').trim().toLowerCase().replace(/\s+/g,' ');
+   const key=slug || name || String(row.course_id||row.id||'').trim().toLowerCase();
+   if(!key) continue;
+   const existing=map.get(key);
+   if(!existing){ map.set(key,row); continue; }
+   const rank=r=>{const st=String(r.status||'').toLowerCase(); return st==='active'?3:st==='completed'?2:1;};
+   if(rank(row)>rank(existing)) map.set(key,row);
+ }
+ return [...map.values()];
+}
+function hrefForCourse(c){ const slug=String(c?.slug||'').trim().toLowerCase(); const name=String(c?.name||'').trim().toLowerCase(); const docs={'devops':'../curriculum/DevOps-Curriculum-NextGen-DevSecOps-AI.pdf','devsecops-appsec':'../curriculum/DevSecOps-Curriculum-NextGen-DevSecOps-AI.pdf','genai-ai-security':'../curriculum/Practical-Generative-AI-for-Beginners-NextGen-DevSecOps-AI.pdf'}; return docs[slug] || (name.includes('devsecops')&&name.includes('application security')?docs['devsecops-appsec']:'../curriculum/DevSecOps-Curriculum-NextGen-DevSecOps-AI.pdf');}
+function renderCourses(rows){
+ const el=document.getElementById('coursesList');
+ if(!rows.length){el.innerHTML='<div class="empty-state">No courses are currently assigned to your account. Please contact the trainer.</div>';return;}
+ el.innerHTML=rows.map(e=>{const c=e.courses||{};return `<article class="course"><span class="tag">${esc((c.slug||'COURSE').toUpperCase())}</span><h3>${esc(c.name||'Course')}</h3><p>${esc(c.description||'Training course and practical learning materials.')}</p><span class="pill">${esc(e.status)}</span><div style="margin-top:12px"><a class="btn primary curriculum-btn" href="${hrefForCourse(c)}" target="_blank" rel="noopener noreferrer">Open Curriculum →</a></div></article>`}).join('');
+}
+function renderMaterials(rows){
+ const el=document.getElementById('materialsList');
+ if(!rows.length){el.innerHTML='<div class="empty-state">Course material will appear here after enrollment.</div>';return;}
+ const docs={'devops':'../curriculum/DevOps-Curriculum-NextGen-DevSecOps-AI.pdf','devsecops-appsec':'../curriculum/DevSecOps-Curriculum-NextGen-DevSecOps-AI.pdf','genai-ai-security':'../curriculum/Practical-Generative-AI-for-Beginners-NextGen-DevSecOps-AI.pdf'};
+ el.innerHTML=dedupeEnrollments(rows).map(e=>{const c=e.courses||{}; const slug=String(c.slug||'').trim().toLowerCase(); const name=String(c.name||'').trim().toLowerCase(); const href=docs[slug] || (name.includes('devsecops') && name.includes('application security') ? docs['devsecops-appsec'] : ''); return `<div class="row"><div><strong>${esc(c.name||'Course')}</strong><small>${esc(c.description||'Course reference material')}</small></div>${href?`<a class="btn primary curriculum-btn" href="${href}" target="_blank" rel="noopener noreferrer">Open Curriculum →</a>`:'<span class="pill">Curriculum pending</span>'}</div>`}).join('');
+}
+async function loadAssignments(courseIds){
+ const el=document.getElementById('assignmentsList');
+ if(!el)return;
+ if(!courseIds.length){el.innerHTML='<div class="empty-state">No activities are assigned because you are not enrolled in a course.</div>';return;}
+ const {data,error}=await client.from('assignments')
+   .select('id,title,description,due_date,material_path,course_id,courses(name)')
+   .in('course_id',courseIds)
+   .order('due_date',{ascending:true,nullsFirst:false});
+ if(error){
+   console.error('Assignments:',error);
+   el.innerHTML='<div class="empty-state">Activities are temporarily unavailable. Please contact your trainer.</div>';
+   return;
+ }
+ const rows=data||[];
+ if(!rows.length){el.innerHTML='<div class="empty-state"><strong>No activities assigned yet</strong><br>Your trainer will publish activities here when they are ready.</div>';return;}
+ el.innerHTML=rows.map(a=>{
+   const material=String(a.material_path||'').trim();
+   let href='';
+   if(material){
+     try { const u=new URL(material,location.href); if(['http:','https:'].includes(u.protocol)) href=u.href; } catch(_) {}
+   }
+   const due=a.due_date?`Due: ${formatDate(a.due_date)}`:'No due date';
+   const action=href?`<a class="btn" href="${esc(href)}" target="_blank" rel="noopener noreferrer">Open Material</a>`:'';
+   return `<article class="row activity-row"><div><strong>${esc(a.title||'Assigned Activity')}</strong><small>${esc(a.courses?.name||'Course')} • ${esc(due)}</small>${a.description?`<small>${esc(a.description)}</small>`:''}</div>${action}</article>`;
+ }).join('');
+}
+async function loadRecordings(courseIds){
+ const el=document.getElementById('recordingsList');
+ if(!courseIds.length){el.innerHTML='<div class="empty-state">Recordings will appear here when they are published for your enrolled courses.</div>';document.getElementById('recordingsCount').textContent='0';return;}
+ const {data,error}=await client.from('recordings').select('id,title,description,zoom_url,zoom_passcode,recording_date,duration_minutes,published,course_id,courses(name)').in('course_id',courseIds).eq('published',true).order('recording_date',{ascending:false});
+ if(error){console.error('Recordings:',error);document.getElementById('recordingsCount').textContent='0';el.innerHTML='<div class="empty-state">Recordings are temporarily unavailable. Please try again after the LMS database update is applied.</div>';return;}
+ const rows=data||[];document.getElementById('recordingsCount').textContent=rows.length;
+ if(!rows.length){el.innerHTML='<div class="empty-state">No class recordings available yet. Recordings will appear here once you are enrolled in a course and sessions have been published.</div>';return;}
+ el.innerHTML=rows.map(r=>{
+   let recordingUrl='';
+   try { const u=new URL(String(r.zoom_url||'').trim(),location.href); if(['http:','https:'].includes(u.protocol)) recordingUrl=u.href; } catch(_) {}
+   const watch=recordingUrl?`<a class="btn primary" href="${esc(recordingUrl)}" target="_blank" rel="noopener noreferrer">▶ Watch Recording</a>`:'<span class="pill">Recording link pending</span>';
+   return `<article class="recording"><div class="recording-top"><div><h3>${esc(r.title||'Class Recording')}</h3><div class="meta">${esc(r.courses?.name||'Course')} • ${formatDate(r.recording_date)}${r.duration_minutes?' • '+esc(r.duration_minutes)+' min':''}</div></div><span class="pill">CLASS</span></div>${r.description?`<p>${esc(r.description)}</p>`:''}${r.zoom_passcode?`<p><strong>Passcode:</strong> <code>${esc(r.zoom_passcode)}</code></p>`:''}${watch}</article>`;
+ }).join('');
+}
+async function loadCertificates(uid){
+ const el=document.getElementById('certificatesList');
+ if(!el)return;
+ const {data,error}=await client.from('certificates').select('id,course_id,certificate_number,file_path,issued_at,courses(name)').eq('student_id',uid).order('issued_at',{ascending:false});
+ if(error){console.error(error);el.innerHTML='<div class="empty-state">Certificates are not available yet. Please contact the trainer if you have completed a course.</div>';return;}
+ const rows=data||[];
+ if(!rows.length){el.innerHTML='<div class="empty-state">No certificates have been issued yet. Your certificate will appear here after course completion and trainer approval.</div>';return;}
+ el.innerHTML=rows.map(c=>`<div class="row"><div><strong>${esc(c.courses?.name||'Course Completion Certificate')}</strong><small>${c.certificate_number?'Certificate ID: '+esc(c.certificate_number)+' • ':''}${c.issued_at?'Issued: '+new Date(c.issued_at).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'Issued date not specified'}</small></div><a class="btn primary" href="certificate.html?id=${encodeURIComponent(c.id)}">View / Print Certificate</a></div>`).join('');
+}
+async function logout(e){e.preventDefault();if(client)await client.auth.signOut();location.href='login.html';}
+boot();
+</script></body></html>
