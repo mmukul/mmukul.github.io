@@ -1,0 +1,5 @@
+# Supabase Edge Function configuration
+# Public payment submission is protected by Turnstile + server-side validation,
+# not by Supabase Auth JWT because public enrolment does not require login.
+[functions.submit-payment]
+verify_jwt = false
