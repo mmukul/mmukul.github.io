@@ -1,0 +1,19 @@
+[functions.secure-login]
+verify_jwt = false
+
+[functions.submit-payment]
+verify_jwt = false
+
+[functions.create-razorpay-order]
+verify_jwt = false
+
+[functions.verify-razorpay-payment]
+verify_jwt = false
+
+[functions.razorpay-webhook]
+verify_jwt = false
+
+[functions.submit-contact-enquiry]
+verify_jwt = false
+[functions.create-razorpay-payment-link]
+verify_jwt = false
