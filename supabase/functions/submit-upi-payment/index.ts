@@ -1,7 +1,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const ALLOWED_ORIGINS = new Set(['https://nextgendevsecops.in','https://www.nextgendevsecops.in']);
-const VERSION = 'v104-submit-upi-payment';
+const VERSION = 'v105-submit-upi-payment-turnstile';
 const COURSE_KEYS = new Set(['devops','devsecops-foundational','devsecops-advanced','genai']);
 const PLANS = new Set(['full','part1','part2']);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -10,6 +10,15 @@ const UTR_RE = /^[A-Za-z0-9\-]{6,40}$/;
 function cors(origin?: string|null){return {'Access-Control-Allow-Origin':ALLOWED_ORIGINS.has(origin||'')?origin!:'https://nextgendevsecops.in','Vary':'Origin','Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type','Access-Control-Allow-Methods':'POST, OPTIONS','Content-Type':'application/json'};}
 function json(status:number,body:Record<string,unknown>,origin?:string|null){return new Response(JSON.stringify({...body,function_version:VERSION}),{status,headers:cors(origin)});}
 function norm(v:unknown,max:number){return String(v??'').trim().replace(/\s+/g,' ').slice(0,max)}
+async function verifyTurnstile(token: string, remoteIp?: string | null) {
+ const secret=Deno.env.get('TURNSTILE_SECRET_KEY');
+ if(!secret) throw new Error('Turnstile secret is not configured.');
+ const body=new URLSearchParams({secret,response:token});
+ if(remoteIp) body.set('remoteip',remoteIp);
+ const response=await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body});
+ const data=await response.json().catch(()=>({}));
+ if(!response.ok||data?.success!==true) throw new Error(`Turnstile verification failed: ${Array.isArray(data?.['error-codes'])?data['error-codes'].join(','):'invalid-token'}`);
+}
 function reference(){const b=crypto.getRandomValues(new Uint8Array(8));return `UPI-${Array.from(b).map(x=>x.toString(16).padStart(2,'0')).join('').toUpperCase()}`;}
 Deno.serve(async req=>{
  const origin=req.headers.get('origin');
@@ -18,13 +27,16 @@ Deno.serve(async req=>{
  if(origin&&!ALLOWED_ORIGINS.has(origin)) return json(403,{error:'Origin not allowed.'},origin);
  try{
   const url=Deno.env.get('SUPABASE_URL'),sr=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
-  if(!url||!sr) return json(500,{error:'Payment service configuration is incomplete.',error_code:'CONFIG_ERROR'},origin);
+  const turnstileSecret=Deno.env.get('TURNSTILE_SECRET_KEY');
+  if(!url||!sr||!turnstileSecret) return json(500,{error:'Payment service configuration is incomplete.',error_code:'CONFIG_ERROR'},origin);
   const p=await req.json();
   const courseKey=norm(p?.course_key,60).toLowerCase();
   const plan=norm(p?.plan,10).toLowerCase();
-  const name=norm(p?.name,100),email=norm(p?.email,254).toLowerCase(),phone=norm(p?.phone,20),utr=norm(p?.utr,40);
+  const name=norm(p?.name,100),email=norm(p?.email,254).toLowerCase(),phone=norm(p?.phone,20),utr=norm(p?.utr,40),turnstileToken=norm(p?.turnstile_token,2048);
+  if(!turnstileToken) return json(400,{error:'Please complete the security check.',error_code:'TURNSTILE_REQUIRED'},origin);
   if(!COURSE_KEYS.has(courseKey)||!PLANS.has(plan)) return json(400,{error:'Invalid course or payment plan.',error_code:'VALIDATION_ERROR'},origin);
   if(name.length<2||!EMAIL_RE.test(email)||!PHONE_RE.test(phone)||!UTR_RE.test(utr)) return json(400,{error:'Please provide valid payment details and UPI transaction/reference ID.',error_code:'VALIDATION_ERROR'},origin);
+  await verifyTurnstile(turnstileToken,req.headers.get('cf-connecting-ip'));
   const admin=createClient(url,sr,{auth:{persistSession:false,autoRefreshToken:false}});
   const hourAgo=new Date(Date.now()-60*60*1000).toISOString();
   const {count,error:rateError}=await admin.from('gateway_payment_orders').select('id',{count:'exact',head:true}).eq('payer_email',email).gte('created_at',hourAgo);
