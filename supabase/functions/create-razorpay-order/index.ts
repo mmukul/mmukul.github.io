@@ -4,7 +4,7 @@ const ALLOWED_ORIGINS = new Set([
   'https://nextgendevsecops.in',
   'https://www.nextgendevsecops.in',
 ]);
-const VERSION = 'v103-secure-razorpay-order-diagnostics';
+const VERSION = 'v104-secure-razorpay-order-installments';
 const COURSE_KEYS = new Set(['devops', 'devsecops-foundational', 'devsecops-advanced', 'genai']);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+0-9()\-\s]{7,20}$/;
@@ -107,7 +107,7 @@ Deno.serve(async req => {
     const email = norm(payload?.email, 254).toLowerCase();
     const phone = norm(payload?.phone, 20);
 
-    if (!COURSE_KEYS.has(courseKey) || !['full', 'part1'].includes(plan)) {
+    if (!COURSE_KEYS.has(courseKey) || !['full', 'part1', 'part2'].includes(plan)) {
       return json(400, { error: 'Invalid course or payment plan.', error_code: 'VALIDATION_ERROR' }, origin);
     }
     if (name.length < 2 || !EMAIL_RE.test(email) || (phone && !PHONE_RE.test(phone))) {
@@ -139,8 +139,23 @@ Deno.serve(async req => {
     if (courseError) throw new Error(`payment_catalog lookup failed: ${courseError.message}`);
     if (!course) return json(400, { error: 'This course is not currently available for payment.', error_code: 'COURSE_UNAVAILABLE' }, origin);
 
+    stage = 'installment_validation';
+    if (plan === 'part2') {
+      const { data: prior, error: priorError } = await admin
+        .from('gateway_payment_orders')
+        .select('id')
+        .eq('course_key', courseKey)
+        .eq('payer_email', email)
+        .eq('plan', 'part1')
+        .eq('status', 'paid')
+        .limit(1)
+        .maybeSingle();
+      if (priorError) throw new Error(`Part 1 verification lookup failed: ${priorError.message}`);
+      if (!prior) return json(400, { error: 'Part 2 can be paid after Part 1 has been verified as paid.', error_code: 'PART1_REQUIRED' }, origin);
+    }
+
     stage = 'amount_validation';
-    const amount = Number(plan === 'part1' ? course.part_amount : course.full_amount);
+    const amount = Number(plan === 'full' ? course.full_amount : course.part_amount);
     const full = Number(course.full_amount);
     const part = Number(course.part_amount);
     if (!Number.isSafeInteger(full) || !Number.isSafeInteger(part) || part <= 0 || part > full || !Number.isSafeInteger(amount) || amount <= 0) {
