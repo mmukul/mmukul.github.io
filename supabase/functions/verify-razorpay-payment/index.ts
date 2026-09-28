@@ -1,5 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-const ALLOWED_ORIGINS=new Set(['https://nextgendevsecops.in','https://www.nextgendevsecops.in']); const VERSION='v93-secure-razorpay-verify';
+const ALLOWED_ORIGINS=new Set(['https://nextgendevsecops.in','https://www.nextgendevsecops.in']); const VERSION='v102-secure-razorpay-verify';
 function headers(origin?:string|null){return {'Access-Control-Allow-Origin':ALLOWED_ORIGINS.has(origin||'')?origin!:'https://nextgendevsecops.in','Vary':'Origin','Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type','Access-Control-Allow-Methods':'POST, OPTIONS','Content-Type':'application/json'}}
 function json(s:number,b:Record<string,unknown>,o?:string|null){return new Response(JSON.stringify({...b,function_version:VERSION}),{status:s,headers:headers(o)})}
 async function hmac(secret:string,msg:string){const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(secret),{name:'HMAC',hash:'SHA-256'},false,['sign']);return Array.from(new Uint8Array(await crypto.subtle.sign('HMAC',k,new TextEncoder().encode(msg)))).map(x=>x.toString(16).padStart(2,'0')).join('')}
