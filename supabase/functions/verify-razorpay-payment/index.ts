@@ -4,7 +4,7 @@ const ALLOWED_ORIGINS = new Set([
   'https://nextgendevsecops.in',
   'https://www.nextgendevsecops.in',
 ]);
-const VERSION = 'v103-secure-razorpay-verify-diagnostics';
+const VERSION = 'v104-secure-razorpay-verify-installments';
 
 function cors(origin?: string | null) {
   return {
