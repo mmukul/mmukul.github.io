@@ -4,7 +4,7 @@ const ALLOWED_ORIGINS = new Set([
   'https://nextgendevsecops.in',
   'https://www.nextgendevsecops.in',
 ]);
-const VERSION = 'v104-secure-razorpay-order-installments';
+const VERSION = 'v105-secure-razorpay-order-turnstile';
 const COURSE_KEYS = new Set(['devops', 'devsecops-foundational', 'devsecops-advanced', 'genai']);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+0-9()\-\s]{7,20}$/;
@@ -33,6 +33,22 @@ function norm(value: unknown, max: number) {
 function reference() {
   const bytes = crypto.getRandomValues(new Uint8Array(8));
   return `RZ-${Array.from(bytes).map(x => x.toString(16).padStart(2, '0')).join('').toUpperCase()}`;
+}
+
+async function verifyTurnstile(token: string, remoteIp?: string | null) {
+  const secret = Deno.env.get('TURNSTILE_SECRET_KEY');
+  if (!secret) throw new Error('Turnstile secret is not configured.');
+  const body = new URLSearchParams({ secret, response: token });
+  if (remoteIp) body.set('remoteip', remoteIp);
+  const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body,
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || data?.success !== true) {
+    throw new Error(`Turnstile verification failed: ${Array.isArray(data?.['error-codes']) ? data['error-codes'].join(',') : 'invalid-token'}`);
+  }
 }
 
 function errorCode(error: unknown) {
@@ -87,13 +103,15 @@ Deno.serve(async req => {
     const serviceRole = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
     const razorpayKey = Deno.env.get('RAZORPAY_KEY_ID');
     const razorpaySecret = Deno.env.get('RAZORPAY_KEY_SECRET');
+    const turnstileSecret = Deno.env.get('TURNSTILE_SECRET_KEY');
 
-    if (!url || !serviceRole || !razorpayKey || !razorpaySecret) {
+    if (!url || !serviceRole || !razorpayKey || !razorpaySecret || !turnstileSecret) {
       console.error('CONFIG_ERROR: required payment environment variables are missing', {
         hasSupabaseUrl: !!url,
         hasServiceRole: !!serviceRole,
         hasRazorpayKey: !!razorpayKey,
         hasRazorpaySecret: !!razorpaySecret,
+        hasTurnstileSecret: !!turnstileSecret,
       });
       return json(500, { error: 'Payment service configuration is incomplete.', error_code: 'CONFIG_ERROR' }, origin);
     }
@@ -106,13 +124,18 @@ Deno.serve(async req => {
     const name = norm(payload?.name, 100);
     const email = norm(payload?.email, 254).toLowerCase();
     const phone = norm(payload?.phone, 20);
+    const turnstileToken = norm(payload?.turnstile_token, 2048);
 
+    if (!turnstileToken) return json(400, { error: 'Please complete the security check.', error_code: 'TURNSTILE_REQUIRED' }, origin);
     if (!COURSE_KEYS.has(courseKey) || !['full', 'part1', 'part2'].includes(plan)) {
       return json(400, { error: 'Invalid course or payment plan.', error_code: 'VALIDATION_ERROR' }, origin);
     }
     if (name.length < 2 || !EMAIL_RE.test(email) || (phone && !PHONE_RE.test(phone))) {
       return json(400, { error: 'Please provide valid payment details.', error_code: 'VALIDATION_ERROR' }, origin);
     }
+
+    stage = 'turnstile_verification';
+    await verifyTurnstile(turnstileToken, req.headers.get('cf-connecting-ip'));
 
     stage = 'supabase_client';
     const admin = createClient(url, serviceRole, {
