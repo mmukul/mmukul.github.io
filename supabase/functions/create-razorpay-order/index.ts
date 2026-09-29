@@ -4,7 +4,7 @@ const ALLOWED_ORIGINS = new Set([
   'https://nextgendevsecops.in',
   'https://www.nextgendevsecops.in',
 ]);
-const VERSION = 'v139-secure-razorpay-order-turnstile-upi-config';
+const VERSION = 'v140-secure-razorpay-order-turnstile-upi-captcha-fallback';
 const COURSE_KEYS = new Set(['devops', 'devsecops-foundational', 'devsecops-advanced', 'genai']);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+0-9()\-\s]{7,20}$/;
@@ -53,6 +53,7 @@ async function verifyTurnstile(token: string, remoteIp?: string | null) {
 
 function errorCode(error: unknown) {
   const text = String((error as any)?.message || error || '').toLowerCase();
+  if (text.includes('turnstile verification failed') || text.includes('turnstile secret')) return 'TURNSTILE_ERROR';
   if (text.includes('razorpay')) return 'RAZORPAY_ERROR';
   if (text.includes('payment_catalog')) return 'CATALOG_ERROR';
   if (text.includes('gateway_payment_orders')) return 'PAYMENT_RECORD_ERROR';
@@ -189,17 +190,42 @@ Deno.serve(async req => {
 
     stage = 'razorpay_order';
     const ref = reference();
-    const order = await razor('/orders', {
-      method: 'POST',
-      body: JSON.stringify({
-        amount: Math.round(amount * 100),
-        currency: 'INR',
-        receipt: ref,
-        notes: { reference: ref, course_key: courseKey, plan, payer_email: email },
-        payment_capture: 1,
-        ...(checkoutConfigId ? { checkout_config_id: checkoutConfigId } : {}),
-      }),
-    });
+    const baseOrderPayload: Record<string, unknown> = {
+      amount: Math.round(amount * 100),
+      currency: 'INR',
+      receipt: ref,
+      notes: { reference: ref, course_key: courseKey, plan, payer_email: email },
+      payment_capture: 1,
+    };
+
+    let order;
+    if (checkoutConfigId) {
+      try {
+        order = await razor('/orders', {
+          method: 'POST',
+          body: JSON.stringify({ ...baseOrderPayload, checkout_config_id: checkoutConfigId }),
+        });
+      } catch (configError) {
+        const gatewayStatus = Number((configError as any)?.gatewayStatus || 0);
+        // A stale/invalid Checkout Configuration ID can reject an otherwise
+        // valid order. Only retry for a client/configuration rejection; never
+        // mask authentication/server failures with a second request.
+        if (![400, 422].includes(gatewayStatus)) throw configError;
+        console.warn('RAZORPAY_CHECKOUT_CONFIG_FALLBACK', {
+          status: gatewayStatus,
+          message: String((configError as any)?.message || configError),
+        });
+        order = await razor('/orders', {
+          method: 'POST',
+          body: JSON.stringify(baseOrderPayload),
+        });
+      }
+    } else {
+      order = await razor('/orders', {
+        method: 'POST',
+        body: JSON.stringify(baseOrderPayload),
+      });
+    }
 
     if (!order?.id || !Number.isSafeInteger(Number(order?.amount)) || Number(order.amount) <= 0) {
       throw new Error('Razorpay returned an invalid order response.');
@@ -243,7 +269,9 @@ Deno.serve(async req => {
       gateway_status: (error as any)?.gatewayStatus || null,
     });
 
-    const publicMessage = code === 'RAZORPAY_ERROR'
+    const publicMessage = code === 'TURNSTILE_ERROR'
+      ? 'Security verification expired or failed. Please complete the security check again.'
+      : code === 'RAZORPAY_ERROR'
       ? 'Razorpay could not create the payment order. Please verify the Razorpay configuration and try again.'
       : code === 'CATALOG_ERROR'
         ? 'The course payment configuration needs attention.'
@@ -251,6 +279,7 @@ Deno.serve(async req => {
           ? 'The payment order could not be recorded. Please try again.'
           : 'Unable to start secure payment. Please try again.';
 
-    return json(500, { error: publicMessage, error_code: code, stage }, origin);
+    const publicStatus = code === 'TURNSTILE_ERROR' ? 400 : 500;
+    return json(publicStatus, { error: publicMessage, error_code: code, stage }, origin);
   }
 });
