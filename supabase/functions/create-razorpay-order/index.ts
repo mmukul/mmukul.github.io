@@ -4,7 +4,7 @@ const ALLOWED_ORIGINS = new Set([
   'https://nextgendevsecops.in',
   'https://www.nextgendevsecops.in',
 ]);
-const VERSION = 'v106-secure-razorpay-order-turnstile-upi-config';
+const VERSION = 'v138-secure-razorpay-order-turnstile-checkout-config';
 const COURSE_KEYS = new Set(['devops', 'devsecops-foundational', 'devsecops-advanced', 'genai']);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+0-9()\-\s]{7,20}$/;
@@ -189,11 +189,6 @@ Deno.serve(async req => {
 
     stage = 'razorpay_order';
     const ref = reference();
-
-    // UPI fix: apply the Razorpay Dashboard Checkout Payment Configuration
-    // to the order when RAZORPAY_CHECKOUT_CONFIG_ID is configured.
-    // Keep UPI, Cards, Netbanking and Wallets controlled by that saved configuration.
-
     const order = await razor('/orders', {
       method: 'POST',
       body: JSON.stringify({
