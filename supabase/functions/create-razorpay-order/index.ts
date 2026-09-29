@@ -4,7 +4,7 @@ const ALLOWED_ORIGINS = new Set([
   'https://nextgendevsecops.in',
   'https://www.nextgendevsecops.in',
 ]);
-const VERSION = 'v139-secure-razorpay-order-turnstile-native-checkout';
+const VERSION = 'v139-secure-razorpay-order-turnstile-upi-config';
 const COURSE_KEYS = new Set(['devops', 'devsecops-foundational', 'devsecops-advanced', 'genai']);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+0-9()\-\s]{7,20}$/;
@@ -104,6 +104,7 @@ Deno.serve(async req => {
     const razorpayKey = Deno.env.get('RAZORPAY_KEY_ID');
     const razorpaySecret = Deno.env.get('RAZORPAY_KEY_SECRET');
     const turnstileSecret = Deno.env.get('TURNSTILE_SECRET_KEY');
+    const checkoutConfigId = Deno.env.get('RAZORPAY_CHECKOUT_CONFIG_ID')?.trim();
 
     if (!url || !serviceRole || !razorpayKey || !razorpaySecret || !turnstileSecret) {
       console.error('CONFIG_ERROR: required payment environment variables are missing', {
@@ -196,6 +197,7 @@ Deno.serve(async req => {
         receipt: ref,
         notes: { reference: ref, course_key: courseKey, plan, payer_email: email },
         payment_capture: 1,
+        ...(checkoutConfigId ? { checkout_config_id: checkoutConfigId } : {}),
       }),
     });
 
@@ -229,6 +231,7 @@ Deno.serve(async req => {
       currency: order.currency || 'INR',
       plan,
       key_id: razorpayKey,
+      checkout_config_applied: Boolean(checkoutConfigId),
     }, origin);
   } catch (error) {
     const code = errorCode(error);
