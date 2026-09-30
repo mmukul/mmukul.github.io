@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "NextGen DevSecOps AI",
+    "slug": "nextgen-devsecops-ai",
+    "version": "0.2.0",
+    "orientation": "portrait",
+    "scheme": "nextgendevsecops",
+    "userInterfaceStyle": "dark",
+    "plugins": ["expo-router", "expo-sqlite"],
+    "android": {
+      "package": "in.nextgendevsecops.app"
+    },
+    "ios": {
+      "bundleIdentifier": "in.nextgendevsecops.app"
+    }
+  }
+}
