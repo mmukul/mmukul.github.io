@@ -1,0 +1,10 @@
+{
+  "name": "NextGen DevSecOps AI",
+  "short_name": "NextGen DevSecOps AI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070914",
+  "theme_color": "#070914",
+  "lang": "en-IN",
+  "description": "DevOps, DevSecOps, Application Security, GenAI and AI Security training, hands-on labs and consulting."
+}
