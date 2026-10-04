@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /student-portal/
+Disallow: /admin/
+Sitemap: https://nextgendevsecops.in/sitemap.xml
