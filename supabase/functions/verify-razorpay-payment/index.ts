@@ -4,7 +4,7 @@ const ALLOWED_ORIGINS = new Set([
   'https://nextgendevsecops.in',
   'https://www.nextgendevsecops.in',
 ]);
-const VERSION = 'v104-secure-razorpay-verify-installments';
+const VERSION = 'v1.1.2-secure-razorpay-verify-voucher';
 
 function cors(origin?: string | null) {
   return {
@@ -111,15 +111,17 @@ Deno.serve(async req => {
     if (Number(payment?.amount) !== Math.round(Number(row.amount) * 100)) return json(400, { error: 'Payment amount does not match the server-created order.', error_code: 'AMOUNT_MISMATCH' }, origin);
     if (payment?.status !== 'captured') return json(202, { ok: true, status: payment?.status || 'processing', reference: row.reference }, origin);
 
-    stage = 'payment_record_update';
-    const { error: updateError } = await admin
-      .from('gateway_payment_orders')
-      .update({ gateway_payment_id: paymentId, status: 'paid', paid_at: new Date().toISOString() })
-      .eq('id', row.id)
-      .neq('status', 'paid');
-    if (updateError) throw new Error(`gateway_payment_orders update failed: ${updateError.message}`);
+    stage = 'payment_finalize';
+    const paidAt = new Date().toISOString();
+    const { data: finalized, error: finalizeError } = await admin.rpc('finalize_gateway_payment', {
+      p_order_id: row.id,
+      p_payment_id: paymentId,
+      p_paid_at: paidAt,
+    });
+    if (finalizeError) throw new Error(`gateway payment finalization failed: ${finalizeError.message}`);
+    if (finalized !== true) return json(409, { error: 'The payment was received but the voucher could not be finalized. Please contact the administrator.', error_code: 'VOUCHER_REDEMPTION_ERROR' }, origin);
 
-    return json(200, { ok: true, status: 'paid', reference: row.reference, amount: row.amount, plan: row.plan }, origin);
+    return json(200, { ok: true, status: 'paid', reference: row.reference, amount: row.amount, base_amount: row.base_amount, discount_amount: row.discount_amount, voucher_code: row.voucher_code, plan: row.plan }, origin);
   } catch (error) {
     console.error('verify-razorpay-payment failure', {
       version: VERSION,
