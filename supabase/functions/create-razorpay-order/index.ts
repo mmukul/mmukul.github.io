@@ -4,7 +4,7 @@ const ALLOWED_ORIGINS = new Set([
   'https://nextgendevsecops.in',
   'https://www.nextgendevsecops.in',
 ]);
-const VERSION = 'v139-secure-razorpay-order-turnstile-upi-config';
+const VERSION = 'v1.1.2-secure-razorpay-order-voucher';
 const COURSE_KEYS = new Set(['devops', 'devsecops-foundational', 'devsecops-advanced', 'genai']);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+0-9()\-\s]{7,20}$/;
@@ -156,7 +156,7 @@ Deno.serve(async req => {
     stage = 'course_lookup';
     const { data: course, error: courseError } = await admin
       .from('payment_catalog')
-      .select('course_key,course_name,full_amount,part_amount,active')
+      .select('course_key,course_name,full_amount,part_amount,referral_amount,active')
       .eq('course_key', courseKey)
       .eq('active', true)
       .maybeSingle();
@@ -179,27 +179,66 @@ Deno.serve(async req => {
     }
 
     stage = 'amount_validation';
-    const amount = Number(plan === 'full' ? course.full_amount : course.part_amount);
+    const baseAmount = Number(plan === 'full' ? course.full_amount : course.part_amount);
     const full = Number(course.full_amount);
     const part = Number(course.part_amount);
-    if (!Number.isSafeInteger(full) || !Number.isSafeInteger(part) || part <= 0 || part > full || !Number.isSafeInteger(amount) || amount <= 0) {
-      console.error('CATALOG_ERROR: invalid payment amounts', { courseKey, plan, full, part, amount });
+    const referralAmount = Number(course.referral_amount || 0);
+    if (!Number.isSafeInteger(full) || !Number.isSafeInteger(part) || part <= 0 || part > full || !Number.isSafeInteger(baseAmount) || baseAmount <= 0 || !Number.isSafeInteger(referralAmount) || referralAmount < 0) {
+      console.error('CATALOG_ERROR: invalid payment amounts', { courseKey, plan, full, part, baseAmount, referralAmount });
       return json(500, { error: 'Course payment configuration is invalid.', error_code: 'CATALOG_ERROR' }, origin);
     }
 
+    stage = 'voucher_validation';
+    const voucherCode = norm(payload?.voucher_code, 80).toUpperCase();
+    let voucherId: string | null = null;
+    let discountAmount = 0;
+    if (voucherCode) {
+      const { data: voucher, error: voucherError } = await admin
+        .from('voucher_codes')
+        .select('id,code,course_key,discount_type,discount_amount,active,expires_at,max_redemptions,redeemed_count')
+        .eq('code', voucherCode)
+        .maybeSingle();
+      if (voucherError) throw new Error(`voucher_codes lookup failed: ${voucherError.message}`);
+      if (!voucher || !voucher.active || (voucher.expires_at && new Date(voucher.expires_at).getTime() <= Date.now()) || Number(voucher.redeemed_count) >= Number(voucher.max_redemptions)) {
+        return json(400, { error: 'Invalid, expired or already fully redeemed voucher code.', error_code: 'VOUCHER_INVALID' }, origin);
+      }
+      if (voucher.course_key && voucher.course_key !== courseKey) return json(400, { error: 'This voucher is not valid for the selected course.', error_code: 'VOUCHER_COURSE_MISMATCH' }, origin);
+      discountAmount = voucher.discount_type === 'course_referral'
+        ? Math.round(referralAmount * baseAmount / full)
+        : Number(voucher.discount_amount || 0);
+      if (!Number.isSafeInteger(discountAmount) || discountAmount <= 0 || discountAmount >= baseAmount) return json(400, { error: 'This voucher has no valid discount for the selected payment.', error_code: 'VOUCHER_AMOUNT_INVALID' }, origin);
+      voucherId = String(voucher.id);
+    }
+    const amount = baseAmount - discountAmount;
+
     stage = 'razorpay_order';
     const ref = reference();
-    const order = await razor('/orders', {
-      method: 'POST',
-      body: JSON.stringify({
-        amount: Math.round(amount * 100),
-        currency: 'INR',
-        receipt: ref,
-        notes: { reference: ref, course_key: courseKey, plan, payer_email: email },
-        payment_capture: 1,
-        ...(checkoutConfigId ? { checkout_config_id: checkoutConfigId } : {}),
-      }),
-    });
+    const orderPayload = {
+      amount: Math.round(amount * 100),
+      currency: 'INR',
+      receipt: ref,
+      notes: { reference: ref, course_key: courseKey, plan, payer_email: email, voucher_code: voucherCode || '', discount_amount: String(discountAmount) },
+      payment_capture: 1,
+      ...(checkoutConfigId ? { checkout_config_id: checkoutConfigId } : {}),
+    };
+
+    let order;
+    let checkoutConfigApplied = false;
+    try {
+      order = await razor('/orders', { method: 'POST', body: JSON.stringify(orderPayload) });
+      checkoutConfigApplied = Boolean(checkoutConfigId);
+    } catch (configError) {
+      // A stale/mismatched Checkout Configuration ID must not make the entire gateway unusable.
+      // The order is not created when Razorpay rejects the request, so retrying without the optional
+      // configuration is safe and lets Razorpay use the account's active/default Checkout settings.
+      if (!checkoutConfigId) throw configError;
+      console.error('RAZORPAY_CHECKOUT_CONFIG_FALLBACK', {
+        message: String((configError as any)?.message || configError),
+      });
+      const { checkout_config_id: _ignored, ...fallbackPayload } = orderPayload as Record<string, unknown>;
+      order = await razor('/orders', { method: 'POST', body: JSON.stringify(fallbackPayload) });
+      checkoutConfigApplied = false;
+    }
 
     if (!order?.id || !Number.isSafeInteger(Number(order?.amount)) || Number(order.amount) <= 0) {
       throw new Error('Razorpay returned an invalid order response.');
@@ -217,6 +256,10 @@ Deno.serve(async req => {
       payer_phone: phone || null,
       plan,
       amount,
+      base_amount: baseAmount,
+      discount_amount: discountAmount,
+      voucher_code: voucherCode || null,
+      voucher_id: voucherId,
       currency: 'INR',
       status: 'created',
     });
@@ -228,10 +271,13 @@ Deno.serve(async req => {
       order_id: order.id,
       amount: Number(order.amount),
       amount_rupees: amount,
+      base_amount_rupees: baseAmount,
+      discount_amount_rupees: discountAmount,
+      voucher_code: voucherCode || null,
       currency: order.currency || 'INR',
       plan,
       key_id: razorpayKey,
-      checkout_config_applied: Boolean(checkoutConfigId),
+      checkout_config_applied: checkoutConfigApplied,
     }, origin);
   } catch (error) {
     const code = errorCode(error);
