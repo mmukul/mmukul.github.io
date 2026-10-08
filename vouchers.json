@@ -1,9 +1,0 @@
-{
-  "NEXTGEN1000": {
-    "active": true,
-    "discount_amount": 1000,
-    "usage_limit": 1,
-    "used_count": 0,
-    "expires_at": null
-  }
-}
