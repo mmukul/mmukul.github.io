@@ -1,0 +1,9 @@
+{
+  "TEST10": {
+    "active": true,
+    "discount_amount": 100,
+    "usage_limit": 1,
+    "used_count": 0,
+    "expires_at": null
+  }
+}
