@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0c1526">
+  <title>Security verification | NextGen DevSecOps AI</title>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer onerror="window.__turnstileLoadFailed=true"></script>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#0c1526;color:#e7efff;font:12px system-ui,Arial,sans-serif}
+    main{box-sizing:border-box;min-height:150px;padding:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+    #challenge{width:100%;display:flex;justify-content:center;align-items:center;min-height:70px;overflow:visible}
+    #status{font-size:11px;text-align:center;color:#bfdbfe;line-height:1.35;max-width:100%;overflow-wrap:anywhere}
+    button{color:#fff;background:#1d4ed8;border:1px solid #60a5fa;border-radius:7px;padding:6px 13px;font-weight:800;font-size:10px;cursor:pointer}
+    button:focus-visible{outline:2px solid #93c5fd;outline-offset:2px}
+  </style>
+</head>
+<body><main>
+  <div id="challenge" aria-label="Cloudflare security verification"></div>
+  <div id="status" role="status" aria-live="polite">Loading security check…</div>
+  <button id="retry" type="button" hidden>Retry security check</button>
+</main>
+<script>
+(function(){
+  'use strict';
+  var SITE_KEY='0x4AAAAAAFB-n4TRFrZBKY3q', widget=null, attempts=0, rendering=false;
+  var statusEl=document.getElementById('status'), retry=document.getElementById('retry'), slot=document.getElementById('challenge');
+  function send(type,value){try{if(window.ReactNativeWebView&&typeof window.ReactNativeWebView.postMessage==='function')window.ReactNativeWebView.postMessage(JSON.stringify({type:type,token:type==='token'?String(value||''):'',code:type==='error'?String(value||''):''}));}catch(e){}}
+  function fail(code){rendering=false;send('error',code);statusEl.textContent=String(code)==='110200'?'This app or website hostname is not authorized for this Turnstile key.':(String(code)==='script_unavailable'?'Cloudflare security script could not load. Check network access.':'Security verification failed. Please retry.');retry.hidden=false;}
+  function render(){
+    if(widget!==null||rendering)return;
+    if(!window.turnstile){if(window.__turnstileLoadFailed){fail('script_unavailable');return;}if(++attempts<40){setTimeout(render,300);return;}fail('script_unavailable');return;}
+    rendering=true;
+    try{
+      window.turnstile.ready(function(){
+        try{widget=window.turnstile.render(slot,{sitekey:SITE_KEY,theme:'dark',size:'compact',action:'mobile_checkout',retry:'auto',refreshExpired:'auto',callback:function(token){var t=String(token||'').trim();if(t.length>20){statusEl.textContent='Verification complete';retry.hidden=true;send('token',t);}else fail('empty_token');},'expired-callback':function(){send('expired','');statusEl.textContent='Verification expired. Retry to continue.';retry.hidden=false;},'error-callback':function(code){fail(code);}});rendering=false;}
+        catch(e){rendering=false;fail('render_failed');}
+      });
+    }catch(e){rendering=false;fail('render_failed');}
+  }
+  retry.addEventListener('click',function(){retry.hidden=true;statusEl.textContent='Reloading security check…';send('reset','');try{if(window.turnstile&&widget!==null){window.turnstile.reset(widget);return;}}catch(e){}widget=null;rendering=false;attempts=0;slot.innerHTML='';render();});
+  render();
+})();
+</script></body></html>
