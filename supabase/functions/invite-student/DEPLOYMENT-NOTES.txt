@@ -1,0 +1,20 @@
+NextGen DevSecOps AI – invite-student Edge Function update
+
+1. Deploy index.ts as the Supabase Edge Function `invite-student`.
+2. Confirm Edge Function secrets exist: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, and either SUPABASE_ANON_KEY or SUPABASE_PUBLISHABLE_KEY. Never put the service-role key in website/mobile code.
+3. The caller must have a valid authenticated session and pass the existing public.is_admin() RPC. In the supplied website schema, is_admin() requires role='admin', status='active', and JWT aal='aal2' (MFA).
+4. Add this exact redirect URL to Supabase Auth > URL Configuration > Redirect URLs:
+   https://nextgendevsecops.in/student-portal/update-password.html
+5. In Supabase Auth > Email Templates > Invite user, set the subject to the content of email-template/subject.txt and the message body to email-template/message.html. The Edge Function's inviteUserByEmail() call triggers this configured template; it does not set the template subject/body itself.
+6. Existing profiles schema allows status values only `active` and `inactive`. This function creates invited students as `inactive`; an administrator must activate the profile after the student completes the invitation/password setup. Do not change to `pending` unless the database constraint is deliberately migrated and all status-dependent UI is updated.
+7. Course and batch IDs are returned to the Admin Portal, but this function does not create an enrollment. The Admin Portal must use its existing admin_assign_course workflow after the account is created if enrollment is required.
+
+Validation scope: source inspection and static checks only. Deployment, Supabase dashboard template configuration, email delivery, invitation-link redemption, MFA authorization, and live database behavior require testing in the target Supabase project.
+
+
+V296 COURSE ASSIGNMENT CORRECTION
+- Deploy this updated invite-student function.
+- It validates the selected course and optional batch, activates the new student profile, and creates/updates an active enrollment.
+- Existing Auth invitation acceptance is still required before the student can sign in.
+- If an invitation is sent but enrollment fails, the response identifies the partial completion and the Admin Portal Assign Course action can be used to recover.
+- No database schema change is required; the existing profiles/enrollments/courses/batches tables are used.
