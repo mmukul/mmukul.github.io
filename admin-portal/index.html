@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NextGen DevSecOps AI — Admin Portal</title>
+<style>
+:root{
+  --bg:#070b16;--panel:#0d1324;--panel2:#111a2e;--line:#24304a;
+  --text:#f5f7ff;--muted:#9ba8c2;--accent:#8b5cf6;--accent2:#22d3ee;
+  --good:#34d399;--warn:#fbbf24;--bad:#fb7185;
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(135deg,#070b16,#0b1020 55%,#10132a);
+color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+.topbar{height:72px;border-bottom:1px solid var(--line);background:rgba(7,11,22,.9);
+display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20;backdrop-filter:blur(12px)}
+.logo{font-size:20px;font-weight:800;letter-spacing:-.4px}.logo span{color:var(--accent2)}
+.top-actions{display:flex;gap:10px;align-items:center}.user{color:var(--muted);font-size:13px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid #2d3a58;background:linear-gradient(180deg,#17223a,#10192d);color:var(--text);padding:9px 14px;border-radius:10px;cursor:pointer;font-weight:650;letter-spacing:.05px;box-shadow:0 4px 14px rgba(0,0,0,.16);transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,background .16s ease}
+.btn:hover{border-color:#617294;transform:translateY(-1px);box-shadow:0 7px 18px rgba(0,0,0,.24)}
+.btn:active{transform:translateY(0);box-shadow:0 3px 9px rgba(0,0,0,.18)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn.primary{background:linear-gradient(135deg,#7c3aed,#2563eb);border:0;box-shadow:0 6px 18px rgba(79,70,229,.28)}
+.btn.primary:hover{box-shadow:0 9px 24px rgba(79,70,229,.36)}
+.btn.lab{background:linear-gradient(135deg,#0891b2,#2563eb);border:0;box-shadow:0 6px 18px rgba(8,145,178,.24)}
+.btn.lab:hover{box-shadow:0 9px 24px rgba(8,145,178,.34)}
+#labToc{
+  display:block;width:100%;min-height:150px;padding:14px 16px;
+  color:var(--text);background:var(--panel2);
+  border:1px solid #344563;border-radius:12px;
+  font:14px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  resize:vertical;outline:none;box-shadow:inset 0 1px 3px rgba(0,0,0,.18);
+}
+#labToc::placeholder{color:#91a0bd;opacity:1}
+#labToc:focus{border-color:#22d3ee;box-shadow:0 0 0 3px rgba(34,211,238,.15)}
+#uploadLabTocBtn{
+  color:#f4fdff;background:linear-gradient(135deg,#0891b2,#0e7490);
+  border:1px solid rgba(103,232,249,.35);
+  box-shadow:0 5px 16px rgba(8,145,178,.25);
+}
+#uploadLabTocBtn:hover{
+  background:linear-gradient(135deg,#06b6d4,#0e7490);
+  border-color:#67e8f9;box-shadow:0 8px 20px rgba(8,145,178,.34);
+}
+
+.btn.success{background:linear-gradient(135deg,#059669,#0d9488);border:0}
+.btn.danger{color:#fecdd3;border-color:#6b3040;background:linear-gradient(180deg,#321621,#241019)}
+.student-actions{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.student-actions .btn{padding:7px 10px;font-size:12px;border-radius:9px}
+.lab-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.lab-card-select{position:relative;display:flex;flex-direction:column;gap:7px;padding:16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,#111a2d,#0c1425);cursor:pointer;transition:.18s ease;min-height:170px}
+.lab-card-select:hover{transform:translateY(-2px);border-color:#53698f;box-shadow:0 10px 24px rgba(0,0,0,.18)}
+.lab-card-select.selected{border-color:#22d3ee;box-shadow:0 0 0 1px rgba(34,211,238,.22),0 10px 26px rgba(8,145,178,.14)}
+.lab-card-select input{position:absolute;opacity:0}.lab-icon{font-size:25px}.lab-card-title{font-weight:800}.lab-card-desc{font-size:12px;line-height:1.45;color:var(--muted)}.lab-meta{margin-top:auto;font-size:10px;font-weight:800;letter-spacing:.7px;color:#7dd3fc}
+@media(max-width:900px){.lab-picker{grid-template-columns:1fr}.student-actions .btn{flex:1}}
+
+.layout{display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 72px)}
+aside{border-right:1px solid var(--line);padding:22px 14px;background:rgba(10,15,28,.55)}
+.nav-title{font-size:11px;color:#64728d;text-transform:uppercase;letter-spacing:1.2px;padding:8px 12px}
+.nav button{display:block;width:100%;text-align:left;background:transparent;border:0;color:#aeb9cf;
+padding:11px 12px;border-radius:9px;cursor:pointer;margin:2px 0}.nav button:hover,.nav button.active{background:#151f35;color:#fff}
+main{padding:28px;max-width:1500px;width:100%;margin:auto}
+h1{margin:0 0 4px;font-size:28px}.subtitle{color:var(--muted);margin-bottom:24px}
+.status{display:none;padding:12px 14px;border:1px solid #30405e;border-radius:10px;background:#101a2d;margin-bottom:18px}
+.status.show{display:block}.status.error{border-color:#6b2938;color:#fecdd3}.status.success{border-color:#1d5a48;color:#a7f3d0}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:linear-gradient(180deg,#10182b,#0c1323);
+border:1px solid var(--line);border-radius:14px;padding:18px}.stat-label{color:var(--muted);font-size:13px}.stat{font-size:29px;font-weight:800;margin-top:5px}
+.section{margin-top:22px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.section h2{font-size:18px;margin:0}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:680px;background:#0c1323}th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #1d2740}
+th{color:#8492ad;font-size:12px;text-transform:uppercase;letter-spacing:.6px}td{color:#dbe2f0}tr:last-child td{border-bottom:0}
+.badge{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:11px;border:1px solid #31405d}
+.badge.good{color:#a7f3d0;border-color:#245c4d;background:#0d261f}.badge.warn{color:#fde68a;border-color:#66501c;background:#261f0c}
+.badge.bad{color:#fecdd3;border-color:#652b38;background:#281219}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.lab{display:grid;grid-template-columns:1fr 1fr;gap:16px}.lab h3{margin:0 0 6px}.lab p{color:var(--muted);margin:0}
+code{background:#070c17;padding:2px 5px;border-radius:5px;color:#b7c5df}
+.hidden{display:none!important}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.modal.show{display:flex}.modal-box{width:min(620px,100%);background:#0d1527;border:1px solid var(--line);border-radius:15px;padding:22px}
+.modal-box h3{margin:0 0 18px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}
+label{font-size:12px;color:#95a2ba}input,select{background:#080e1c;color:#fff;border:1px solid #2a3752;border-radius:8px;padding:10px}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}aside{display:none}.grid{grid-template-columns:repeat(2,1fr)}.lab{grid-template-columns:1fr}}
+@media(max-width:560px){main{padding:18px}.grid{grid-template-columns:1fr}.topbar{padding:0 15px}.user{display:none}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+
+.account-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.quick{cursor:pointer;text-align:left;color:var(--text);appearance:none;-webkit-appearance:none}.quick:hover{border-color:#53627f;background:linear-gradient(180deg,#121d33,#0e1729)}.quick:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}.quick strong{display:block;margin-bottom:4px;color:var(--text)}.quick span{display:block;font-size:12px;color:var(--muted)}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.toolbar input,.toolbar select{min-width:160px}.kpi{font-size:12px;color:var(--muted)}.kpi strong{color:var(--text);font-size:18px;margin-right:4px}.split{display:grid;grid-template-columns:1.4fr .8fr;gap:16px}.notice{padding:14px;border:1px solid #30405e;border-radius:12px;background:#0d172a}.notice strong{display:block;margin-bottom:4px}.recording-actions{display:flex;gap:8px;flex-wrap:wrap}.pill{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:10px;border:1px solid #33425f;color:#b9c5db}.pill.free{color:#a7f3d0;border-color:#245c4d;background:#0d261f}.pill.paid{color:#fde68a;border-color:#66501c;background:#261f0c}.small{font-size:12px;color:var(--muted)}
+@media(max-width:900px){.account-grid,.quick-grid,.split{grid-template-columns:1fr}.toolbar input,.toolbar select{min-width:0;flex:1}}
+.section{margin-top:26px}.section + .section{margin-top:20px}.section-head{margin-bottom:16px}
+/* v305.1.19 — focused dashboard overview */
+.dashboard-hero{display:flex;justify-content:space-between;align-items:center;gap:22px;padding:25px 27px;margin-bottom:24px;border:1px solid #293957;border-radius:18px;background:radial-gradient(circle at 82% 15%,rgba(34,211,238,.14),transparent 34%),linear-gradient(120deg,#121d35,#10172b 62%,#151b36);box-shadow:0 14px 36px rgba(0,0,0,.18)}
+.dashboard-eyebrow{font-size:10px;font-weight:800;letter-spacing:1.5px;color:#67e8f9;margin-bottom:7px}
+.dashboard-hero h1{font-size:27px;letter-spacing:-.6px;margin:0 0 5px}
+.dashboard-hero p{color:#aab8d1;font-size:13px;margin:0;max-width:650px}
+.dashboard-summary-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 13px}
+.dashboard-summary-head h2{font-size:17px;margin:0}.dashboard-summary-head p{font-size:12px;color:var(--muted);margin:3px 0 0}
+.dashboard-live{display:inline-flex;align-items:center;gap:7px;color:#9fb0ca;font-size:11px;border:1px solid #2b3b58;border-radius:999px;padding:6px 10px;background:#0d1729}
+.dashboard-live i{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 10px rgba(52,211,153,.65)}
+.dashboard-kpis{grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.dashboard-kpi{position:relative;overflow:hidden;min-height:145px;padding:17px 18px;background:linear-gradient(145deg,#121d32,#0c1425);border-color:#2b3a57;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.dashboard-kpi:hover{transform:translateY(-2px);border-color:#52698d;box-shadow:0 12px 26px rgba(0,0,0,.2)}
+.dashboard-kpi:after{content:"";position:absolute;width:100px;height:100px;border-radius:50%;right:-36px;bottom:-48px;background:rgba(34,211,238,.055)}
+.dashboard-kpi-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.dashboard-kpi-icon{display:grid;place-items:center;width:34px;height:34px;border:1px solid #344665;border-radius:10px;background:#182640;font-size:16px}
+.dashboard-kpi-label{font-size:10px;font-weight:800;letter-spacing:1px;color:#93a5c3}
+.dashboard-kpi .stat{font-size:32px;line-height:1.15;margin:2px 0 5px;letter-spacing:-.7px}
+.dashboard-kpi .kpi,.dashboard-kpi-note{font-size:11px;color:#9baac3}
+@media(max-width:900px){.dashboard-hero{align-items:flex-start;flex-direction:column}.dashboard-hero .btn{align-self:flex-start}.dashboard-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.dashboard-hero{padding:20px}.dashboard-hero h1{font-size:23px}.dashboard-summary-head{align-items:flex-start;flex-direction:column}.dashboard-kpis{grid-template-columns:1fr}}
+
+/* v309.2 dashboard readability refinement */
+.dashboard-kpi-label,.dashboard-summary-head h2,.dashboard-lab-section h2{font-weight:500;letter-spacing:0;color:#dce7f7}
+.dashboard-kpi .stat{font-weight:500;color:#f1f5ff;line-height:1.2}
+.dashboard-kpi .kpi,.dashboard-kpi-note,.dashboard-lab-section .note,.dashboard-lab-section .empty{font-weight:400;color:#b7c6dc;line-height:1.55}
+.dashboard-lab-section{margin-top:18px}
+.dashboard-lab-section .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dashboard-lab-section table th{font-weight:500;color:#c9d8ed}
+.dashboard-lab-section table td{font-weight:400;color:#d3deee}
+@media(max-width:700px){.dashboard-lab-section .section-head{align-items:flex-start;flex-direction:column}.dashboard-lab-section .section-head .btn{width:100%}}
+</style>
+
+<style>
+/* NextGen Admin Portal — course/lab status theme */
+.admin-status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.admin-status-card{background:#fff;border:1px solid #dbe7f5;border-radius:14px;padding:16px;box-shadow:0 5px 18px rgba(30,58,138,.06)}
+.admin-status-card:before{content:"";display:block;width:100%;height:3px;border-radius:3px;margin:-16px 0 13px;background:#2563eb}
+.admin-status-card.completed:before{background:#16a34a}
+.admin-status-card.pending:before{background:#d97706}
+.admin-status-card.none:before{background:#94a3b8}
+.admin-status-title{font-weight:750;color:#17315f}
+.admin-status-meta{margin-top:5px;color:#64748b;font-size:12px}
+.admin-status-pill{display:inline-block;margin-top:10px;padding:5px 9px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;background:#e8f1ff;color:#1d4ed8}
+.admin-status-card.completed .admin-status-pill{background:#e9f8ef;color:#15803d}
+.admin-status-card.pending .admin-status-pill{background:#fff4df;color:#b45309}
+.admin-status-card.none .admin-status-pill{background:#f1f5f9;color:#64748b}
+.lab-assigned-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;background:#e9f8ef;color:#15803d;font-size:10px;font-weight:800;text-transform:uppercase}
+.lab-not-assigned-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;background:#f1f5f9;color:#64748b;font-size:10px;font-weight:800;text-transform:uppercase}
+.lab-expired-badge{display:inline-flex;padding:5px 9px;border-radius:999px;background:#feecec;color:#b91c1c;font-size:10px;font-weight:800;text-transform:uppercase}
+.admin-section-gap{margin-top:22px}
+</style>
+
+<style id="admin-portal-design-refresh-v307">
+:root{
+  --bg:#080d18;--panel:#101827;--panel2:#151f31;--line:#26354b;
+  --text:#edf3ff;--muted:#91a1b8;--accent:#5b8cff;--accent2:#38c7d9;
+  --good:#35c99a;--warn:#f5bd54;--bad:#f07888;
+}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 12% -15%,rgba(51,102,180,.18),transparent 38%),#080d18;color:var(--text);font-size:14px}
+.topbar{height:64px;padding:0 24px;background:rgba(8,13,24,.94);border-color:#1e2b3e}
+.logo{font-size:17px;letter-spacing:-.55px}
+.top-actions{gap:8px}
+.user{max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.layout{grid-template-columns:218px minmax(0,1fr);min-height:calc(100vh - 64px)}
+aside{padding:20px 12px;background:#0b1220;border-color:#1e2b3e}
+.nav-title{padding:0 12px 10px;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#71839e}
+.nav{display:grid;gap:5px}
+.nav button{width:100%;text-align:left;padding:10px 12px;border:1px solid transparent;border-radius:10px;background:transparent;color:#aab8cc;font-size:13px;font-weight:650;transition:background .16s,border-color .16s,color .16s}
+.nav button:hover{background:#121e30;color:#f2f6ff}
+.nav button.active{background:linear-gradient(100deg,rgba(65,112,206,.22),rgba(45,176,194,.09));border-color:#31527d;color:#fff;box-shadow:inset 3px 0 #60a5fa}
+main{min-width:0;max-width:1500px;width:100%;margin:0 auto;padding:26px clamp(16px,2.5vw,36px) 48px}
+.dashboard-hero{padding:22px 24px;border:1px solid #263a58;border-radius:17px;background:linear-gradient(115deg,rgba(31,58,99,.68),rgba(15,29,48,.92) 65%,rgba(13,39,54,.85));box-shadow:0 12px 34px rgba(0,0,0,.16)}
+.dashboard-eyebrow{font-size:10px;letter-spacing:.16em;color:#8eb9ff}
+.dashboard-hero h1{margin:5px 0 0;font-size:clamp(24px,3vw,32px);letter-spacing:-.8px}
+.dashboard-summary-head{margin:24px 2px 12px;align-items:center}
+.dashboard-summary-head h2{font-size:16px;margin:0;letter-spacing:-.2px}
+.dashboard-live{font-size:11px;color:#9db0c8}
+.grid.dashboard-kpis{gap:14px}
+.card,.dashboard-kpi{border:1px solid #26364d;border-radius:14px;background:linear-gradient(145deg,#121d2d,#0f1827);box-shadow:0 8px 22px rgba(0,0,0,.12)}
+.dashboard-kpi{padding:17px 18px;min-height:122px}
+.dashboard-kpi .stat{font-size:30px;line-height:1.15;margin:9px 0 5px;letter-spacing:-1px}
+.dashboard-kpi-label{font-size:10px;letter-spacing:.1em;color:#9fb1ca}
+.dashboard-kpi-note,.dashboard-kpi .kpi{font-size:11px;color:#8fa2bc}
+.section-head{gap:14px;margin-bottom:16px}
+.section-head h1,main>.page>h1{font-size:24px;letter-spacing:-.55px;margin:0}
+.section-head .subtitle{display:none}
+.toolbar{gap:9px;flex-wrap:wrap}
+input,select{min-height:40px;border:1px solid #2b3a52!important;border-radius:9px!important;background:#0b1422!important;color:#edf3ff!important;padding:9px 11px!important}
+input::placeholder{color:#71839c}
+input:focus,select:focus{outline:2px solid rgba(91,140,255,.24);border-color:#5b8cff!important}
+.btn{padding:9px 13px;border-radius:9px;font-size:12px;box-shadow:none}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 15px rgba(0,0,0,.18)}
+.btn.primary{background:linear-gradient(135deg,#477ce0,#277db8);border:1px solid #548de8}
+.btn.danger{background:#2a1722;border-color:#623344;color:#ffbdc8}
+.table-wrap{border:1px solid #26364d;border-radius:13px;background:#0e1725;overflow:auto}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:680px}
+th{position:sticky;top:0;background:#172438;color:#a9bdd7;font-size:10px;letter-spacing:.09em;text-transform:uppercase;padding:12px 13px;border-bottom:1px solid #2b3b54}
+td{padding:12px 13px;border-bottom:1px solid rgba(43,59,84,.65);color:#dce6f5;font-size:12px}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:rgba(67,112,175,.07)}
+.account-grid{gap:12px}
+.account-grid .card,.section.split .card{padding:18px}
+.account-grid h3,.section.split h3{font-size:15px;margin:5px 0}
+.modal{backdrop-filter:blur(7px);background:rgba(3,8,17,.76)}
+.modal-box{border:1px solid #344965!important;border-radius:16px!important;background:#111c2c!important;box-shadow:0 24px 70px rgba(0,0,0,.48)!important}
+.modal-box h3{font-size:18px;letter-spacing:-.3px}
+.status{border-radius:10px}
+:focus-visible{outline:2px solid #70b7ff;outline-offset:2px}
+@media(max-width:900px){
+ .layout{grid-template-columns:1fr}
+ aside{position:sticky;top:64px;z-index:15;padding:8px 12px;border-right:0;border-bottom:1px solid #1e2b3e;overflow-x:auto}
+ .nav-title{display:none}
+ .nav{display:flex;gap:6px;min-width:max-content}
+ .nav button{width:auto;white-space:nowrap;padding:9px 12px}
+ main{padding-top:18px}
+}
+@media(max-width:600px){
+ .topbar{padding:8px 13px;min-height:60px;height:auto;gap:8px}
+ .logo{font-size:15px}
+ .top-actions{gap:6px}
+ .user{display:none}
+ .top-actions .btn{padding:8px 10px;font-size:11px}
+ aside{top:60px}
+ main{padding:16px 12px 36px}
+ .dashboard-hero{padding:18px 16px;align-items:flex-start;gap:14px}
+ .dashboard-hero .btn{width:100%}
+ .dashboard-kpi{padding:14px;min-height:108px}
+ .dashboard-kpi .stat{font-size:25px}
+ .dashboard-summary-head{margin-top:18px}
+ .section-head{align-items:flex-start;flex-direction:column}
+ .section-head .toolbar{width:100%}
+ .section-head .toolbar .btn{width:100%}
+ .account-grid{grid-template-columns:1fr!important}
+ .section.split{grid-template-columns:1fr!important}
+ .modal-box{width:min(100% - 18px,560px);max-height:calc(100vh - 20px);overflow:auto}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+
+<style id="admin-students-organization-v308">
+/* Student workspace: distinct directory and verification work areas */
+.student-page-heading{margin-bottom:18px}
+.student-page-heading h1{font-size:25px}
+.student-panel{margin:0 0 18px;padding:18px;border:1px solid #293b55;border-radius:16px;background:linear-gradient(145deg,rgba(18,30,47,.98),rgba(12,21,35,.98));box-shadow:0 10px 26px rgba(0,0,0,.13);min-width:0}
+.student-panel-heading{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:16px}
+.student-panel-heading h2{font-size:17px;letter-spacing:-.35px;margin:4px 0 0;color:#edf4ff}
+.student-eyebrow{font-size:9px;font-weight:800;letter-spacing:.14em;color:#7eb8ff}
+.student-panel-note{font-size:11px;color:#91a5c0;padding:6px 10px;border:1px solid #2a405d;border-radius:999px;background:#101e30;white-space:nowrap}
+.student-filterbar{display:grid;grid-template-columns:minmax(220px,1fr) minmax(145px,190px) minmax(145px,190px);gap:12px;align-items:end;padding:13px;margin-bottom:14px;border:1px solid #263951;border-radius:12px;background:rgba(7,15,27,.5)}
+.student-filterbar label{display:flex;flex-direction:column;gap:6px;min-width:0}
+.student-filterbar label>span{font-size:10px;font-weight:700;letter-spacing:.04em;color:#9db0ca}
+.student-filterbar input,.student-filterbar select{width:100%;min-width:0}
+.student-table-wrap{border-radius:11px;border-color:#263951}
+.student-table-wrap table{min-width:760px}
+.student-table-wrap th{font-size:9px;padding:11px 12px}
+.student-table-wrap td{padding:11px 12px}
+.student-verification-panel{margin-top:20px}
+.student-verification-panel .student-table-wrap table{min-width:850px}
+.student-panel .table-wrap{box-shadow:none}
+@media(max-width:760px){
+ .student-panel{padding:13px;border-radius:13px}
+ .student-panel-heading{align-items:flex-start;flex-direction:column;gap:8px}
+ .student-panel-note{white-space:normal}
+ .student-filterbar{grid-template-columns:1fr 1fr}
+ .student-filterbar .student-search-wrap{grid-column:1/-1}
+ .student-page-heading{align-items:center;flex-direction:row}
+}
+@media(max-width:460px){
+ .student-filterbar{grid-template-columns:1fr}
+ .student-filterbar .student-search-wrap{grid-column:auto}
+ .student-page-heading .toolbar,.student-page-heading .toolbar .btn{width:100%}
+}
+
+.lab-card-select.planned{opacity:.62;cursor:not-allowed;border-style:dashed}
+.lab-card-select.planned input{cursor:not-allowed}
+</style>
+
+
+<style id="admin-readable-typography-v3091">
+/* v309.1 — consistent readable typography across the Admin Portal */
+body{font-weight:400;letter-spacing:normal}
+main h1,main h2,.section-head h1,.section h2,.modal-box h3,.dashboard-hero h1{font-weight:600;letter-spacing:-.25px}
+.dashboard-eyebrow,.dashboard-kpi-label,.nav-title,th{font-weight:500;letter-spacing:.06em}
+.dashboard-kpi-label{font-size:11px;color:#b2c1d7}
+.dashboard-kpi .stat,.stat,.kpi strong{font-weight:600;letter-spacing:-.35px}
+.dashboard-kpi .stat{font-size:29px}
+.stat-label,.subtitle,.dashboard-hero p,.dashboard-summary-head p,.dashboard-kpi-note,.dashboard-kpi .kpi,.small,.note,.lab-card-desc,.admin-status-meta{font-weight:400;color:#aebbd0}
+label,.field label,.form-grid label{font-size:13px;font-weight:500;color:#c2cee0;letter-spacing:0}
+input,select,textarea,button,.btn{font-weight:400}
+.btn{font-weight:500}
+input::placeholder,textarea::placeholder{font-weight:400;color:#91a2bc;opacity:1}
+.nav button{font-weight:500}
+.card,.notice,.lab-card-select,.admin-status-card{font-weight:400}
+.lab-card-title,.admin-status-title,.quick strong,.notice strong{font-weight:600}
+.badge,.pill,.admin-status-pill,.lab-assigned-badge,.lab-not-assigned-badge,.lab-expired-badge{font-weight:500;letter-spacing:.02em}
+th{color:#aebbd0}
+td{font-weight:400}
+#labToc{font-weight:400}
+#uploadLabTocBtn{font-weight:500}
+@media(max-width:560px){main h1,main h2,.section-head h1{letter-spacing:0}}
+</style>
+
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">NextGen <span>DevSecOps AI</span></div>
+  <div class="top-actions">
+    <span class="user" id="userEmail">Checking admin access…</span>
+    <button class="btn" id="siteBtn">Website</button>
+    <button class="btn danger" id="logoutBtn">Logout</button>
+  </div>
+</header>
+
+<div class="layout">
+<aside>
+  <div class="nav-title">Administration</div>
+  <nav class="nav">
+    <button class="active" data-section="overview">▦ Overview</button>
+    <button data-section="students">👥 Students</button>
+    <button data-section="batches">🗓 Batches</button>
+    <button data-section="assignments">✓ Assignments</button>
+    <button data-section="recordings">🎥 Session Recordings</button>
+    <button data-section="certificates">🏆 Certificates</button>
+    <button data-section="labs">🧪 Lab Management</button>
+    <button data-section="settings">⚙ My Account</button>
+  </nav>
+</aside>
+
+<main>
+  <div id="status" class="status"></div>
+
+  <section id="overview" class="page">
+    <div class="dashboard-hero">
+      <div class="dashboard-hero-copy">
+        <div class="dashboard-eyebrow">NEXTGEN • ADMIN CONSOLE</div>
+        <h1>Admin Dashboard</h1>
+        
+      </div>
+    </div>
+    <div class="dashboard-summary-head"><div><h2>Overview</h2></div><span class="dashboard-live"><i></i> Live metrics</span></div>
+    <div class="grid dashboard-kpis">
+      <div class="card dashboard-kpi students-kpi"><div class="dashboard-kpi-top"><span class="dashboard-kpi-icon">👥</span><span class="dashboard-kpi-label">LEARNERS</span></div><div class="stat" id="statStudents">—</div><div class="kpi" id="activeStudentsKpi">Active: —</div></div>
+      <div class="card dashboard-kpi batches-kpi"><div class="dashboard-kpi-top"><span class="dashboard-kpi-icon">🗓️</span><span class="dashboard-kpi-label">BATCHES</span></div><div class="stat" id="statBatches">—</div></div>
+    </div>
+    <div class="dashboard-summary-head" style="margin-top:22px"><div><h2>Lab Metrics</h2><p class="subtitle">Infrastructure and student workspace overview</p></div></div>
+    <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="card"><div class="stat-label">Active deployments</div><div class="stat" id="labActiveCount">—</div></div>
+      <div class="card"><div class="stat-label">Assigned student workspaces</div><div class="stat" id="labWorkspaceCount">—</div></div>
+      <div class="card"><div class="stat-label">Infrastructure health</div><div class="stat" id="labInfraHealth">Not connected</div></div>
+    </div>
+    <div class="section card dashboard-lab-section">
+      <div class="section-head"><h2>Current infrastructure status</h2><button class="btn" id="refreshLabStatusBtn" type="button">Refresh status</button></div>
+      <div id="labInfrastructureStatus" class="empty">Infrastructure connection is not configured.</div>
+    </div>
+    <div class="section card dashboard-lab-section">
+      <h2>Currently active lab deployments</h2>
+      <div class="table-wrap"><table><thead><tr><th>Type / Partner</th><th>Curriculum</th><th>Students / Labs</th><th>Status</th><th>Expiry</th><th>Actions</th></tr></thead><tbody id="activeLabDeployments"><tr><td colspan="6" class="empty">No active deployments loaded.</td></tr></tbody></table></div>
+      <p class="note" style="color:var(--muted);margin-top:10px">No deployment history is retained. Active operational records are removed after successful teardown; billing records, if legally required, remain in the billing system only.</p>
+    </div>
+  </section>
+
+  <section id="students" class="page hidden">
+    <div class="section-head student-page-heading">
+      <div><h1>Students</h1></div>
+      <div class="toolbar"><button class="btn primary" id="inviteStudentBtn">+ Invite Student</button></div>
+    </div>
+
+    <div class="student-panel student-directory-panel">
+      <div class="student-panel-heading">
+        <div><span class="student-eyebrow">LEARNER MANAGEMENT</span><h2>Student Directory</h2></div>
+        <span class="student-panel-note">Accounts &amp; course access</span>
+      </div>
+      <div class="student-filterbar">
+        <label class="student-search-wrap"><span>Search students</span><input id="studentSearch" placeholder="Name, email, phone or student ID…"></label>
+        <label><span>Account status</span><select id="studentStatusFilter"><option value="all">All statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select></label>
+        <label><span>Account type</span><select id="studentRoleFilter"><option value="student">Students</option><option value="all">All roles</option><option value="admin">Admins</option></select></label>
+      </div>
+      <div class="table-wrap student-table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Student ID</th><th>Status</th><th>Course</th><th>Lab</th><th>Action</th></tr></thead><tbody id="studentsBody"></tbody></table></div>
+    </div>
+
+    <div class="student-panel student-verification-panel">
+      <div class="student-panel-heading">
+        <div><span class="student-eyebrow">ENROLMENT REVIEW</span><h2>Student Fee Verification</h2></div>
+        <span class="student-panel-note">Review &amp; approval queue</span>
+      </div>
+      <div class="table-wrap student-table-wrap"><table><thead><tr><th>Applicant</th><th>Course</th><th>Student ID</th><th>Proof</th><th>Submitted</th><th>Status</th><th>Review</th><th>Action</th></tr></thead><tbody id="studentVerificationsBody"><tr><td colspan="8">Apply the v305 migration to enable the verification queue.</td></tr></tbody></table></div>
+    </div>
+  </section>
+
+
+
+  <section id="batches" class="page hidden">
+    <div class="section-head"><div><h1>Batches</h1><div class="subtitle">Create and manage training batches.</div></div><div class="toolbar"><button class="btn primary" id="newBatchBtn">+ New Batch</button></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Name</th><th>Course</th><th>Start</th><th>End</th><th>Status</th><th>Action</th></tr></thead><tbody id="batchesBody"></tbody></table></div>
+  </section>
+
+  <section id="assignments" class="page hidden">
+    <div class="section-head"><div><h1>Assignments</h1><div class="subtitle">Create and manage course assignments.</div></div><div class="toolbar"><button class="btn primary" id="newAssignmentBtn">+ New Assignment</button></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Title</th><th>Course</th><th>Due Date</th><th>Material</th></tr></thead><tbody id="assignmentsBody"></tbody></table></div>
+  </section>
+
+  <section id="recordings" class="page hidden">
+    <div class="section-head"><div><h1>Session Recordings</h1><div class="subtitle">Publish class recordings to enrolled students.</div></div><div class="toolbar"><button class="btn primary" id="newRecordingBtn">+ Add Recording</button></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Title</th><th>Course</th><th>Date</th><th>Duration</th><th>Visibility</th><th>Action</th></tr></thead><tbody id="recordingsBody"></tbody></table></div>
+  </section>
+
+  <section id="certificates" class="page hidden">
+    <div class="section-head"><div><h1>Certificates</h1><div class="subtitle">Issue and track course completion certificates.</div></div><div class="toolbar"><button class="btn primary" id="newCertificateBtn">+ Generate Certificate</button></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Student</th><th>Course</th><th>Certificate No.</th><th>Issued</th><th>Action</th></tr></thead><tbody id="certificatesBody"></tbody></table></div>
+  </section>
+
+  
+  <section id="labs" class="page hidden">
+    <div class="section-head"><div><h1>Lab Management</h1><div class="subtitle">Internal NextGen labs and temporary external partner deployments</div></div></div>
+    <div class="section card" style="margin-top:18px">
+      <h2>Create lab deployment</h2>
+      <p class="subtitle">Every registered student receives an individual workspace. Partner cost estimation is shown only for external deployments.</p>
+      <form id="labDeploymentForm" class="form-grid">
+        <label class="field">Deployment type<select id="labType" required><option value="internal">Internal NextGen</option><option value="external">External partner</option></select></label>
+        <label class="field">Partner name <input id="labPartner" placeholder="Required for external partners"></label>
+        <label class="field">Trainer (optional)<input id="labTrainer" placeholder="Partner trainer"></label>
+        <label class="field">Batch (optional)<input id="labBatch" placeholder="Batch name"></label>
+        <label class="field">Course / curriculum<select id="labCourse" required><option value="">Loading courses…</option></select></label>
+        <label class="field full">TOC / modules
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 10px">
+            <button class="btn lab" type="button" id="uploadLabTocBtn">Upload TOC file</button>
+            <input id="labTocFile" type="file" accept=".txt,.md,.csv,.json,.yaml,.yml,text/plain,text/markdown,text/csv,application/json" hidden>
+            <span id="labTocFileName" class="note" style="color:var(--muted)">Supported: TXT, MD, CSV, JSON, YAML (max 2 MB)</span>
+          </div>
+          <textarea id="labToc" rows="5" placeholder="Upload a course TOC file or enter modules manually"></textarea>
+        </label>
+        <label class="field">Number of students<input id="labStudents" type="number" min="1" max="500" value="10" required></label>
+        <label class="field">Lab duration (days)<input id="labDays" type="number" min="1" max="365" value="30" required></label>
+        <label class="field">Additional duration / extension (days)<input id="labExtensionDays" type="number" min="0" max="365" value="0"><small class="note">Optional extra days included in the estimate and requested lab duration.</small></label>
+        <div class="field full" id="partnerEstimateBox" style="display:none;border:1px solid #31405d;padding:14px;border-radius:12px">
+          <strong>Partner-only cost estimate</strong>
+          <p class="subtitle">Estimate uses the monthly infrastructure cost and requested lab duration, including any extension.</p>
+          <button type="button" class="btn" id="estimateLabBtn">Calculate total and per-student cost</button>
+          <div id="labEstimateResult" style="margin-top:12px"></div>
+        </div>
+        <div class="field full"><button class="btn primary" type="submit" id="createLabDeploymentBtn">Create deployment request</button></div>
+      </form>
+      <p class="note" style="color:var(--muted);margin-top:10px">Lab setup remains disabled until the required database update and infrastructure connection are completed. Admin approval is required before external lab resources are started.</p>
+    </div>
+    <div class="section card" style="margin-top:18px">
+      <h2>Partner Cost Rates</h2>
+      <p class="subtitle">Set the monthly infrastructure rental rate for each course. The external partner cost estimator uses this saved rate with the requested student count and lab duration. Internal NextGen deployments do not use this estimate.</p>
+      <form id="labCostProfileForm" class="form-grid">
+        <label class="field">Course<select id="labCostCourse" required><option value="">Loading courses…</option></select></label>
+        <label class="field">Monthly infrastructure rental (₹)<input id="labCostMonthly" type="number" min="0" step="1" value="0" required></label>
+        <div class="field full"><button class="btn primary" type="submit">Save pricing</button></div>
+      </form>
+      <div id="labCostProfileStatus" class="note" style="margin-top:8px;color:var(--muted)">A saved course rate is required before calculating an external partner estimate.</div>
+    </div>
+  </section>
+<section id="settings" class="page hidden">
+    <h1>My Account</h1><div class="subtitle">Administrator profile, access and security.</div>
+    <div class="account-grid">
+      <div class="card"><div class="stat-label">Account</div><h3 id="accountName">Administrator</h3><div class="small" id="accountEmail">—</div></div>
+      <div class="card"><div class="stat-label">Supabase Project</div><div class="small" id="projectUrl">—</div></div>
+    </div>
+    <div class="section split">
+      <div class="card"><h3>Password &amp; Security</h3><button class="btn primary" id="resetPasswordBtn">Send Password Reset Email</button></div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<div class="modal" id="batchModal">
+  <div class="modal-box">
+    <h3>Create Batch</h3>
+    <form id="batchForm">
+      <div class="form-grid">
+        <div class="field full"><label>Batch name</label><input id="batchName" required placeholder="DevSecOps Batch 01"></div>
+        <div class="field full"><label>Course</label><select id="batchCourse" required></select></div>
+        <div class="field"><label>Start date</label><input id="batchStart" type="date"></div>
+        <div class="field"><label>End date</label><input id="batchEnd" type="date"></div>
+        <div class="field full"><label>Status</label><select id="batchStatus"><option value="planned">Planned</option><option value="active">Active</option><option value="completed">Completed</option></select></div>
+      </div>
+      <div class="modal-actions"><button type="button" class="btn" data-close="batchModal">Cancel</button><button class="btn primary">Create Batch</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="assignmentModal">
+  <div class="modal-box">
+    <h3>Create Assignment</h3>
+    <form id="assignmentForm">
+      <div class="form-grid">
+        <div class="field full"><label>Title</label><input id="assignmentTitle" required placeholder="Secure CI/CD Pipeline"></div>
+        <div class="field full"><label>Course</label><select id="assignmentCourse" required></select></div>
+        <div class="field"><label>Due date</label><input id="assignmentDue" type="date"></div>
+        <div class="field"><label>Material path</label><input id="assignmentMaterial" placeholder="curriculum/..."></div>
+      </div>
+      <div class="modal-actions"><button type="button" class="btn" data-close="assignmentModal">Cancel</button><button class="btn primary">Create Assignment</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="recordingModal"><div class="modal-box"><h3>Add Session Recording</h3><form id="recordingForm"><div class="form-grid"><div class="field full"><label>Session title</label><input id="recordingTitle" required placeholder="DevSecOps Session 01"></div><div class="field full"><label>Course</label><select id="recordingCourse" required></select></div><div class="field"><label>Session date</label><input id="recordingDate" type="date" required></div><div class="field"><label>Duration (minutes)</label><input id="recordingDuration" type="number" min="1"></div><div class="field full"><label>Zoom recording URL</label><input id="recordingUrl" type="url" required placeholder="https://zoom.us/rec/..."></div><div class="field"><label>Passcode</label><input id="recordingPasscode"></div><div class="field"><label>Published</label><select id="recordingPublished"><option value="true">Published</option><option value="false">Unpublished</option></select></div><div class="field full"><label>Description</label><input id="recordingDescription" placeholder="Session highlights"></div></div><div class="modal-actions"><button type="button" class="btn" data-close="recordingModal">Cancel</button><button class="btn primary">Save Recording</button></div></form></div></div>
+<div class="modal" id="inviteStudentModal">
+  <div class="modal-box">
+    <div class="section-head"><div><h3>Invite Student</h3><div class="subtitle">Create or reuse a Supabase Auth account, save the student profile and enroll them in a course.</div></div><button class="btn" type="button" data-close="inviteStudentModal">×</button></div>
+    <form id="inviteStudentForm">
+      <div class="form-grid">
+        <div class="field"><label>Full name *</label><input id="inviteName" required placeholder="Student name"></div>
+        <div class="field"><label>Email *</label><input id="inviteEmail" type="email" required placeholder="student@example.com"></div>
+        <div class="field"><label>Phone</label><input id="invitePhone" placeholder="Optional"></div>
+        <div class="field"><label>Student ID</label><input id="inviteStudentId" placeholder="Optional"></div>
+        <div class="field"><label>Course *</label><select id="inviteCourse" required></select></div>
+        <div class="field"><label>Batch</label><select id="inviteBatch"><option value="">No batch</option></select></div>
+      </div>
+      <p class="small" style="margin-top:14px">The browser never receives the service-role key. Student creation and enrollment are handled by the <code>invite-student</code> Supabase Edge Function.</p>
+      <div class="modal-actions"><button type="button" class="btn" data-close="inviteStudentModal">Cancel</button><button class="btn primary" type="submit">✉ Send Invitation</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="certificateModal"><div class="modal-box"><h3>Generate Certificate</h3><form id="certificateForm"><div class="form-grid"><div class="field full"><label>Student</label><select id="certificateStudent" required></select></div><div class="field full"><label>Student Name</label><input id="certificateStudentName" required placeholder="Name to appear on the certificate"><span class="small">Only the student name can be updated here. Other student details remain unchanged.</span></div><div class="field full"><label>Course</label><select id="certificateCourse" required></select></div><div class="field"><label>Certificate number</label><input id="certificateNumber" placeholder="NGDAI-2026-000001"></div><div class="field"><label>Issue date</label><input id="certificateDate" type="date" required></div></div><div class="modal-actions"><button type="button" class="btn" data-close="certificateModal">Cancel</button><button class="btn primary">Issue Certificate</button></div></form></div></div>
+
+<div class="modal" id="assignCourseModal">
+  <div class="modal-box">
+    <h3>Assign Course</h3>
+    <p class="small" id="assignCourseStudentLabel" style="margin:-4px 0 16px">Select a course for this student.</p>
+    <form id="assignCourseForm">
+      <input type="hidden" id="assignCourseStudentId">
+      <div class="form-grid">
+        <div class="field full"><label>Course</label><select id="assignCourseCourse" required></select></div>
+        <div class="field full"><label>Batch (Optional)</label><select id="assignCourseBatch"><option value="">No batch</option></select></div>
+        <div class="field full"><label>Enrollment Status</label><select id="assignCourseStatus"><option value="active">Active</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></div>
+      </div>
+      <p class="small" style="margin-top:12px">If the student is already enrolled in this course, the existing enrollment will be updated instead of creating a duplicate.</p>
+      <div class="modal-actions"><button type="button" class="btn" data-close="assignCourseModal">Cancel</button><button class="btn primary" type="submit">✓ Assign Course</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="assignLabModal">
+  <div class="modal-box">
+    <div class="section-head"><div><h3>🧪 Assign Hands-on Lab</h3><div class="subtitle" id="assignLabStudentLabel">Select a student.</div></div><button class="btn" type="button" data-close="assignLabModal">×</button></div>
+    <form id="assignLabForm">
+      <input type="hidden" id="assignLabStudentId">
+      <div class="lab-picker">
+        <label class="lab-card-select selected" data-lab-card="local">
+          <input type="radio" name="labType" value="local" checked>
+          <span class="lab-icon">💻</span><span class="lab-card-title">Self-Hosted Local Lab</span>
+          <span class="lab-card-desc">Run hands-on exercises on the student's own system with guided setup and local control.</span>
+          <span class="lab-meta">INCLUDED • READY TO USE</span>
+        </label>
+        <label class="lab-card-select planned" data-lab-card="browser_cloud" aria-disabled="true">
+          <input type="radio" name="labType" value="browser_cloud" disabled>
+          <span class="lab-icon">☁️</span><span class="lab-card-title">Browser-Based Cloud Lab</span>
+          <span class="lab-card-desc">Guided DevOps and DevSecOps environments directly in the browser. No local installation.</span>
+          <span class="lab-meta">PLANNED • PRICING TO BE ANNOUNCED</span>
+        </label>
+      </div>
+      <div class="form-grid" style="margin-top:14px">
+        <div class="field"><label>Access duration</label><select id="assignLabDuration"><option value="0">Ongoing / No expiry</option><option value="2">2 hours</option><option value="4">4 hours</option><option value="6">6 hours</option><option value="24">24 hours</option><option value="168">7 days</option></select></div>
+        <div class="field"><label>Lab status</label><select id="assignLabStatus"><option value="assigned">Assigned</option><option value="active">Active</option><option value="revoked">Revoked</option></select></div>
+        <div class="field full"><label>Notes (optional)</label><input id="assignLabNotes" placeholder="e.g. DevSecOps Batch 01 practical lab"></div>
+      </div>
+      <p class="small" style="margin-top:12px">The assignment is stored against the student profile. Cloud lab access can be enabled later without changing the student-facing assignment.</p>
+      <div class="modal-actions"><button type="button" class="btn" data-close="assignLabModal">Cancel</button><button class="btn lab" type="submit">🧪 Assign Lab</button></div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>if(!window.supabase){document.write('<script src="https://unpkg.com/@supabase/supabase-js@2"><\/script>')}</script>
+<script>
+// Frontend-safe fallback. The same values are also maintained in js/supabase-config.js.
+window.NEXTGEN_SUPABASE_URL = window.NEXTGEN_SUPABASE_URL || 'https://hkpvigvtdckxhmnsvdrh.supabase.co';
+window.NEXTGEN_SUPABASE_ANON_KEY = window.NEXTGEN_SUPABASE_ANON_KEY || 'sb_publishable_JlIrNdsEXgjikrh9F_YxYg_DBrgimoQ';
+window.NEXTGEN_SUPABASE_CONFIGURED = Boolean(window.NEXTGEN_SUPABASE_URL && window.NEXTGEN_SUPABASE_ANON_KEY);
+</script>
+<script src="./js/supabase-config.js?v=17"></script>
+
+<script>
+(() => {
+  'use strict';
+
+  const statusEl = document.getElementById('status');
+  let sb = null;
+  let currentUser = null;
+  let coursesCache = [];
+  let batchesCache = [];
+  let studentsCache = [];
+  let recordingsCache = [];
+  let certificatesCache = [];
+
+  function showStatus(message, type='') {
+    statusEl.textContent = message;
+    statusEl.className = 'status show ' + type;
+  }
+
+  function clearStatus() {
+    statusEl.className = 'status';
+    statusEl.textContent = '';
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+    }[c]));
+  }
+
+  function badge(value) {
+    const v = String(value ?? '').toLowerCase();
+    const cls = ['active','completed'].includes(v) ? 'good' :
+                ['inactive','cancelled'].includes(v) ? 'bad' : 'warn';
+    return `<span class="badge ${cls}">${escapeHtml(value || '—')}</span>`;
+  }
+
+  function getClient() {
+    if (sb && typeof sb.from === 'function' && sb.auth) return sb;
+
+    if (!window.NEXTGEN_SUPABASE_CONFIGURED) {
+      throw new Error('Supabase is not configured. Check admin-portal/js/supabase-config.js.');
+    }
+    if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+      throw new Error('Supabase library failed to load. Please refresh the page.');
+    }
+    if (!window.NEXTGEN_SUPABASE_URL || !window.NEXTGEN_SUPABASE_ANON_KEY) {
+      throw new Error('Supabase URL or publishable key is missing.');
+    }
+
+    sb = window.supabase.createClient(
+      window.NEXTGEN_SUPABASE_URL,
+      window.NEXTGEN_SUPABASE_ANON_KEY,
+      { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'pkce', storageKey: 'nextgen-admin-auth-v297' } }
+    );
+    return sb;
+  }
+
+  async function requireAdmin() {
+    const client = getClient();
+
+    const { data: sessionData, error: sessionError } = await client.auth.getSession();
+    if (sessionError) throw sessionError;
+    if (!sessionData.session) {
+      location.replace('./login.html');
+      return false;
+    }
+
+    const { data: userData, error: userError } = await client.auth.getUser();
+    if (userError || !userData.user) {
+      await client.auth.signOut();
+      location.replace('./login.html');
+      return false;
+    }
+
+    currentUser = userData.user;
+
+    // Require the same AAL2 assurance that the login/MFA flow establishes.
+    // Login, MFA and the protected portal must share one storage key so the
+    // elevated session survives the redirect into this page.
+    const { data: assuranceData, error: assuranceError } = await client.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (assuranceError) throw assuranceError;
+    if (assuranceData?.currentLevel !== 'aal2') {
+      location.replace('./mfa.html');
+      return false;
+    }
+
+    // Primary admin authorization uses the SECURITY DEFINER RPC from schema.sql.
+    // This avoids a false denial when RLS prevents the frontend from directly
+    // reading the admin's own profile row.
+    const { data: isAdmin, error: adminCheckError } = await client.rpc('is_admin');
+    console.info('NextGen Admin authorization:', {
+      supabaseUrl: window.NEXTGEN_SUPABASE_URL,
+      authUserId: currentUser.id,
+      authEmail: currentUser.email || '',
+      isAdmin,
+      adminCheckError
+    });
+
+    if (adminCheckError) {
+      throw new Error(
+        `Admin authorization check failed.\n\n` +
+        `Supabase: ${window.NEXTGEN_SUPABASE_URL}\n` +
+        `Auth User ID: ${currentUser.id}\n` +
+        `Email: ${currentUser.email || 'unknown'}\n\n` +
+        `RPC error: ${adminCheckError.message || adminCheckError.code || 'is_admin() failed'}\n\n` +
+        `Run the is_admin() function/grant from the NextGen schema in Supabase SQL Editor.`
+      );
+    }
+
+    if (isAdmin !== true) {
+      // Fetch profile only for a useful diagnostic message. Authorization above
+      // remains the authoritative check.
+      const { data: profile, error: profileError } = await client
+        .from('profiles')
+        .select('id,full_name,role,status')
+        .eq('id', currentUser.id)
+        .maybeSingle();
+
+      console.error('NextGen Admin denied:', { currentUser, profile, profileError });
+
+      if (profileError) {
+        throw new Error(
+          `Admin authorization returned FALSE and the profile could not be read.\n\n` +
+          `Auth User ID: ${currentUser.id}\n` +
+          `Email: ${currentUser.email || 'unknown'}\n` +
+          `Profile query error: ${profileError.message || profileError.code || 'unknown'}\n\n` +
+          `Check that public.profiles.id matches auth.users.id and that is_admin() is installed correctly.`
+        );
+      }
+
+      throw new Error(
+        `Admin access denied.\n\n` +
+        `Email: ${currentUser.email || 'unknown'}\n` +
+        `Auth User ID: ${currentUser.id}\n` +
+        `Profile ID: ${profile?.id || 'NOT FOUND'}\n` +
+        `Role: ${profile?.role ?? 'NULL'}\n` +
+        `Status: ${profile?.status ?? 'NULL'}\n\n` +
+        `Required: role = admin and status = active.`
+      );
+    }
+
+    // Admin is authorized. Profile data is used only for display and is not
+    // allowed to block access if RLS prevents this optional read.
+    const { data: profile } = await client
+      .from('profiles')
+      .select('id,full_name,role,status')
+      .eq('id', currentUser.id)
+      .maybeSingle();
+
+    document.getElementById('userEmail').textContent = currentUser.email || profile?.full_name || 'Administrator';
+    document.getElementById('accountName').textContent = profile?.full_name || 'Administrator';
+    document.getElementById('accountEmail').textContent = currentUser.email || '—';
+    document.getElementById('projectUrl').textContent = window.NEXTGEN_SUPABASE_URL;
+
+    return true;
+  }
+
+  async function loadCourses() {
+    const client = getClient();
+    const { data, error } = await client.from('courses').select('id,name,slug,description,created_at').order('created_at', {ascending:false});
+    if (error) throw error;
+    coursesCache = data || [];
+    fillCourseSelects();
+    fillAdvancedSelects();
+  }
+
+  async function loadStudents() {
+    await loadStudentCourseStatus();
+      await loadLabAssignments();
+    const client = getClient();
+    let data = null;
+    let rpcError = null;
+
+    // Preferred path: an admin-only RPC can safely join auth.users to profiles
+    // and return the Auth email together with the student's profile.
+    try {
+      const rpc = await client.rpc('admin_list_students_with_email');
+      data = rpc.data;
+      rpcError = rpc.error;
+    } catch (e) {
+      rpcError = e;
+    }
+
+    // Backward-compatible fallback for projects where the email RPC has not
+    // been deployed yet. The profile table itself never contains email.
+    if (rpcError || !Array.isArray(data)) {
+      const fallback = await client.from('profiles')
+        .select('*')
+        .order('created_at', {ascending:false});
+      if (fallback.error) throw fallback.error;
+      data = fallback.data || [];
+    }
+
+    studentsCache = (data || []).map(s => ({
+      ...s,
+      id: s.id,
+      email: s.email || s.auth_email || '',
+      full_name: s.full_name || s.name || s.student_name || '',
+      student_id: s.student_id || s.studentId || s.registration_id || '',
+      phone: s.phone || s.mobile || s.phone_number || '',
+      role: String(s.role || 'student').toLowerCase(),
+      status: String(s.status || 'active').toLowerCase()
+    }));
+
+    const studentCount = studentsCache.filter(s => s.role === 'student').length;
+    const activeCount = studentsCache.filter(s => s.role === 'student' && s.status === 'active').length;
+    document.getElementById('statStudents').textContent = studentCount;
+    document.getElementById('activeStudentsKpi').innerHTML = `<strong>${activeCount}</strong>active students`;
+    applyStudentFilters();
+    fillAdvancedSelects();
+  }
+
+  async function loadBatches() {
+    const client = getClient();
+    const { data, error } = await client.from('batches')
+      .select('*,courses(name)')
+      .order('created_at', {ascending:false});
+    if (error) throw error;
+    batchesCache = data || [];
+    renderBatches(batchesCache);
+    document.getElementById('statBatches').textContent = batchesCache.length;
+    filterInviteBatches();
+  }
+
+  async function loadAssignments() {
+    const client = getClient();
+    const { data, error } = await client.from('assignments')
+      .select('id,title,description,due_date,material_path,course_id,courses(name)')
+      .order('due_date', {ascending:true});
+    if (error) throw error;
+    renderAssignments(data || []);
+    document.getElementById('statAssignments').textContent = (data || []).length;
+  }
+
+  async function loadRecordings() {
+    const client = getClient();
+    const { data, error } = await client.from('recordings').select('id,title,description,recording_date,duration_minutes,zoom_url,zoom_passcode,published,course_id,courses(name)').order('recording_date',{ascending:false});
+    if(error) throw error;
+    recordingsCache=data||[]; renderRecordings();
+  }
+
+  async function loadCertificates() {
+    const client = getClient();
+    const { data, error } = await client.from('certificates')
+      .select('id,student_id,course_id,certificate_number,issued_at,file_path')
+      .order('issued_at',{ascending:false});
+    if(error) throw error;
+    certificatesCache = data || [];
+    renderCertificates();
+  }
+
+  function applyStudentFilters(){
+    const q=(document.getElementById('studentSearch')?.value||'').trim().toLowerCase();
+    const st=document.getElementById('studentStatusFilter')?.value||'all';
+    const role=document.getElementById('studentRoleFilter')?.value||'student';
+    const rows=studentsCache.filter(s => (role==='all'||s.role===role) && (st==='all'||s.status===st) && (!q||[s.full_name,s.email,s.phone,s.student_id].some(v=>String(v||'').toLowerCase().includes(q))));
+    renderStudents(rows);
+  }
+
+  function renderRecordings(){
+    const body=document.getElementById('recordingsBody');
+    if(!recordingsCache.length){body.innerHTML='<tr><td colspan="6" class="empty">No session recordings found.</td></tr>';return;}
+    body.innerHTML=recordingsCache.map(r=>`<tr><td>${escapeHtml(r.title||'—')}</td><td>${escapeHtml(r.courses?.name||'—')}</td><td>${escapeHtml(r.recording_date||'—')}</td><td>${r.duration_minutes?escapeHtml(r.duration_minutes)+' min':'—'}</td><td>${r.published?badge('published'):badge('unpublished')}</td><td class="recording-actions">${r.zoom_url?`<a class="btn" href="${escapeHtml(r.zoom_url)}" target="_blank" rel="noopener">Open</a>`:''}<button class="btn danger" type="button" data-delete-recording="${escapeHtml(r.id)}">🗑 Delete</button></td></tr>`).join('');
+  }
+
+  function renderCertificates(){
+    const body=document.getElementById('certificatesBody');
+    if(!certificatesCache.length){body.innerHTML='<tr><td colspan="5" class="empty">No certificates issued yet.</td></tr>';return;}
+    const studentMap=new Map((studentsCache||[]).map(s=>[String(s.id),s]));
+    const courseMap=new Map((coursesCache||[]).map(c=>[String(c.id),c]));
+    body.innerHTML=certificatesCache.map(c=>{
+      const student=studentMap.get(String(c.student_id));
+      const course=courseMap.get(String(c.course_id));
+      const studentName=student?.full_name || student?.email || student?.student_id || `Student (${String(c.student_id).slice(0,8)})`;
+      const studentEmail=student?.email ? ` — ${student.email}` : '';
+      const courseName=course?.name || course?.slug || `Course (${String(c.course_id).slice(0,8)})`;
+      return `<tr><td>${escapeHtml(studentName + studentEmail)}</td><td>${escapeHtml(courseName)}</td><td>${escapeHtml(c.certificate_number||'—')}</td><td>${c.issued_at?new Date(c.issued_at).toLocaleDateString('en-IN'):'—'}</td><td><button class="btn danger" onclick="deleteCertificate('${c.id}')">🗑 Delete</button></td></tr>`;
+    }).join('');
+  }
+
+  window.deleteCertificate = async (id) => {
+    if (!id) return;
+    const certificate = (certificatesCache || []).find(c => String(c.id) === String(id));
+    const number = certificate?.certificate_number || 'this certificate';
+    if (!window.confirm(`Delete ${number}? This will permanently remove the certificate record.`)) return;
+    try {
+      const client = getClient();
+      const { error } = await client.from('certificates').delete().eq('id', id);
+      if (error) throw error;
+      showStatus('Certificate deleted successfully.', 'success');
+      await loadCertificates();
+    } catch (e) {
+      console.error(e);
+      showStatus(e.message || 'Unable to delete certificate.', 'error');
+    }
+  };
+
+  function fillAdvancedSelects(){
+    const courseOptions = coursesCache.map(c =>
+      `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name || c.title || 'Course')}</option>`
+    ).join('');
+
+    ['recordingCourse','certificateCourse'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = courseOptions || '<option value="">No courses available</option>';
+    });
+
+    const students = studentsCache.filter(s => String(s.role).toLowerCase() === 'student');
+    const studentOptions = students.map(s => {
+      const name = String(s.full_name || '').trim() || 'Unnamed Student';
+      const email = s.email ? ` — ${s.email}` : '';
+      const id = s.student_id ? ` — ${s.student_id}` : '';
+      const phone = s.phone ? ` — ${s.phone}` : '';
+      const status = s.status ? ` — ${s.status}` : '';
+      return `<option value="${escapeHtml(s.id)}">${escapeHtml(name + email + id + phone + status)}</option>`;
+    }).join('');
+
+    const el = document.getElementById('certificateStudent');
+    if (el) {
+      el.innerHTML = studentOptions || '<option value="">No student profiles found</option>';
+      el.disabled = !studentOptions;
+    }
+  }
+
+  let labAssignmentsCache = [];
+  let studentCourseStatusCache = [];
+
+  async function loadStudentCourseStatus() {
+    try {
+      const { data, error } = await getClient().from('enrollments')
+        .select('id,student_id,course_id,status,enrolled_at,courses(id,name,slug)')
+        .order('enrolled_at', { ascending: false });
+      if (error) throw error;
+      studentCourseStatusCache = data || [];
+    } catch (e) {
+      console.warn('Course status could not be loaded:', e.message);
+      studentCourseStatusCache = [];
+    }
+  }
+
+  function getStudentCourseStatuses(studentId) {
+    return studentCourseStatusCache.filter(x => String(x.student_id) === String(studentId));
+  }
+
+
+  async function loadLabAssignments() {
+    try {
+      const { data, error } = await getClient().from('lab_assignments')
+        .select('id,student_id,lab_type,lab_name,status,assigned_at,expires_at')
+        .order('assigned_at', { ascending: false });
+      if (error) throw error;
+      labAssignmentsCache = data || [];
+    } catch (e) {
+      console.warn('Lab assignments could not be loaded:', e.message);
+      labAssignmentsCache = [];
+    }
+  }
+
+  function getCurrentLabAssignments(studentId) {
+    const now = Date.now();
+    return labAssignmentsCache.filter(a =>
+      String(a.student_id) === String(studentId) &&
+      ['assigned','active'].includes(String(a.status || '').toLowerCase()) &&
+      (!a.expires_at || new Date(a.expires_at).getTime() > now)
+    );
+  }
+
+  function getCurrentLabAssignment(studentId) {
+    return getCurrentLabAssignments(studentId)[0] || null;
+  }
+
+  function renderStudents(rows) {
+    const body = document.getElementById('studentsBody');
+    if (!rows.length) { body.innerHTML = '<tr><td colspan="7" class="empty">No students found. Check the role/status filters.</td></tr>'; return; }
+    body.innerHTML = rows.map(s => {
+      const active = String(s.status || '').toLowerCase() === 'active';
+      const courses = getStudentCourseStatuses(s.id);
+      const labs = getCurrentLabAssignments(s.id);
+      const courseCell = !courses.length ? '<span class="badge">NOT ASSIGNED</span>' : courses.map(c => {
+        const name = c.courses?.name || c.courses?.slug || 'Course';
+        const status = String(c.status || 'active').toLowerCase();
+        const cls = status === 'completed' ? 'good' : status === 'cancelled' ? 'bad' : '';
+        return `<div style="margin-bottom:4px"><span class="badge ${cls}">${escapeHtml(name)}</span> <span class="small">${escapeHtml(status)}</span></div>`;
+      }).join('');
+      const labCell = !active ? '<span class="badge bad">INACTIVE</span>' :
+        labs.length ? labs.map(l => `<div style="margin-bottom:4px"><span class="lab-assigned-badge">🧪 ${escapeHtml(l.lab_name || 'Lab')}</span></div>`).join('') :
+        '<span class="lab-not-assigned-badge">NOT ASSIGNED</span>';
+      return `<tr>
+        <td><strong>${escapeHtml(s.full_name || '—')}</strong></td>
+        <td>${escapeHtml(s.email || '—')}</td>
+        <td>${escapeHtml(s.student_id || '—')}</td>
+        <td>${badge(s.status)}</td>
+        <td>${courseCell}</td>
+        <td>${labCell}</td>
+        <td><div class="student-actions"><button class="btn" onclick="editStudentName('${s.id}')">✎ Edit</button><button class="btn primary" onclick="assignCourse('${s.id}')">📚 Course</button><button class="btn lab" onclick="assignLab('${s.id}')">🧪 Lab</button><button class="btn" onclick="toggleStudentStatus('${s.id}','${active ? 'inactive' : 'active'}')">${active ? '⏸ Suspend' : '▶ Activate'}</button>${String(s.role || '').toLowerCase() === 'student' ? `<button class="btn danger" onclick="deleteStudentAccount('${s.id}')">🗑 Delete</button>` : ''}</div></td>
+      </tr>`;
+    }).join('');
+  }
+
+
+  function renderBatches(rows) {
+    const body = document.getElementById('batchesBody');
+    if (!rows.length) { body.innerHTML = '<tr><td colspan="6" class="empty">No batches found.</td></tr>'; return; }
+    body.innerHTML = rows.map(b => `
+      <tr><td>${escapeHtml(b.name || '—')}</td><td>${escapeHtml(b.courses?.name || '—')}</td>
+      <td>${escapeHtml(b.start_date || '—')}</td><td>${escapeHtml(b.end_date || '—')}</td>
+      <td>${badge(b.status)}</td><td>—</td></tr>`).join('');
+  }
+
+  function renderAssignments(rows) {
+    const body = document.getElementById('assignmentsBody');
+    if (!rows.length) { body.innerHTML = '<tr><td colspan="4" class="empty">No assignments found.</td></tr>'; return; }
+    body.innerHTML = rows.map(a => `
+      <tr><td>${escapeHtml(a.title || a.name || '—')}</td><td>${escapeHtml(a.courses?.name || '—')}</td>
+      <td>${escapeHtml(a.due_date || '—')}</td><td>${escapeHtml(a.material_path || '—')}</td></tr>`).join('');
+  }
+
+  function fillStudentEnrollmentSelects() {
+    const course = document.getElementById('inviteCourse');
+    const batch = document.getElementById('inviteBatch');
+    if (!course || !batch) return;
+    const current = course.value;
+    course.innerHTML = '<option value="">Select course</option>' + coursesCache.map(c =>
+      `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name || c.title || 'Course')}</option>`).join('');
+    if (current && coursesCache.some(c => String(c.id) === String(current))) course.value = current;
+    filterInviteBatches();
+  }
+
+  function filterInviteBatches() {
+    const courseId = document.getElementById('inviteCourse')?.value || '';
+    const batch = document.getElementById('inviteBatch');
+    if (!batch) return;
+    batch.innerHTML = '<option value="">No batch</option>' + batchesCache
+      .filter(b => !courseId || String(b.course_id || '') === String(courseId))
+      .map(b => `<option value="${escapeHtml(b.id)}">${escapeHtml(b.name || 'Batch')}${b.status ? ' — ' + escapeHtml(b.status) : ''}</option>`).join('');
+  }
+
+  async function prepareCertificateForm() {
+    try {
+      getClient();
+      await Promise.all([loadCourses(), loadStudents()]);
+      fillAdvancedSelects();
+      const dateEl = document.getElementById('certificateDate');
+      if (dateEl) dateEl.value = new Date().toISOString().slice(0,10);
+      const numberEl = document.getElementById('certificateNumber');
+      if (numberEl) numberEl.value = `NGDAI-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;
+      const studentEl = document.getElementById('certificateStudent');
+      if (!studentEl || studentEl.disabled || !studentEl.options.length || !studentEl.options[0].value) {
+        throw new Error('No student profiles are available. Open Students and verify the student role, or use + Invite Student.');
+      }
+      const selectedStudent = studentsCache.find(s => String(s.id) === String(studentEl.value));
+      const nameEl = document.getElementById('certificateStudentName');
+      if (nameEl) nameEl.value = String(selectedStudent?.full_name || '').trim();
+      studentEl.addEventListener('change', () => {
+        const student = studentsCache.find(s => String(s.id) === String(studentEl.value));
+        if (nameEl) nameEl.value = String(student?.full_name || '').trim();
+      });
+      document.getElementById('certificateModal').classList.add('show');
+    } catch (e) {
+      console.error(e);
+      showStatus(e.message || 'Unable to load students for certificate generation.', 'error');
+    }
+  }
+
+  function fillCourseSelects() {
+    const options = coursesCache.map(c =>
+      `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name || c.title)}</option>`).join('');
+    document.getElementById('batchCourse').innerHTML = options;
+    document.getElementById('assignmentCourse').innerHTML = options;
+  }
+
+  async function loadStudentVerifications() {
+    const body = document.getElementById('studentVerificationsBody');
+    if (!body) return;
+    body.innerHTML = '<tr><td colspan="8">Loading verification requests…</td></tr>';
+    const client = getClient();
+    const { data, error } = await client.from('student_price_verifications')
+      .select('id,student_id,course_id,course_key,student_name,student_email,student_phone,student_number,institution_name,proof_sha256,application_reference,proof_path,status,created_at,review_note,approval_email_status,approval_email_error,approval_email_sent_at')
+      .order('created_at', { ascending: false }).limit(100);
+    if (error) {
+      body.innerHTML = `<tr><td colspan="8">Queue unavailable: ${escapeHtml(error.message || 'Unknown Supabase error')}. Check the student verification table, admin SELECT policy and deployed migration.</td></tr>`;
+      throw error;
+    }
+    if (!data || !data.length) {
+      body.innerHTML = '<tr><td colspan="8">No student pricing verification requests.</td></tr>';
+      return;
+    }
+    body.innerHTML = data.map(row => {
+      const status = String(row.status || 'pending').toLowerCase();
+      const emailStatus = String(row.approval_email_status || 'not_sent').toLowerCase();
+      const actions = status === 'pending'
+        ? `<button class="btn success" data-verification-action="approve" data-verification-id="${escapeHtml(row.id)}">Approve & Email Checkout</button> <button class="btn danger" data-verification-action="reject" data-verification-id="${escapeHtml(row.id)}">Reject</button>`
+        : status === 'verified' && emailStatus !== 'sent'
+          ? `<span>${escapeHtml(row.review_note || 'Approved')}</span><br><small>Payment email: ${escapeHtml(emailStatus)}${row.approval_email_error ? ' — ' + escapeHtml(row.approval_email_error) : ''}</small><br><button class="btn" data-verification-action="retry_email" data-verification-id="${escapeHtml(row.id)}">Retry Payment Email</button>`
+          : `<span>${escapeHtml(row.review_note || 'Reviewed')}</span>${status === 'verified' ? '<br><small>Payment email sent</small>' : ''}`;
+      return `<tr><td>${escapeHtml(row.student_name || 'Applicant')}<br><small>${escapeHtml(row.student_email || '')}<br><small>${escapeHtml(row.student_phone || '')} · Ref: ${escapeHtml(row.application_reference || '—')}</small></small></td>
+        <td>${escapeHtml(row.course_key || row.course_id || '—')}</td><td>${escapeHtml(row.student_number || '—')}<br><small>${escapeHtml(row.institution_name || 'Institute not supplied')}</small></td>
+        <td>${row.proof_path ? `<button class="btn" data-verification-proof="${escapeHtml(row.proof_path)}">View proof</button>` : 'Missing'}</td>
+        <td>${row.created_at ? new Date(row.created_at).toLocaleDateString() : '—'}</td><td>${badge(status)}</td><td>${actions}</td>
+        <td><button class="btn danger" data-verification-delete="${escapeHtml(row.id)}" data-verification-proof-path="${escapeHtml(row.proof_path || '')}">Delete</button></td></tr>`;
+    }).join('');
+  }
+  async function reviewStudentVerification(id, decision) {
+    if (decision === 'approve' && !confirm('Confirm you have manually checked the applicant name, student number, current enrolment validity and institute details against the proof. CAPTCHA and upload alone do not establish authenticity. Approve this applicant and email the secure course checkout link?')) return;
+    const note = decision === 'retry_email' ? 'Retry approval payment email' : prompt(decision === 'approve' ? 'Record the manual verification performed (required):' : 'Reason for rejection:');
+    if (note === null) return;
+    if ((decision === 'reject' || decision === 'approve') && !String(note || '').trim()) { showStatus('Please enter a review note documenting the decision.', 'error'); return; }
+    const client = getClient();
+    const { data, error } = await client.functions.invoke('admin-review-student-verification', {
+      body: { id, decision, note: String(note || '').trim() }
+    });
+    if (error || data?.error) {
+      let detail = data?.error || error?.message || 'Student verification review failed.';
+      try { if (error?.context?.json) { const body = await error.context.json(); detail = body?.error || detail; } } catch (_) {}
+      throw new Error(detail);
+    }
+    if (decision === 'approve' || decision === 'retry_email') {
+      if (data?.email_status === 'sent') showStatus('Student approved. Secure course checkout email sent successfully.', 'success');
+      else showStatus('Student approved, but the payment email was not sent. Use Retry Payment Email after checking Resend configuration.', 'error');
+    } else {
+      showStatus('Student pricing verification rejected.', 'success');
+    }
+    await loadStudentVerifications();
+  }
+  async function deleteStudentVerification(id) {
+    if (!confirm('Permanently delete this student pricing verification request and its uploaded proof? This cannot be undone.')) return;
+    const client = getClient();
+    const { data, error } = await client.functions.invoke('delete-student-verification', { body: { id } });
+    if (error) {
+      let detail = error.message || 'Edge Function request failed.';
+      try {
+        const context = error.context;
+        if (context && typeof context.json === 'function') {
+          const payload = await context.json();
+          if (payload?.error) detail = payload.error + (payload.request_id ? ` (Ref: ${payload.request_id})` : '');
+        }
+      } catch (_) { /* retain the SDK error message */ }
+      throw new Error(detail);
+    }
+    if (!data?.deleted) throw new Error(data?.error || 'The server did not confirm deletion. Refresh the queue.');
+    await loadStudentVerifications();
+    showStatus(data.message || 'Student pricing verification request deleted.', data.proof_cleanup_pending ? 'error' : 'success');
+  }
+
+  document.getElementById('studentVerificationsBody')?.addEventListener('click', async e => {
+    const action = e.target.closest('[data-verification-action]');
+    const proof = e.target.closest('[data-verification-proof]');
+    const remove = e.target.closest('[data-verification-delete]');
+    try {
+      if (action) await reviewStudentVerification(action.dataset.verificationId, action.dataset.verificationAction);
+      if (remove) await deleteStudentVerification(remove.dataset.verificationDelete);
+      if (proof) {
+        const { data, error } = await getClient().storage.from('student-verification-private').createSignedUrl(proof.dataset.verificationProof, 120);
+        if (error) throw error;
+        window.open(data.signedUrl, '_blank', 'noopener');
+      }
+    } catch (err) { showStatus(err.message || 'Unable to review verification.', 'error'); }
+  });
+
+  async function refreshAll() {
+    clearStatus();
+    try {
+      getClient();
+      const results = await Promise.allSettled([
+        loadCourses(),
+        loadStudents(),
+        loadBatches(),
+        loadAssignments(),
+        loadRecordings(),
+        loadCertificates(),
+        loadStudentVerifications()
+      ]);
+      const failures = results.filter(r => r.status === 'rejected');
+      fillAdvancedSelects();
+      renderCertificates();
+      if (failures.length) {
+        const messages = failures.map(r => r.reason?.message || 'Unknown error').join(' | ');
+        showStatus(`Some admin data could not be loaded: ${messages}`, 'error');
+      } else {
+        showStatus('Admin dashboard refreshed successfully.', 'success');
+        setTimeout(clearStatus, 2500);
+      }
+    } catch (e) {
+      console.error(e);
+      showStatus(e.message || 'Unable to load admin data.', 'error');
+    }
+  }
+
+  window.editStudentName = async (id) => {
+    try {
+      const student = (studentsCache || []).find(s => String(s.id) === String(id));
+      if (!student) throw new Error('Student profile not found.');
+      const currentName = String(student.full_name || '').trim();
+      const name = window.prompt("Enter the student\'s full name:", currentName);
+      if (name === null) return;
+      const fullName = name.trim().replace(/\s+/g, ' ');
+      if (!fullName) throw new Error('Student name cannot be empty.');
+      if (fullName.length < 2) throw new Error("Please enter the student's complete name.");
+      if (fullName === currentName) return;
+
+      const client = getClient();
+      const { error } = await client.from('profiles')
+        .update({ full_name: fullName })
+        .eq('id', id);
+      if (error) throw error;
+
+      showStatus(`Student name updated to ${fullName}.`, 'success');
+      await loadStudents();
+      fillAdvancedSelects();
+      await loadCertificates();
+    } catch (e) {
+      console.error(e);
+      showStatus(e.message || 'Unable to update student name.', 'error');
+    }
+  };
+
+  function populateAssignCourseBatches() {
+    const courseId = document.getElementById('assignCourseCourse')?.value;
+    const el = document.getElementById('assignCourseBatch');
+    if (!el) return;
+    const batches = (batchesCache || []).filter(b => !courseId || String(b.course_id || '') === String(courseId));
+    el.innerHTML = '<option value="">No batch</option>' + batches.map(b =>
+      `<option value="${escapeHtml(b.id)}">${escapeHtml(b.name || 'Batch')}${b.status ? ` — ${escapeHtml(b.status)}` : ''}</option>`
+    ).join('');
+  }
+
+  let selectedLabStudent = null;
+
+  const LAB_CATALOG = {
+    local: { name:'Self-Hosted Local Lab', kind:'local', url:'https://mmukul.github.io/', available:true },
+    browser_cloud: { name:'Browser-Based Cloud Lab', kind:'browser_cloud', url:'', available:false, status:'planned' }
+  };
+
+  function refreshLabCardSelection(){
+    document.querySelectorAll('[data-lab-card]').forEach(card=>{
+      const input=card.querySelector('input');
+      card.classList.toggle('selected', !!input?.checked);
+    });
+  }
+  document.querySelectorAll('[data-lab-card]').forEach(card=>card.addEventListener('click',()=>{
+    const input=card.querySelector('input'); if(input){input.checked=true;refreshLabCardSelection();}
+  }));
+
+  window.assignLab = async (id) => {
+    try {
+      const student = (studentsCache || []).find(s => String(s.id) === String(id));
+      if (!student) throw new Error('Student profile not found.');
+      if (String(student.role || '').toLowerCase() !== 'student') throw new Error('Only student accounts can be assigned labs.');
+      selectedLabStudent = student;
+      const name = String(student.full_name || '').trim() || 'Unnamed Student';
+      const email = String(student.email || '').trim();
+      document.getElementById('assignLabStudentId').value = id;
+      document.getElementById('assignLabStudentLabel').textContent = `Student: ${name}${email ? ` — ${email}` : ''}`;
+      document.getElementById('assignLabDuration').value = '0';
+      document.getElementById('assignLabStatus').value = 'assigned';
+      document.getElementById('assignLabNotes').value = '';
+      const first=document.querySelector('#assignLabForm input[name="labType"][value="local"]');
+      if(first) first.checked=true; refreshLabCardSelection();
+      document.getElementById('assignLabModal').classList.add('show');
+    } catch (e) { console.error(e); showStatus(e.message || 'Unable to prepare lab assignment.', 'error'); }
+  };
+
+  document.getElementById('assignLabForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    try {
+      if (!selectedLabStudent) throw new Error('Select a student first.');
+      const type=document.querySelector('#assignLabForm input[name="labType"]:checked')?.value;
+      const lab=LAB_CATALOG[type]; if(!lab || lab.available !== true) throw new Error('This lab is planned and is not available for assignment yet.');
+      const duration=Number(document.getElementById('assignLabDuration').value||0);
+      const status=document.getElementById('assignLabStatus').value;
+      const notes=document.getElementById('assignLabNotes').value.trim();
+      let expiresAt=null;
+      if(duration>0) expiresAt=new Date(Date.now()+duration*3600000).toISOString();
+      const payload={student_id:selectedLabStudent.id,lab_type:lab.kind,lab_name:lab.name,access_url:lab.url||null,status,expires_at:expiresAt,notes:notes||null,assigned_by:currentUser?.id||null};
+      const {error}=await getClient().from('lab_assignments').insert(payload);
+      if(error) throw error;
+      document.getElementById('assignLabModal').classList.remove('show');
+      showStatus(`${lab.name} assigned to ${selectedLabStudent.full_name || 'student'}.`,'success');
+    } catch(e){ console.error(e); showStatus(e.message || 'Lab assignment failed. Run the lab_assignments migration if the table does not exist.','error'); }
+  });
+
+  window.assignCourse = async (id) => {
+    try {
+      const student = (studentsCache || []).find(s => String(s.id) === String(id));
+      if (!student) throw new Error('Student profile not found.');
+      if (String(student.role || '').toLowerCase() !== 'student') throw new Error('Only student accounts can be assigned courses.');
+
+      document.getElementById('assignCourseStudentId').value = id;
+      const name = String(student.full_name || '').trim() || 'Unnamed Student';
+      const email = String(student.email || '').trim();
+      document.getElementById('assignCourseStudentLabel').textContent = `Student: ${name}${email ? ` — ${email}` : ''}`;
+
+      const courseEl = document.getElementById('assignCourseCourse');
+      courseEl.innerHTML = (coursesCache || []).map(c =>
+        `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name || c.title || c.slug || 'Course')}</option>`
+      ).join('');
+      if (!courseEl.options.length) throw new Error('No courses are available. Create a course first.');
+
+      populateAssignCourseBatches();
+      document.getElementById('assignCourseStatus').value = 'active';
+      document.getElementById('assignCourseModal').classList.add('show');
+    } catch (e) {
+      console.error(e);
+      showStatus(e.message || 'Unable to prepare course assignment.', 'error');
+    }
+  };
+
+  document.getElementById('assignCourseCourse').addEventListener('change', populateAssignCourseBatches);
+
+  document.getElementById('assignCourseForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    try {
+      const client = getClient();
+      const studentId = document.getElementById('assignCourseStudentId').value;
+      const courseId = document.getElementById('assignCourseCourse').value;
+      const batchId = document.getElementById('assignCourseBatch').value || null;
+      const status = document.getElementById('assignCourseStatus').value;
+      if (!studentId || !courseId) throw new Error('Student and course are required.');
+
+      // Use the SECURITY DEFINER admin RPC for course assignment.
+      // This matches the deployed schema signature: student, course, batch, status.
+      // Do not insert/update enrollments directly from the browser.
+      const { data: enrollmentId, error } = await client.rpc('admin_assign_course', {
+        p_student_id: studentId,
+        p_course_id: courseId,
+        p_batch_id: batchId,
+        p_status: status
+      });
+      if (error) throw error;
+      if (!enrollmentId) throw new Error('Course assignment did not return an enrollment ID.');
+
+      document.getElementById('assignCourseModal').classList.remove('show');
+      e.target.reset();
+
+      // Refresh the enrollment cache immediately so Course Status changes
+      // without requiring a browser refresh. loadStudents() also refreshes
+      // the lab cache and re-renders the student table from the latest data.
+      await loadStudents();
+
+      showStatus('Course assigned successfully. Course name and status have been updated.', 'success');
+    } catch (err) {
+      console.error(err);
+      showStatus(err.message || 'Unable to assign course.', 'error');
+    }
+  });
+
+  window.deleteStudentAccount = async (id) => {
+    try {
+      const student = (studentsCache || []).find(s => String(s.id) === String(id));
+      if (!student) throw new Error('Student profile not found. Refresh the Students list and try again.');
+      if (String(student.role || '').toLowerCase() !== 'student') {
+        throw new Error('Only student accounts can be deleted from this screen.');
+      }
+      const email = String(student.email || '').trim();
+      const displayName = String(student.full_name || email || 'this student').trim();
+      if (!window.confirm(`Permanently delete ${displayName}${email ? ` (${email})` : ''}? This removes the student's authentication account and associated records. This action cannot be undone.`)) return;
+      const confirmation = window.prompt(`To confirm permanent deletion, type DELETE for ${email || displayName}:`);
+      if (confirmation === null) return;
+      if (confirmation.trim() !== 'DELETE') throw new Error('Deletion cancelled: confirmation text did not match.');
+
+      showStatus(`Deleting student ${displayName}…`, '');
+      const { data, error } = await getClient().functions.invoke('delete-student', {
+        body: { student_id: id }
+      });
+      if (error) {
+        let detail = error.message || 'Student deletion request failed.';
+        try {
+          const context = error.context;
+          const payload = typeof context?.json === 'function' ? await context.json() : context;
+          if (payload?.error) detail = payload.error;
+        } catch (_) {}
+        throw new Error(detail);
+      }
+      if (!data?.success) throw new Error(data?.error || 'Student deletion was not confirmed by the server.');
+
+      await loadStudents();
+      await Promise.allSettled([loadCertificates()]);
+      fillAdvancedSelects();
+      showStatus(data.message || `Student ${displayName} deleted successfully.`, 'success');
+    } catch (e) {
+      console.error('Student deletion failed:', e);
+      showStatus(e.message || 'Unable to delete student account.', 'error');
+    }
+  };
+
+  window.toggleStudentStatus = async (id, status) => {
+    try {
+      const client = getClient();
+      const { error } = await client.from('profiles').update({status}).eq('id', id);
+      if (error) throw error;
+      showStatus(`Student status changed to ${status}.`, 'success');
+      await loadStudents();
+    } catch (e) {
+      console.error(e);
+      showStatus(e.message || 'Unable to update student.', 'error');
+    }
+  };
+
+
+  // Lab management: partner quote is restricted to external deployments.
+  const labTypeEl = document.getElementById('labType');
+  const partnerBox = document.getElementById('partnerEstimateBox');
+  let approvedLabEstimate = null;
+  function updateLabTypeUI(){
+    const external = labTypeEl.value === 'external';
+    partnerBox.style.display = external ? 'block' : 'none';
+    document.getElementById('labPartner').required = external;
+    if(!external){ approvedLabEstimate=null; document.getElementById('labEstimateResult').textContent=''; }
+  }
+  labTypeEl.addEventListener('change', updateLabTypeUI); updateLabTypeUI();
+  async function loadLabCourses(){
+    const client=getClient();
+    const {data,error}=await client.from('courses').select('id,name,slug').order('name');
+    if(error) throw error;
+    const el=document.getElementById('labCourse');
+    const options='<option value="">Select curriculum</option>'+(data||[]).map(c=>`<option value="${escapeHtml(c.id)}" data-slug="${escapeHtml(c.slug||'default')}">${escapeHtml(c.name)}</option>`).join('');
+    el.innerHTML=options;
+    const costCourse=document.getElementById('labCostCourse'); if(costCourse) costCourse.innerHTML=options;
+  }
+  async function refreshLabStatus(){
+    const el=document.getElementById('labInfrastructureStatus');
+    try{
+      const {data,error}=await getClient().functions.invoke('lab-control',{body:{action:'status'}});
+      if(error) throw error;
+      if(!data?.success) throw new Error(data?.error||'Infrastructure status unavailable');
+      document.getElementById('labInfraHealth').textContent=data.health||'Unknown';
+      el.textContent=data.message||'Infrastructure status received.';
+    }catch(e){
+      document.getElementById('labInfraHealth').textContent='Not connected';
+      el.textContent='Infrastructure connection is not configured. Lab setup remains safely disabled until the connection is completed.';
+    }
+  }
+  async function refreshActiveLabs(){
+    const {data,error}=await getClient().from('lab_deployments').select('id,deployment_type,partner_name,course_name,student_count,status,expires_at').in('status',['requested','quoted','approved','provisioning','active','stopping']).order('created_at',{ascending:false});
+    if(error) throw error;
+    document.getElementById('labActiveCount').textContent=(data||[]).length;
+    const ids=(data||[]).map(x=>x.id);
+    let workspaces=0;
+    if(ids.length){const r=await getClient().from('lab_workspaces').select('id',{count:'exact',head:true}).in('deployment_id',ids); if(!r.error) workspaces=r.count||0;}
+    document.getElementById('labWorkspaceCount').textContent=workspaces;
+    document.getElementById('activeLabDeployments').innerHTML=(data||[]).map(d=>`<tr><td>${escapeHtml(d.deployment_type==='external'?(d.partner_name||'Partner'):'Internal NextGen')}</td><td>${escapeHtml(d.course_name||'—')}</td><td>${Number(d.student_count)||0} / ${Number(d.student_count)||0}</td><td>${badge(d.status)}</td><td>${d.expires_at?new Date(d.expires_at).toLocaleDateString():'—'}</td><td>${['quoted','requested'].includes(d.status)?`<button class="btn success" data-lab-action="approve" data-id="${escapeHtml(d.id)}">Approve</button> <button class="btn danger" data-lab-action="reject" data-id="${escapeHtml(d.id)}">Reject</button>`:`<button class="btn" data-lab-action="extend" data-id="${escapeHtml(d.id)}">Extend</button> <button class="btn danger" data-lab-action="destroy" data-id="${escapeHtml(d.id)}">Destroy</button>`}</td></tr>`).join('')||'<tr><td colspan="6" class="empty">No active deployments.</td></tr>';
+  }
+  document.getElementById('labCostProfileForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    try{
+      const courseId=document.getElementById('labCostCourse').value;
+      if(!courseId) throw new Error('Select a curriculum for this cost profile.');
+      const selected=document.getElementById('labCostCourse').selectedOptions[0];
+      const payload={action:'save_cost_profile',course_id:courseId,template_key:selected?.dataset.slug||'default',
+        currency:'INR',
+        base_vps_daily:Number(document.getElementById('labCostMonthly').value)/30,
+        worker_vps_daily:0,
+        storage_daily_per_student:0,
+        backup_daily:0,
+        estimated_students_per_worker:500};
+      const {data,error}=await getClient().functions.invoke('lab-control',{body:payload});
+      if(error) throw error; if(!data?.success) throw new Error(data?.error||'Unable to save cost profile.');
+      document.getElementById('labCostProfileStatus').textContent='Saved rates for '+(selected?.textContent||'selected curriculum')+'.';
+      showStatus(data.message||'Lab pricing saved.','success');
+    }catch(err){showStatus(err.message||'Unable to save infrastructure rates.','error');}
+  });
+
+  // Upload a text-based course TOC and load its contents into the editable modules field.
+  const labTocFileInput = document.getElementById('labTocFile');
+  document.getElementById('uploadLabTocBtn').addEventListener('click', () => labTocFileInput.click());
+  labTocFileInput.addEventListener('change', async () => {
+    const file = labTocFileInput.files && labTocFileInput.files[0];
+    if (!file) return;
+    const allowed = /\\.(txt|md|csv|json|yaml|yml)$/i.test(file.name);
+    if (!allowed) {
+      showStatus('Upload a TXT, MD, CSV, JSON or YAML TOC file.', 'error');
+      labTocFileInput.value = '';
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      showStatus('TOC file must be 2 MB or smaller.', 'error');
+      labTocFileInput.value = '';
+      return;
+    }
+    try {
+      const content = await file.text();
+      if (!content.trim()) throw new Error('The selected TOC file is empty.');
+      document.getElementById('labToc').value = content;
+      document.getElementById('labTocFileName').textContent = 'Loaded: ' + file.name;
+      showStatus('TOC uploaded and loaded. Review the modules before continuing.', 'success');
+    } catch (err) {
+      showStatus(err.message || 'Unable to read the selected TOC file.', 'error');
+    }
+  });
+
+  document.getElementById('estimateLabBtn').addEventListener('click',async()=>{
+    try{
+      const courseId=document.getElementById('labCourse').value;
+      if(!courseId) throw new Error('Select a curriculum first.');
+      const baseDays=Number(document.getElementById('labDays').value); const extensionDays=Number(document.getElementById('labExtensionDays').value||0);
+      if(!Number.isInteger(extensionDays)||extensionDays<0||baseDays+extensionDays>365) throw new Error('Total lab duration including extension must be between 1 and 365 days.');
+      const payload={action:'estimate',course_id:courseId,student_count:Number(document.getElementById('labStudents').value),duration_days:baseDays+extensionDays,toc:document.getElementById('labToc').value};
+      const {data,error}=await getClient().functions.invoke('lab-control',{body:payload});
+      if(error) throw error; if(!data?.success) throw new Error(data?.error||'Estimate unavailable.');
+      approvedLabEstimate=data.estimate;
+      document.getElementById('labEstimateResult').innerHTML=`<strong>Total estimated rental: ${escapeHtml(data.estimate.currency)} ${Number(data.estimate.total).toLocaleString()}</strong><br>Estimated per student: ${escapeHtml(data.estimate.currency)} ${Number(data.estimate.per_student).toLocaleString()}<br><small>${escapeHtml(data.estimate.assumptions||'Based on configured infrastructure rates')}</small>`;
+      showStatus('Partner cost estimate calculated. Review and approve before provisioning.','success');
+    }catch(e){showStatus(e.message||'Cost estimate failed. Configure Lab Pricing Settings first.','error');}
+  });
+  document.getElementById('labDeploymentForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    try{
+      const external=labTypeEl.value==='external';
+      if(external&&!approvedLabEstimate) throw new Error('Calculate and review the partner estimate before submitting.');
+      const payload={action:'request',deployment_type:labTypeEl.value,partner_name:document.getElementById('labPartner').value.trim()||null,trainer_name:document.getElementById('labTrainer').value.trim()||null,batch_name:document.getElementById('labBatch').value.trim()||null,course_id:document.getElementById('labCourse').value,student_count:Number(document.getElementById('labStudents').value),duration_days:Number(document.getElementById('labDays').value)+Number(document.getElementById('labExtensionDays').value||0),toc:document.getElementById('labToc').value,estimate:external?approvedLabEstimate:null};
+      const {data,error}=await getClient().functions.invoke('lab-control',{body:payload});
+      if(error) throw error; if(!data?.success) throw new Error(data?.error||'Deployment request failed.');
+      showStatus(data.message||'Deployment request saved. Admin approval and an active infrastructure connection are required.','success');
+      approvedLabEstimate=null; e.target.reset(); document.getElementById('labTocFileName').textContent='Supported: TXT, MD, CSV, JSON, YAML (max 2 MB)'; updateLabTypeUI(); await refreshActiveLabs();
+    }catch(err){showStatus(err.message||'Unable to create lab request.','error');}
+  });
+  document.getElementById('refreshLabStatusBtn').addEventListener('click',refreshLabStatus);
+  document.getElementById('activeLabDeployments').addEventListener('click',async e=>{
+    const b=e.target.closest('[data-lab-action]'); if(!b)return;
+    const action=b.dataset.labAction;
+    const days=action==='extend'?Number(prompt('Add how many days to the lab duration?', '7')):null;
+    if(action==='extend'&&(!Number.isInteger(days)||days<1))return;
+    if(action==='approve'&&!confirm('Approve this deployment request and queue individual workspaces for active enrolled students? No lab resources will start until the infrastructure connection is completed.'))return;
+    if(action==='reject'&&!confirm('Reject this deployment request?'))return;
+    if(action==='destroy'&&!confirm('Destroy this deployment and delete its disposable lab workspaces? This cannot be undone.'))return;
+    try{const {data,error}=await getClient().functions.invoke('lab-control',{body:{action,deployment_id:b.dataset.id,days}});if(error)throw error;if(!data?.success)throw new Error(data?.error||'Action failed');showStatus(data.message||'Lab action completed.','success');await refreshActiveLabs();}catch(err){showStatus(err.message||'Lab action failed.','error');}
+  });
+
+  document.querySelectorAll('.nav button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.nav button').forEach(x => x.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+      document.getElementById(btn.dataset.section).classList.remove('hidden');
+      if(btn.dataset.section==='labs'){loadLabCourses().catch(e=>showStatus(e.message,'error'));refreshActiveLabs().catch(()=>{});refreshLabStatus();} else if(btn.dataset.section==='overview'){refreshActiveLabs().catch(()=>{});refreshLabStatus();}
+    });
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    if (sb) await sb.auth.signOut();
+    location.replace('./login.html');
+  });
+
+  document.getElementById('siteBtn').addEventListener('click', () => {
+    location.href = '../';
+  });
+
+  async function safeRefresh(fn, successMessage) {
+    try {
+      await fn();
+      showStatus(successMessage, 'success');
+      setTimeout(clearStatus, 2000);
+    } catch (e) {
+      console.error(e);
+      showStatus(e.message || 'Refresh failed.', 'error');
+    }
+  }
+
+  document.getElementById('studentSearch').addEventListener('input', applyStudentFilters);
+  document.getElementById('studentStatusFilter').addEventListener('change', applyStudentFilters);
+  document.getElementById('studentRoleFilter').addEventListener('change', applyStudentFilters);
+
+
+  document.getElementById('newBatchBtn').addEventListener('click', () => document.getElementById('batchModal').classList.add('show'));
+  document.getElementById('newAssignmentBtn').addEventListener('click', () => document.getElementById('assignmentModal').classList.add('show'));
+  document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () =>
+    document.getElementById(b.dataset.close).classList.remove('show')));
+
+  document.getElementById('batchForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    try {
+      const client = getClient();
+      const { error } = await client.from('batches').insert({
+        name: document.getElementById('batchName').value.trim(),
+        course_id: document.getElementById('batchCourse').value,
+        start_date: document.getElementById('batchStart').value || null,
+        end_date: document.getElementById('batchEnd').value || null,
+        status: document.getElementById('batchStatus').value
+      });
+      if (error) throw error;
+      document.getElementById('batchModal').classList.remove('show');
+      e.target.reset(); showStatus('Batch created successfully.', 'success'); await loadBatches();
+    } catch (err) { showStatus(err.message || 'Unable to create batch.', 'error'); }
+  });
+
+  document.getElementById('assignmentForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    try {
+      const client = getClient();
+      const { error } = await client.from('assignments').insert({
+        title: document.getElementById('assignmentTitle').value.trim(),
+        course_id: document.getElementById('assignmentCourse').value,
+        due_date: document.getElementById('assignmentDue').value || null,
+        material_path: document.getElementById('assignmentMaterial').value.trim() || null
+      });
+      if (error) throw error;
+      document.getElementById('assignmentModal').classList.remove('show');
+      e.target.reset(); showStatus('Assignment created successfully.', 'success'); await loadAssignments();
+    } catch (err) { showStatus(err.message || 'Unable to create assignment.', 'error'); }
+  });
+
+
+  document.querySelectorAll('[data-go]').forEach(btn => btn.addEventListener('click', async () => {
+    const target = btn.dataset.go;
+    document.querySelector(`.nav button[data-section="${target}"]`)?.click();
+    if (target === 'certificates' && btn.querySelector('strong')?.textContent.includes('Issue Certificate')) {
+      await prepareCertificateForm();
+    }
+  }));
+  document.getElementById('newRecordingBtn').addEventListener('click',()=>document.getElementById('recordingModal').classList.add('show'));
+  document.getElementById('recordingsBody').addEventListener('click', async event => {
+    const button = event.target.closest('[data-delete-recording]');
+    if (!button) return;
+    const recordingId = button.getAttribute('data-delete-recording');
+    const recording = recordingsCache.find(item => String(item.id) === String(recordingId));
+    if (!recordingId || !recording) return;
+    if (!window.confirm(`Delete session recording "${recording.title || 'Untitled recording'}"? This cannot be undone.`)) return;
+    button.disabled = true;
+    try {
+      const { error } = await getClient().from('recordings').delete().eq('id', recordingId);
+      if (error) throw error;
+      recordingsCache = recordingsCache.filter(item => String(item.id) !== String(recordingId));
+      renderRecordings();
+      showStatus('Session recording deleted successfully.', 'success');
+    } catch (error) {
+      button.disabled = false;
+      showStatus(error.message || 'Unable to delete session recording. Check admin permissions.', 'error');
+    }
+  });
+  document.getElementById('inviteStudentBtn').addEventListener('click', async () => {
+    try {
+      await Promise.all([loadCourses(), loadBatches()]);
+      fillStudentEnrollmentSelects();
+      document.getElementById('inviteStudentModal').classList.add('show');
+    } catch (e) {
+      showStatus(e.message || 'Unable to prepare student invitation.', 'error');
+    }
+  });
+  document.getElementById('inviteCourse').addEventListener('change', filterInviteBatches);
+  document.getElementById('inviteStudentForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const submitButton = form.querySelector('button[type="submit"], button:not([type])');
+    if (form.dataset.sending === 'true') return;
+    form.dataset.sending = 'true';
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.dataset.originalText = submitButton.textContent;
+      submitButton.textContent = 'Sending Invitation…';
+    }
+
+    try {
+      const client = getClient();
+      const email = document.getElementById('inviteEmail').value.trim().toLowerCase();
+      const fullName = document.getElementById('inviteName').value.trim();
+      const courseId = document.getElementById('inviteCourse').value;
+      if (!fullName) throw new Error('Student full name is required.');
+      if (!email) throw new Error('Student email is required.');
+      if (!courseId) throw new Error('Select a course before sending the invitation.');
+
+      // Do not block pending/unconfirmed accounts here. The Edge Function is
+      // authoritative: it rejects confirmed accounts and handles pending retries.
+      const { data, error } = await client.functions.invoke('invite-student', {
+        body: {
+          email,
+          full_name: fullName,
+          phone: document.getElementById('invitePhone').value.trim() || null,
+          student_id: document.getElementById('inviteStudentId').value.trim() || null,
+          course_id: courseId,
+          batch_id: document.getElementById('inviteBatch').value || null
+        }
+      });
+      if (error) throw error;
+      if (!data || data.success !== true) {
+        throw new Error(data?.error || data?.message || 'The invitation could not be completed.');
+      }
+
+      document.getElementById('inviteStudentModal').classList.remove('show');
+      form.reset();
+      showStatus(data.message || (data.invitation_sent
+        ? 'Student invitation sent successfully.'
+        : 'Student profile and course assignment were saved, but the invitation email is still pending. Check Supabase Auth delivery before asking the student to sign in.'), 'success');
+      try {
+        await loadStudents();
+      } catch (refreshError) {
+        console.warn('Invitation completed, but the student list could not refresh:', refreshError);
+        showStatus('Invitation was processed, but the student list could not refresh. Use Refresh to reload the list.', 'error');
+      }
+    } catch (err) {
+      console.error('Student invitation failed:', err);
+      let detail = err?.message || 'Unable to send student invitation.';
+      const context = err?.context;
+      if (context && typeof context.json === 'function') {
+        try {
+          const payload = await context.json();
+          detail = payload?.error || payload?.message || detail;
+        } catch (_) {
+          // Keep the SDK error message when the response body is unavailable.
+        }
+      } else if (context?.json?.error || context?.json?.message) {
+        detail = context.json.error || context.json.message;
+      }
+      showStatus(`Invitation not completed: ${detail}`, 'error');
+    } finally {
+      form.dataset.sending = 'false';
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = submitButton.dataset.originalText || 'Send Invitation';
+        delete submitButton.dataset.originalText;
+      }
+    }
+  });
+  document.getElementById('newCertificateBtn').addEventListener('click', prepareCertificateForm);
+  document.getElementById('resetPasswordBtn').addEventListener('click',async()=>{
+    try{const email=currentUser?.email;if(!email)throw new Error('Administrator email is not available.'); const client=getClient(); const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:new URL('../student-portal/reset-password.html',location.href).href});if(error)throw error;showStatus('Password reset email sent to the administrator email address.','success');}catch(e){showStatus(e.message||'Unable to send password reset email.','error');}
+  });
+
+  document.getElementById('recordingForm').addEventListener('submit',async e=>{e.preventDefault();try{const client=getClient(); const {error}=await client.from('recordings').insert({title:document.getElementById('recordingTitle').value.trim(),course_id:document.getElementById('recordingCourse').value,recording_date:document.getElementById('recordingDate').value,duration_minutes:Number(document.getElementById('recordingDuration').value)||null,zoom_url:document.getElementById('recordingUrl').value.trim(),zoom_passcode:document.getElementById('recordingPasscode').value.trim()||null,published:document.getElementById('recordingPublished').value==='true',description:document.getElementById('recordingDescription').value.trim()||null});if(error)throw error;document.getElementById('recordingModal').classList.remove('show');e.target.reset();showStatus('Session recording saved successfully.','success');await loadRecordings();}catch(err){showStatus(err.message||'Unable to save recording.','error');}});
+  document.getElementById('certificateForm').addEventListener('submit',async e=>{e.preventDefault();try{const client=getClient(); const studentId=document.getElementById('certificateStudent').value,studentName=document.getElementById('certificateStudentName').value.trim().replace(/\s+/g,' '),courseId=document.getElementById('certificateCourse').value,num=document.getElementById('certificateNumber').value.trim()||null,issueDate=document.getElementById('certificateDate').value; if(!studentId||!courseId)throw new Error('Student and course are required.'); if(!studentName || studentName.length<2)throw new Error('Please enter a valid student name.'); if(!issueDate)throw new Error('Issue date is required.'); const selectedStudent=studentsCache.find(s=>String(s.id)===String(studentId)); const selectedCourse=coursesCache.find(c=>String(c.id)===String(courseId)); if(!selectedStudent)throw new Error('Selected student was not found in the current student list.'); if(String(selectedStudent.role||'').toLowerCase()!=='student')throw new Error('Only student accounts can receive certificates.'); if(!selectedCourse)throw new Error('Selected course was not found.'); if(num){const {data:dup}=await client.from('certificates').select('id').eq('certificate_number',num).maybeSingle();if(dup)throw new Error('Certificate number already exists.');} const {error:nameError}=await client.from('profiles').update({full_name:studentName}).eq('id',studentId);if(nameError)throw nameError; const {error}=await client.from('certificates').insert({student_id:studentId,course_id:courseId,certificate_number:num,issued_at:new Date(issueDate+'T00:00:00').toISOString()});if(error)throw error;document.getElementById('certificateModal').classList.remove('show');e.target.reset();showStatus(`Certificate issued for ${studentName} — ${selectedCourse.name||'Course'}.`,'success');await loadStudents();await loadCertificates();}catch(err){showStatus(err.message||'Unable to issue certificate.','error');}});
+  (async () => {
+    try {
+      const ok = await requireAdmin();
+      if (!ok) return;
+      await refreshAll();
+    } catch (e) {
+      console.error('Admin access error:', e);
+      document.getElementById('userEmail').textContent = 'Access check failed';
+      showStatus(e.message || 'Unable to verify administrator access.', 'error');
+    }
+  })();
+})();
+</script>
+</body>
+</html>
