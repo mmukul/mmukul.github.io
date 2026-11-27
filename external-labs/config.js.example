@@ -1,0 +1,6 @@
+// Copy to config.js and fill values from the DEDICATED External Labs Supabase project.
+// Never use the NextGen Supabase project URL or keys here.
+window.EXTERNAL_LABS_CONFIG = {
+  supabaseUrl: "https://YOUR-EXTERNAL-LABS-PROJECT.supabase.co",
+  supabaseAnonKey: "YOUR-EXTERNAL-LABS-ANON-KEY"
+};
